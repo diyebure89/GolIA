@@ -1,0 +1,43 @@
+<resources>
+    <!--CREDENCIALE APP-->
+    <string name="app_name">GolIA</string>
+    <string name="developer">Diego Builes</string>
+    <string name="desarrollo">Desarrollado por:</string>
+    <string name="versin">Version 1.0.0</string>
+
+    <!--LOGIN-->
+    <string name="titulo_login"> Inicie sesión para continuar</string>
+    <string name="lbl_usuario">Ingrese Usuario</string>
+    <string name="txt_usuario">Usuario</string>
+    <string name="lbl_password">Ingrese contraseña</string>
+    <string name="txt_password">Contraseña</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="lbl_crear_cuenta">Registrarse</string>
+    <string name="recuperar_pasword">¿Olvidaste la contraseña?</string>
+
+    <!--REGISTRO-->
+    <string name="btn_registro">Registrarse</string>
+    <string name="bienvenida">Únete a nuestra familia</string>
+    <string name="txt_nombre_registro">NOMBRE</string>
+    <string name="lbl_nombre">Fulanito Pérez</string>
+    <string name="txt_usuario_registro">USUARIO</string>
+    <string name="lbl_usuario_registro">Ingrese un usuario</string>
+    <string name="txt_correo_registro">CORREO ELECTÓNICO</string>
+    <string name="lbl_correo_registro">Ejemplo@emil.com</string>
+    <string name="txt_password_registro">CONTRASEÑA</string>
+    <string name="lbl_password_registro">Min.8 caracteres</string>
+    <string name="txt_confirmar_password">CONFIRMAR CONTRASEÑA</string>
+    <string name="lbl_confirmar_password">Repite contraseña</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="partidos">Partidos</string>
+    <string name="inicio">Inicio</string>
+    <string name="noticias">Noticias</string>
+    <string name="ranking">Ranking</string>
+    <string name="perfil">Perfil</string>
+
+
+    <!--MENU-->
+
+
+</resources>

@@ -1,0 +1,101 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Encabezado -->
+        <TextView
+            android:text="GOL‑IA"
+            android:textColor="@color/primary_blue"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <!-- Bienvenida -->
+        <TextView
+            android:text="BIENVENIDO Carlos Rodríguez"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Estadísticas -->
+        <TextView
+            android:text="48 Pronóst. | 67% Aciertos | 1 250 Puntos | #142 Ranking"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Botón de racha -->
+        <Button
+            android:text="Racha: 4"
+            android:backgroundTint="@color/primary_blue"
+            android:textColor="@color/text_white"
+            android:layout_marginTop="8dp" />
+
+        <!-- Sección de partidos -->
+        <TextView
+            android:text="Partidos próximos"
+            android:textColor="@color/text_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <!-- Tarjeta 1 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/primary_blue"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="LA LIGA — JORNADA 38"
+                android:textColor="@color/text_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="FC Barcelona vs Real Madrid · 14 Jun · 20:00"
+                android:textColor="@color/text_white" />
+
+            <TextView
+                android:text="2.1 FC | 3.2 Empate | 2.8 Real"
+                android:textColor="@color/text_white"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <!-- Tarjeta 2 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/primary_blue"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="NBA PLAYOFFS — CONF. FINAL"
+                android:textColor="@color/text_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="LA Lakers vs Golden State · 14 Jun · 22:30"
+                android:textColor="@color/text_white" />
+
+            <TextView
+                android:text="1.9 | 1.95"
+                android:textColor="@color/text_white"
+                android:textStyle="italic" />
+
+            <include layout="@layout/bottom_nav_menu" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
