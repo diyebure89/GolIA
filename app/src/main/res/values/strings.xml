@@ -28,6 +28,16 @@
     <string name="lbl_password_registro">Min.8 caracteres</string>
     <string name="txt_confirmar_password">CONFIRMAR CONTRASEÑA</string>
     <string name="lbl_confirmar_password">Repite contraseña</string>
+    <string name="txt_yacuenta">¿Ya tienes cuenta?</string>
+    <string name="txt_iniciar_sesion">Inicia sesión</string>
+
+    <!--VALIDATION MESSAGES-->
+    <string name="username_required">El usuario es obligatorio</string>
+    <string name="email_invalid">Correo electrónico inválido</string>
+    <string name="password_too_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="passwords_not_match">Las contraseñas no coinciden</string>
+    <string name="registration_success">Registro exitoso</string>
+    <string name="registration_error">Error en el registro</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partidos">Partidos</string>

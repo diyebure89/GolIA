@@ -1,0 +1,95 @@
+// Code quality configuration for the project
+apply plugin: 'io.gitlab.arturbosch.detekt'
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+apply plugin: 'com.diffplug.spotless'
+
+// Detekt configuration
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config = files("$projectDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
+    
+    reports {
+        html {
+            enabled = true
+            destination = file("$projectDir/build/reports/detekt/detekt.html")
+        }
+        xml {
+            enabled = false
+        }
+        txt {
+            enabled = false
+        }
+    }
+}
+
+// KtLint configuration
+ktlint {
+    version = libs.versions.ktlintTool.get()
+    debug = false
+    verbose = true
+    android = true
+    outputToConsole = true
+    outputColorName = "RED"
+    ignoreFailures = false
+    enableExperimentalRules = true
+    disabledRules = ["import-ordering", "no-wildcard-imports"]
+    
+    reporters {
+        reporter "plain"
+        reporter "checkstyle"
+        reporter "html"
+    }
+    
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
+}
+
+// Spotless configuration for code formatting
+spotless {
+    kotlin {
+        target '**/*.kt'
+        targetExclude '**/build/**', '**/generated/**'
+        
+        ktlint(libs.versions.ktlintTool.get())
+            .userData([
+                'android': 'true',
+                'disabled_rules': 'import-ordering,no-wildcard-imports',
+                'ktlint_standard_no-wildcard-imports': 'disabled'
+            ])
+        
+        licenseHeader '/*\n * Copyright © \$YEAR GolIA. All rights reserved.\n */'
+    }
+    
+    format 'xml', {
+        target '**/*.xml'
+        targetExclude '**/build/**'
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+    
+    format 'gradle', {
+        target '**/*.gradle', '**/*.gradle.kts'
+        targetExclude '**/build/**'
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+}
+
+// Create tasks for code quality checks
+tasks.register('codeQualityCheck') {
+    group = 'verification'
+    description = 'Run all code quality checks'
+    dependsOn 'detekt', 'ktlintCheck', 'spotlessCheck'
+}
+
+tasks.register('codeQualityFormat') {
+    group = 'formatting'
+    description = 'Format code using all formatting tools'
+    dependsOn 'ktlintFormat', 'spotlessApply'
+}

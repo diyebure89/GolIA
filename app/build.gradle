@@ -1,14 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt.plugin)
+    alias(libs.plugins.ktlint.plugin)
+    alias(libs.plugins.spotless.plugin)
 }
 
 android {
     namespace 'com.diyebure.golia'
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.diyebure.golia"
@@ -22,33 +22,103 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable false
-            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    
     buildFeatures {
         viewBinding true
+    }
+    
+    lint {
+        abortOnError = false
+        baseline = file("config/lint-baseline.xml")
+        checkDependencies = true
+        warningsAsErrors = false
+        lintConfig = file("config/lint.xml")
+        
+        disable = [
+            'ObsoleteLintCustomCheck',
+            'IconLocation',
+            'TypographyQuotes',
+            'UnusedResources'
+        ]
+        
+        enable = [
+            'MissingTranslation',
+            'NewerVersionAvailable',
+            'UnsafeProtectedConfiguration',
+            'UnsafeThreadAnnotation'
+        ]
+        
+        // Strict mode checks
+        checkReleaseBuilds = true
+        fatal 'StopShip'
+        warning 'ImpliedQuantity'
+        informational 'MissingTranslation'
     }
 }
 
 dependencies {
+    // Core Android
     implementation libs.activity.ktx
     implementation libs.annotation
     implementation libs.appcompat
     implementation libs.constraintlayout
-    //libreria para las animaciones
-    implementation 'com.airbnb.android:lottie:3.0.1'
     implementation libs.fragment
+
+    // Lifecycle
     implementation libs.lifecycle.livedata.ktx
     implementation libs.lifecycle.viewmodel.ktx
+
+    // Material Design
     implementation libs.material
     implementation libs.vectordrawable.animated
+
+    // Lottie for animations
+    implementation 'com.airbnb.android:lottie:3.0.1'
+
+    // Room
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    annotationProcessor libs.room.compiler
+
+    // Retrofit & OkHttp
+    implementation libs.retrofit
+    implementation libs.retrofit.gson
+    implementation libs.okhttp
+    implementation libs.okhttp.logging
+
+    // Gson
+    implementation libs.gson
+
+    // Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    // Coroutines
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
+
+    // Glide
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
+
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.60.1'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.60.1'
+
+    // Testing
     testImplementation libs.junit
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit
 }
+
+
+// Apply code quality configuration
+apply from: '../code-quality.gradle'

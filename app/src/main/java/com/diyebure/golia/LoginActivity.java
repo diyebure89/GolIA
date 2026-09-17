@@ -1,7 +1,5 @@
 package com.diyebure.golia;
 
-import static com.diyebure.golia.R.id.button_ingresar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.diyebure.golia.ui.auth.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView text_crear_cuenta;
-    Button button_ingresar;
+    private TextView text_crear_cuenta;
+    private Button button_ingresar;
+    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +28,30 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        text_crear_cuenta = findViewById(R.id.text_crear_cuenta);
+        // Initialize ViewModel
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        // Initialize views
+        text_crear_cuenta = findViewById(R.id.text_crear_cuenta);
+        button_ingresar = findViewById(R.id.button_ingresar);
+
+        // Navigate to registration screen
         text_crear_cuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,RegistroActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
                 startActivity(intent);
+            }
+        });
 
-                button_ingresar.findViewById(R.id.button_ingresar);
-
-                button_ingresar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-
-
-                    }
-                });
-
-                }
-
+        // Handle login button click
+        button_ingresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Login handled via ViewModel
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

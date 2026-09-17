@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Disable some checks that are not relevant for this project -->
+    <issue id="ObsoleteLintCustomCheck" severity="ignore" />
+    <issue id="IconLocation" severity="ignore" />
+    <issue id="TypographyQuotes" severity="ignore" />
+    
+    <!-- Enable strict mode for security checks -->
+    <issue id="UnsafeProtectedConfiguration" severity="error" />
+    <issue id="UnsafeThreadAnnotation" severity="error" />
+    <issue id="StopShip" severity="error" />
+    
+    <!-- Performance checks -->
+    <issue id="HandlerLeak" severity="warning" />
+    <issue id="Recycle" severity="warning" />
+    <issue id="ViewHolder" severity="warning" />
+    
+    <!-- Security checks -->
+    <issue id="HardcodedText" severity="warning" />
+    <issue id="ExportedContentProvider" severity="error" />
+    <issue id="ExportedService" severity="error" />
+    <issue id="ExportedReceiver" severity="error" />
+    
+    <!-- Code quality checks -->
+    <issue id="MissingTranslation" severity="warning">
+        <ignore path="**/build/**" />
+    </issue>
+    
+    <issue id="NewerVersionAvailable" severity="info" />
+    
+    <!-- Kotlin-specific checks -->
+    <issue id="KotlinDeprecation" severity="warning" />
+    <issue id="KotlinUnusedImport" severity="warning" />
+    
+    <!-- Architecture checks -->
+    <issue id="WrongThread" severity="error" />
+    <issue id="MissingPermission" severity="error" />
+    
+    <!-- Accessibility checks -->
+    <issue id="ContentDescription" severity="warning" />
+    <issue id="LabelFor" severity="warning" />
+    
+    <!-- Internationalization checks -->
+    <issue id="LocaleFolder" severity="warning" />
+    
+    <!-- Network security configuration -->
+    <issue id="NetworkSecurityConfig" severity="warning" />
+    
+    <!-- Data binding checks -->
+    <issue id="DataBinding" severity="warning" />
+    
+    <!-- Navigation checks -->
+    <issue id="Navigation" severity="warning" />
+    
+    <!-- Room database checks -->
+    <issue id="Room" severity="warning" />
+    
+    <!-- Hilt dependency injection checks -->
+    <issue id="Hilt" severity="warning" />
+    
+    <!-- Strict mode configuration -->
+    <issue id="Assert" severity="warning" />
+    <issue id="LogConditional" severity="info" />
+    
+    <!-- ProGuard/R8 obfuscation -->
+    <issue id="Proguard" severity="info" />
+    
+    <!-- Gradle configuration -->
+    <issue id="GradleDependency" severity="info" />
+    <issue id="GradleOverrides" severity="warning" />
+    
+    <!-- Test configuration -->
+    <issue id="TestSize" severity="info" />
+    
+    <!-- Manifest configuration -->
+    <issue id="ManifestOrder" severity="info" />
+    <issue id="ManifestResource" severity="warning" />
+    
+    <!-- Resource configuration -->
+    <issue id="ResourceName" severity="warning" />
+    <issue id="ResourceType" severity="warning" />
+    
+    <!-- Compose-specific checks -->
+    <issue id="Compose" severity="warning" />
+    
+    <!-- Exclude generated files -->
+    <issue id="all">
+        <ignore path="**/build/**" />
+        <ignore path="**/generated/**" />
+        <ignore path="**/test/**" />
+        <ignore path="**/androidTest/**" />
+    </issue>
+</lint>

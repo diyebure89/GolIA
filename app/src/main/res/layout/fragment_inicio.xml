@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InicioFragment">
+    android:background="@color/background_dark">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <!-- Encabezado -->
+        <TextView
+            android:text="GOL‑IA"
+            android:textColor="@color/primary_blue"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <!-- Bienvenida -->
+        <TextView
+            android:id="@+id/text_welcome"
+            android:text="BIENVENIDO"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Estadísticas -->
+        <TextView
+            android:id="@+id/text_stats"
+            android:text="0 Pronóst. | 0% Aciertos | 0 Puntos | #0 Ranking"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Botón de racha -->
+        <LinearLayout
+            android:id="@+id/button_streak"
+            android:orientation="horizontal"
+            android:background="@color/primary_blue"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Racha: "
+                android:textColor="@color/text_white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_streak_count"
+                android:text="0"
+                android:textColor="@color/gold"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Sección de partidos -->
+        <TextView
+            android:id="@+id/text_upcoming_matches"
+            android:text="Partidos próximos"
+            android:textColor="@color/text_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <!-- Tarjeta 1: Barcelona vs Real Madrid -->
+        <LinearLayout
+            android:id="@+id/card_match_1"
+            android:orientation="vertical"
+            android:background="@color/primary_blue"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:text="LA LIGA — JORNADA 38"
+                android:textColor="@color/text_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="FC Barcelona vs Real Madrid · 14 Jun · 20:00"
+                android:textColor="@color/text_white" />
+
+            <TextView
+                android:text="2.1 FC | 3.2 Empate | 2.8 Real"
+                android:textColor="@color/text_white"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <!-- Tarjeta 2: Lakers vs Warriors -->
+        <LinearLayout
+            android:id="@+id/card_match_2"
+            android:orientation="vertical"
+            android:background="@color/primary_blue"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:text="NBA PLAYOFFS — CONF. FINAL"
+                android:textColor="@color/text_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="LA Lakers vs Golden State · 14 Jun · 22:30"
+                android:textColor="@color/text_white" />
+
+            <TextView
+                android:text="1.9 Lakers | 1.95 Warriors"
+                android:textColor="@color/text_white"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
