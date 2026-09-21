@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import android.content.Context;
 
-import com.diyebure.golia.data.Result;
+import com.diyebure.golia.domain.common.Result;
 import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.data.remote.api.AuthApiService;
 import com.diyebure.golia.data.remote.dto.AuthDto.AuthResponse;

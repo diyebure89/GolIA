@@ -1,39 +1,44 @@
 package com.diyebure.golia.di;
 
-import android.content.Context;
-
-import com.diyebure.golia.data.local.PreferencesManager;
-import com.diyebure.golia.data.remote.api.AuthApiService;
 import com.diyebure.golia.data.repository.AuthRepositoryImpl;
+import com.diyebure.golia.data.repository.MatchRepositoryImpl;
 import com.diyebure.golia.domain.repository.AuthRepository;
+import com.diyebure.golia.domain.repository.MatchRepository;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
 /**
- * Dagger/Hilt module for repository dependencies.
+ * Binds repository interfaces (domain layer) to their implementations
+ * (data layer).
+ *
+ * <p>This module is abstract and uses {@code @Binds} instead of {@code @Provides}.
+ * Because {@code AuthRepositoryImpl} and {@code MatchRepositoryImpl} already
+ * declare {@code @Inject} constructors, Hilt knows how to build them; we only
+ * need to tell it "when someone asks for the interface, give them this impl".
+ *
+ * <p>This is the idiomatic pattern: the presentation and use-case layers depend
+ * only on the domain interfaces ({@link AuthRepository}, {@link MatchRepository}),
+ * never on the concrete data-layer classes. Swapping an implementation (e.g. a
+ * fake for tests) is a one-line change here.
+ *
+ * <p>{@code PreferencesManager}, the DAOs and the API services are provided by
+ * their own modules / {@code @Inject} constructors, so they are not repeated
+ * here.
  */
 @Module
 @InstallIn(SingletonComponent.class)
-public class RepositoryModule {
+public abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    public PreferencesManager providePreferencesManager(@ApplicationContext Context context) {
-        return PreferencesManager.getInstance(context);
-    }
+    public abstract AuthRepository bindAuthRepository(AuthRepositoryImpl impl);
 
-    @Provides
+    @Binds
     @Singleton
-    public AuthRepository provideAuthRepository(
-            @ApplicationContext Context context,
-            AuthApiService authApiService,
-            PreferencesManager preferencesManager) {
-        return new AuthRepositoryImpl(context, authApiService, preferencesManager);
-    }
+    public abstract MatchRepository bindMatchRepository(MatchRepositoryImpl impl);
 }

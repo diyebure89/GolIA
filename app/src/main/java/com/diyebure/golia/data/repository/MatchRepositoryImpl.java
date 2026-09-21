@@ -15,6 +15,7 @@ import com.diyebure.golia.data.remote.dto.MatchDto;
 import com.diyebure.golia.data.remote.dto.MatchDto.CompetitionDto;
 import com.diyebure.golia.data.remote.dto.MatchDto.MatchResponseDto;
 import com.diyebure.golia.data.remote.dto.MatchDto.TeamDto;
+import com.diyebure.golia.di.qualifier.IoExecutor;
 import com.diyebure.golia.domain.model.Competition;
 import com.diyebure.golia.domain.model.Match;
 import com.diyebure.golia.domain.model.Team;
@@ -26,12 +27,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import retrofit2.Call;
 import retrofit2.Response;
 
 /**
@@ -56,12 +55,13 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
             FootballApiService apiService,
             MatchDao matchDao,
             TeamDao teamDao,
-            CompetitionDao competitionDao) {
+            CompetitionDao competitionDao,
+            @IoExecutor ExecutorService executor) {
         this.apiService = apiService;
         this.matchDao = matchDao;
         this.teamDao = teamDao;
         this.competitionDao = competitionDao;
-        this.executor = Executors.newFixedThreadPool(4);
+        this.executor = executor;
     }
 
     @Override

@@ -21,10 +21,17 @@ import com.diyebure.golia.ui.auth.RegisterViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Registration activity for user signup.
  * Handles user registration form validation and submission.
+ *
+ * <p>Annotated with {@code @AndroidEntryPoint} so Hilt can supply the
+ * {@link RegisterViewModel}. The Activity only handles view wiring, validation
+ * feedback and navigation; account creation flows through the ViewModel.
  */
+@AndroidEntryPoint
 public class RegistroActivity extends AppCompatActivity {
 
     private RegisterViewModel registerViewModel;

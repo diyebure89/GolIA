@@ -1,7 +1,6 @@
 package com.diyebure.golia.di;
 
-import android.content.Context;
-
+import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.data.remote.api.AuthApiService;
 import com.diyebure.golia.data.remote.api.FootballApiService;
 import com.diyebure.golia.data.remote.interceptor.AuthInterceptor;
@@ -14,7 +13,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -44,8 +42,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public AuthInterceptor provideAuthInterceptor(@ApplicationContext Context context) {
-        return new AuthInterceptor(context);
+    public AuthInterceptor provideAuthInterceptor(PreferencesManager preferencesManager) {
+        return new AuthInterceptor(preferencesManager);
     }
 
     @Provides

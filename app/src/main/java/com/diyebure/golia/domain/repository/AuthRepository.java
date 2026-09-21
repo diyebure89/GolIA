@@ -1,6 +1,6 @@
 package com.diyebure.golia.domain.repository;
 
-import com.diyebure.golia.data.Result;
+import com.diyebure.golia.domain.common.Result;
 import com.diyebure.golia.domain.model.User;
 
 /**

@@ -1,27 +1,32 @@
 package com.diyebure.golia.data.remote.interceptor;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import com.diyebure.golia.data.local.PreferencesManager;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Interceptor that adds Authorization header to requests.
- * Automatically includes JWT access token when available.
+ * Interceptor that adds the Authorization header to outgoing requests.
+ * Automatically includes the JWT access token when available.
+ *
+ * <p>The {@link PreferencesManager} is injected (constructor injection) instead
+ * of being resolved through a static factory, so the interceptor depends on an
+ * abstraction supplied by Hilt and stays unit-testable.
  */
 public class AuthInterceptor implements Interceptor {
 
     private final PreferencesManager preferencesManager;
 
-    public AuthInterceptor(Context context) {
-        this.preferencesManager = PreferencesManager.getInstance(context);
+    @Inject
+    public AuthInterceptor(PreferencesManager preferencesManager) {
+        this.preferencesManager = preferencesManager;
     }
 
     @NonNull

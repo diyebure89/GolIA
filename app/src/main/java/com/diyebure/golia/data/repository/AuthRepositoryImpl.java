@@ -1,10 +1,8 @@
 package com.diyebure.golia.data.repository;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
-import com.diyebure.golia.data.Result;
+import com.diyebure.golia.domain.common.Result;
 import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.data.mapper.UserMapper;
 import com.diyebure.golia.data.remote.api.AuthApiService;
@@ -35,32 +33,13 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     private final AuthApiService authApiService;
     private final PreferencesManager preferencesManager;
-    private final Context context;
 
     @Inject
     public AuthRepositoryImpl(
-            Context context,
             AuthApiService authApiService,
             PreferencesManager preferencesManager) {
-        this.context = context.getApplicationContext();
         this.authApiService = authApiService;
         this.preferencesManager = preferencesManager;
-    }
-
-    /**
-     * Get singleton instance of AuthRepositoryImpl.
-     * This method is kept for backward compatibility but should be deprecated
-     * in favor of dependency injection.
-     */
-    public static AuthRepositoryImpl getInstance(Context context) {
-        throw new UnsupportedOperationException("Use dependency injection instead");
-    }
-
-    /**
-     * Get singleton instance with PreferencesManager for backward compatibility.
-     */
-    public static AuthRepositoryImpl getInstance(Context context, PreferencesManager preferencesManager) {
-        throw new UnsupportedOperationException("Use dependency injection instead");
     }
 
     @Override

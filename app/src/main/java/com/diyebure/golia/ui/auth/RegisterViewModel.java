@@ -4,19 +4,31 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.diyebure.golia.domain.usecase.auth.RegisterUseCase;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
 /**
- * ViewModel for handling user registration functionality.
- * Manages registration state and validation for user signup.
+ * ViewModel for the registration screen.
+ *
+ * <p>Owns the form state (fields + validation errors) and delegates the actual
+ * account creation to {@link RegisterUseCase}. Validation stays here; the
+ * network/business work lives in the use case and repository. Results arrive on
+ * a background thread, so state is published with {@code postValue}.
  */
+@HiltViewModel
 public class RegisterViewModel extends ViewModel {
 
-    // Registration state
     public enum RegistrationState {
         IDLE,
         LOADING,
         SUCCESS,
         ERROR
     }
+
+    private final RegisterUseCase registerUseCase;
 
     private final MutableLiveData<RegistrationState> registrationState = new MutableLiveData<>(RegistrationState.IDLE);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -26,6 +38,11 @@ public class RegisterViewModel extends ViewModel {
     private final MutableLiveData<String> email = new MutableLiveData<>("");
     private final MutableLiveData<String> password = new MutableLiveData<>("");
     private final MutableLiveData<String> confirmPassword = new MutableLiveData<>("");
+
+    @Inject
+    public RegisterViewModel(RegisterUseCase registerUseCase) {
+        this.registerUseCase = registerUseCase;
+    }
 
     /**
      * Returns the current registration state as LiveData.
@@ -207,9 +224,23 @@ public class RegisterViewModel extends ViewModel {
 
         registrationState.setValue(RegistrationState.LOADING);
 
-        // TODO: Implement actual registration logic via repository
-        // For now, simulate successful registration
-        registrationState.postValue(RegistrationState.SUCCESS);
+        // Country is not collected by the current form yet; pass empty so the
+        // backend can apply its default. Extend the form + this call when a
+        // country selector is added.
+        registerUseCase.execute(
+                usernameValue,
+                emailValue,
+                passwordValue,
+                "",
+                result -> {
+                    if (result.isSuccess()) {
+                        registrationState.postValue(RegistrationState.SUCCESS);
+                    } else {
+                        Exception error = result.getErrorOrNull();
+                        errorMessage.postValue(error != null ? error.getMessage() : "Error al registrarse");
+                        registrationState.postValue(RegistrationState.ERROR);
+                    }
+                });
     }
 
     /**

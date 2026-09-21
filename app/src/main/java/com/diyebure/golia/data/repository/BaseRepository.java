@@ -1,6 +1,6 @@
 package com.diyebure.golia.data.repository;
 
-import com.diyebure.golia.data.Result;
+import com.diyebure.golia.domain.common.Result;
 
 /**
  * Base Repository class providing foundation for repository pattern

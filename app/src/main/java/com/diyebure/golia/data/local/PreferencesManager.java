@@ -5,20 +5,26 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 
 import java.security.KeyStore;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
 
 /**
  * Secure SharedPreferences wrapper for storing authentication tokens.
  * Uses Android Keystore for encryption of sensitive token data.
+ *
+ * <p>Injected as an application-scoped singleton via Hilt (constructor
+ * injection). The former static {@code getInstance()} was removed so the DI
+ * container owns its single instance; this removes hidden global state and
+ * lets tests supply their own instance.
  */
+@Singleton
 public class PreferencesManager {
     private static final String PREFS_NAME = "golia_auth_prefs";
     private static final String KEY_ACCESS_TOKEN = "access_token";
@@ -37,26 +43,11 @@ public class PreferencesManager {
     private final SharedPreferences sharedPreferences;
     private final KeyStore keyStore;
 
-    private static volatile PreferencesManager instance;
-
-    private PreferencesManager(Context context) {
+    @Inject
+    public PreferencesManager(@ApplicationContext Context context) {
         sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         keyStore = initKeyStore();
-    }
-
-    /**
-     * Get singleton instance of PreferencesManager.
-     */
-    public static PreferencesManager getInstance(Context context) {
-        if (instance == null) {
-            synchronized (PreferencesManager.class) {
-                if (instance == null) {
-                    instance = new PreferencesManager(context);
-                }
-            }
-        }
-        return instance;
     }
 
     /**

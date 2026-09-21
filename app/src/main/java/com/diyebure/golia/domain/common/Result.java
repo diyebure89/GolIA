@@ -1,7 +1,14 @@
-package com.diyebure.golia.data;
+package com.diyebure.golia.domain.common;
 
 /**
- * A generic class that holds a result success w/ data or an error exception.
+ * Generic sealed-style result wrapper that models either a successful value
+ * ({@link Success}) or a failure ({@link Error}).
+ *
+ * <p>Lives in the domain layer because it is the shared vocabulary used by
+ * use cases, repositories (their interfaces) and view models to communicate
+ * outcomes across layers. Data-layer implementations and the presentation
+ * layer both depend on this single type, respecting the Clean Architecture
+ * dependency rule (outer layers depend on the domain, never the reverse).
  */
 public class Result<T> {
     // hide the private constructor to limit subclass types (Success, Error)
