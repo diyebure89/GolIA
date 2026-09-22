@@ -31,13 +31,49 @@
     <string name="txt_yacuenta">¿Ya tienes cuenta?</string>
     <string name="txt_iniciar_sesion">Inicia sesión</string>
 
-    <!--VALIDATION MESSAGES-->
-    <string name="username_required">El usuario es obligatorio</string>
+    <!--VALIDATION MESSAGES (one per ValidationError enum value, R12.1/12.2/12.3/14.1)-->
+    <!-- Full name (R1) -->
+    <string name="fullname_required">El nombre completo es obligatorio</string>
+    <string name="fullname_too_short">El nombre completo debe tener al menos 3 caracteres</string>
+    <string name="fullname_too_long">El nombre completo no puede superar los 50 caracteres</string>
+    <!-- Username (R2) -->
+    <string name="username_too_short">El usuario debe tener al menos 3 caracteres</string>
+    <string name="username_too_long">El usuario no puede superar los 30 caracteres</string>
+    <string name="username_format">El usuario solo admite letras, números, guion bajo o punto</string>
+    <!-- Email (R3) -->
+    <string name="email_required">El correo electrónico es obligatorio</string>
     <string name="email_invalid">Correo electrónico inválido</string>
-    <string name="password_too_short">La contraseña debe tener al menos 6 caracteres</string>
-    <string name="passwords_not_match">Las contraseñas no coinciden</string>
-    <string name="registration_success">Registro exitoso</string>
+    <!-- Password (R4) -->
+    <string name="password_required">La contraseña es obligatoria</string>
+    <string name="password_too_short">La contraseña debe tener al menos 8 caracteres</string>
+    <string name="password_no_upper">La contraseña debe incluir al menos una mayúscula</string>
+    <string name="password_no_lower">La contraseña debe incluir al menos una minúscula</string>
+    <string name="password_no_digit">La contraseña debe incluir al menos un número</string>
+    <!-- Confirm password (R5) -->
+    <string name="confirm_required">Confirma la contraseña</string>
+    <string name="confirm_mismatch">Las contraseñas no coinciden</string>
+
+    <string name="registration_success">Registro exitoso. Inicia sesión para continuar.</string>
     <string name="registration_error">Error en el registro</string>
+
+    <!--TYPED AUTH ERRORS (AuthError -> string, R15.2)-->
+    <string name="error_username_taken">Ese nombre de usuario ya está en uso</string>
+    <string name="error_email_taken">Ese correo electrónico ya está registrado</string>
+    <string name="error_invalid_credentials">Usuario o contraseña incorrectos</string>
+    <string name="error_persistence">No se pudo completar la operación. Inténtalo de nuevo</string>
+    <string name="error_validation">Revisa los datos ingresados</string>
+    <string name="error_generic">Ocurrió un error inesperado. Inténtalo de nuevo</string>
+
+    <!--FIELD LABELS: required (*) / optional / legend (R12.1/12.2/12.3)-->
+    <!-- HTML markup labels: red asterisk marks required fields. Render via HtmlCompat.fromHtml in the Activity (task 13.1). -->
+    <string name="label_nombre_required"><![CDATA[Nombre completo <font color="#FF6B6B">*</font>]]></string>
+    <string name="label_correo_required"><![CDATA[Correo electrónico <font color="#FF6B6B">*</font>]]></string>
+    <string name="label_password_required"><![CDATA[Contraseña <font color="#FF6B6B">*</font>]]></string>
+    <string name="label_confirmar_required"><![CDATA[Confirmar contraseña <font color="#FF6B6B">*</font>]]></string>
+    <!-- Optional field label -->
+    <string name="label_usuario_optional">Usuario (opcional)</string>
+    <!-- Legend for required fields -->
+    <string name="label_required_legend">* Campos obligatorios</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partidos">Partidos</string>

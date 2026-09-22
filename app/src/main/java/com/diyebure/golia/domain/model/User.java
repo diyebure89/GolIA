@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 public class User {
 
     private final String id;
+    private final String fullName;
     private final String username;
     private final String email;
     private final String country;
@@ -18,10 +19,11 @@ public class User {
     private final int predictionsCorrect;
     private final String createdAt;
 
-    public User(String id, String username, String email, String country, 
+    public User(String id, String fullName, String username, String email, String country, 
                 String avatarUrl, int totalPoints, int predictionsMade, 
                 int predictionsCorrect, String createdAt) {
         this.id = id;
+        this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.country = country;
@@ -34,6 +36,10 @@ public class User {
 
     public String getId() {
         return id;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public String getUsername() {
@@ -83,6 +89,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", country='" + country + '\'' +

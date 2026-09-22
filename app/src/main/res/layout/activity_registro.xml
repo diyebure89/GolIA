@@ -50,10 +50,10 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="107dp"
+        android:layout_width="wrap_content"
         android:layout_height="31dp"
         android:layout_marginTop="40dp"
-        android:text="@string/txt_nombre_registro"
+        android:text="@string/label_nombre_required"
         android:textSize="16dp"
         android:textColor="@color/blue_start"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,16 +81,16 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="78dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="30dp"
-        android:text="@string/txt_usuario_registro"
+        android:text="@string/label_usuario_optional"
         android:textColor="@color/blue_start"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_nombre" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_usuario"
@@ -114,13 +114,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/txt_correo_registro"
+        android:text="@string/label_correo_required"
         android:textColor="@color/blue_start"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_usuario" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_email"
@@ -145,13 +145,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/txt_password_registro"
+        android:text="@string/label_password_required"
         android:textSize="16dp"
         android:textColor="@color/blue_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_email" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_password"
@@ -177,13 +177,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="@string/txt_confirmar_password"
+        android:text="@string/label_confirmar_required"
         android:textColor="@color/blue_start"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_password" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_confirmar_password"
@@ -204,6 +204,19 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Required fields legend -->
+    <TextView
+        android:id="@+id/textView_required_legend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/label_required_legend"
+        android:textColor="@color/error_red"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_confirmar_password" />
+
     <!-- Progress indicator -->
     <ProgressBar
         android:id="@+id/progressBar_registro"
@@ -213,7 +226,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_confirmar_password" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_required_legend" />
 
     <!-- Ya tengo cuenta link -->
     <LinearLayout
@@ -257,6 +270,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_yacuenta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

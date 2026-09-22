@@ -35,13 +35,13 @@ public class LoginUseCase {
     /**
      * Executes the login off the main thread.
      *
-     * @param email    user email
-     * @param password user password
-     * @param callback receives {@code Result.Success<User>} or {@code Result.Error}
+     * @param identifier user username or email
+     * @param password   user password
+     * @param callback   receives {@code Result.Success<User>} or {@code Result.Error}
      */
-    public void execute(String email, String password, Callback<User> callback) {
+    public void execute(String identifier, String password, Callback<User> callback) {
         executor.execute(() -> {
-            Result<User> result = authRepository.login(email, password);
+            Result<User> result = authRepository.login(identifier, password);
             callback.onResult(result);
         });
     }

@@ -1,10 +1,20 @@
 package com.diyebure.golia.ui.auth;
 
+import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.diyebure.golia.R;
+import com.diyebure.golia.domain.error.AuthError;
+import com.diyebure.golia.domain.error.AuthException;
 import com.diyebure.golia.domain.usecase.auth.RegisterUseCase;
+import com.diyebure.golia.domain.validation.RegistrationValidator;
+import com.diyebure.golia.domain.validation.ValidationError;
+import com.diyebure.golia.domain.validation.ValidationResult;
+import com.diyebure.golia.ui.common.Event;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,252 +23,145 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 /**
  * ViewModel for the registration screen.
  *
- * <p>Owns the form state (fields + validation errors) and delegates the actual
- * account creation to {@link RegisterUseCase}. Validation stays here; the
- * network/business work lives in the use case and repository. Results arrive on
- * a background thread, so state is published with {@code postValue}.
+ * <p>Collects the five form fields (including {@code fullName}), validates them
+ * through the centralized {@link RegistrationValidator} and delegates the actual
+ * account creation to {@link RegisterUseCase}. Validation errors are published
+ * per field; success and error outcomes are exposed as single-use
+ * {@link Event Events} so they are consumed exactly once and not re-delivered on
+ * configuration changes (R13.1, R13.2).
+ *
+ * <p>The {@code LOADING} state is a plain {@link LiveData} (not an event) so it
+ * survives rotation and is used to block a double submit: {@link #register}
+ * ignores calls while loading is {@code true} (R10.1, R13.3).
+ *
+ * <p>Registration does <b>not</b> auto-login: this ViewModel never touches
+ * {@code PreferencesManager}; navigation to the login screen is handled by the
+ * Activity after a success event (R11.1).
  */
 @HiltViewModel
 public class RegisterViewModel extends ViewModel {
 
-    public enum RegistrationState {
-        IDLE,
-        LOADING,
-        SUCCESS,
-        ERROR
-    }
-
     private final RegisterUseCase registerUseCase;
+    private final RegistrationValidator validator;
 
-    private final MutableLiveData<RegistrationState> registrationState = new MutableLiveData<>(RegistrationState.IDLE);
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    /** {@code true} while a registration request is in flight. Blocks double submit. */
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
 
-    // Form fields
-    private final MutableLiveData<String> username = new MutableLiveData<>("");
-    private final MutableLiveData<String> email = new MutableLiveData<>("");
-    private final MutableLiveData<String> password = new MutableLiveData<>("");
-    private final MutableLiveData<String> confirmPassword = new MutableLiveData<>("");
+    /** One-shot per-field validation errors (empty map is never emitted). */
+    private final MutableLiveData<Event<Map<ValidationResult.Field, ValidationError>>> fieldErrors =
+            new MutableLiveData<>();
+
+    /** One-shot success signal (registration completed, no auto-login). */
+    private final MutableLiveData<Event<Boolean>> registerSuccess = new MutableLiveData<>();
+
+    /** One-shot error signal carrying a mapped string resource id. */
+    private final MutableLiveData<Event<Integer>> errorMessage = new MutableLiveData<>();
 
     @Inject
-    public RegisterViewModel(RegisterUseCase registerUseCase) {
+    public RegisterViewModel(RegisterUseCase registerUseCase, RegistrationValidator validator) {
         this.registerUseCase = registerUseCase;
+        this.validator = validator;
     }
 
-    /**
-     * Returns the current registration state as LiveData.
-     */
-    public LiveData<RegistrationState> getRegistrationState() {
-        return registrationState;
+    /** @return loading state; {@code true} while a request is in flight (R10.1, R13.3). */
+    public LiveData<Boolean> getLoading() {
+        return loading;
     }
 
-    /**
-     * Returns the current error message as LiveData.
-     */
-    public LiveData<String> getErrorMessage() {
+    /** @return one-shot per-field validation errors (R13.1, R14.1). */
+    public LiveData<Event<Map<ValidationResult.Field, ValidationError>>> getFieldErrors() {
+        return fieldErrors;
+    }
+
+    /** @return one-shot success event; registration does NOT auto-login (R11.1, R13.1). */
+    public LiveData<Event<Boolean>> getRegisterSuccess() {
+        return registerSuccess;
+    }
+
+    /** @return one-shot error event carrying a {@code @StringRes} id (R13.1, R15.2). */
+    public LiveData<Event<Integer>> getErrorMessage() {
         return errorMessage;
     }
 
     /**
-     * Returns the username LiveData.
-     */
-    public LiveData<String> getUsername() {
-        return username;
-    }
-
-    /**
-     * Returns the email LiveData.
-     */
-    public LiveData<String> getEmail() {
-        return email;
-    }
-
-    /**
-     * Returns the password LiveData.
-     */
-    public LiveData<String> getPassword() {
-        return password;
-    }
-
-    /**
-     * Returns the confirm password LiveData.
-     */
-    public LiveData<String> getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    /**
-     * Sets the username value.
-     */
-    public void setUsername(String value) {
-        username.setValue(value);
-    }
-
-    /**
-     * Sets the email value.
-     */
-    public void setEmail(String value) {
-        email.setValue(value);
-    }
-
-    /**
-     * Sets the password value.
-     */
-    public void setPassword(String value) {
-        password.setValue(value);
-    }
-
-    /**
-     * Sets the confirm password value.
-     */
-    public void setConfirmPassword(String value) {
-        confirmPassword.setValue(value);
-    }
-
-    /**
-     * Validates the username.
+     * Validates the form and, if valid, triggers registration through the use
+     * case. Ignored while a request is already in flight (double-submit guard,
+     * R10.1). On invalid input, publishes per-field errors as a one-shot event
+     * and does not call the use case.
      *
-     * @param value The username to validate
-     * @return true if valid, false otherwise
+     * @param fullName        full name (required)
+     * @param username        desired username (optional, may be empty/null)
+     * @param email           email (required)
+     * @param password        password (required)
+     * @param confirmPassword password confirmation (required)
      */
-    public boolean validateUsername(String value) {
-        if (value == null || value.trim().isEmpty()) {
-            errorMessage.setValue("Username is required");
-            return false;
-        }
-        if (value.trim().length() < 3) {
-            errorMessage.setValue("Username must be at least 3 characters");
-            return false;
-        }
-        if (!value.matches("^[a-zA-Z0-9_]+$")) {
-            errorMessage.setValue("Username can only contain letters, numbers, and underscores");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates the email format.
-     *
-     * @param value The email to validate
-     * @return true if valid, false otherwise
-     */
-    public boolean validateEmail(String value) {
-        if (value == null || value.trim().isEmpty()) {
-            errorMessage.setValue("Email is required");
-            return false;
-        }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
-            errorMessage.setValue("Invalid email format");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates the password.
-     *
-     * @param value The password to validate
-     * @return true if valid, false otherwise
-     */
-    public boolean validatePassword(String value) {
-        if (value == null || value.isEmpty()) {
-            errorMessage.setValue("Password is required");
-            return false;
-        }
-        if (value.length() < 6) {
-            errorMessage.setValue("Password must be at least 6 characters");
-            return false;
-        }
-        if (!value.matches(".*[A-Z].*")) {
-            errorMessage.setValue("Password must contain at least one uppercase letter");
-            return false;
-        }
-        if (!value.matches(".*[0-9].*")) {
-            errorMessage.setValue("Password must contain at least one number");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates that confirm password matches password.
-     *
-     * @param passwordValue        The original password
-     * @param confirmPasswordValue The confirmation password
-     * @return true if valid, false otherwise
-     */
-    public boolean validateConfirmPassword(String passwordValue, String confirmPasswordValue) {
-        if (confirmPasswordValue == null || confirmPasswordValue.isEmpty()) {
-            errorMessage.setValue("Please confirm your password");
-            return false;
-        }
-        if (!confirmPasswordValue.equals(passwordValue)) {
-            errorMessage.setValue("Passwords do not match");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Attempts to register a new user with the provided credentials.
-     */
-    public void register() {
-        String usernameValue = username.getValue();
-        String emailValue = email.getValue();
-        String passwordValue = password.getValue();
-        String confirmValue = confirmPassword.getValue();
-
-        // Validate all fields
-        if (!validateUsername(usernameValue != null ? usernameValue : "")) {
-            return;
-        }
-        if (!validateEmail(emailValue != null ? emailValue : "")) {
-            return;
-        }
-        if (!validatePassword(passwordValue != null ? passwordValue : "")) {
-            return;
-        }
-        if (!validateConfirmPassword(passwordValue != null ? passwordValue : "", confirmValue != null ? confirmValue : "")) {
+    public void register(String fullName, String username, String email,
+                         String password, String confirmPassword) {
+        // Block double submit while a request is in flight.
+        if (Boolean.TRUE.equals(loading.getValue())) {
             return;
         }
 
-        registrationState.setValue(RegistrationState.LOADING);
+        ValidationResult result =
+                validator.validateRegistration(fullName, username, email, password, confirmPassword);
+        if (!result.isValid()) {
+            fieldErrors.setValue(new Event<>(result.getErrors()));
+            return;
+        }
 
-        // Country is not collected by the current form yet; pass empty so the
-        // backend can apply its default. Extend the form + this call when a
-        // country selector is added.
-        registerUseCase.execute(
-                usernameValue,
-                emailValue,
-                passwordValue,
-                "",
-                result -> {
-                    if (result.isSuccess()) {
-                        registrationState.postValue(RegistrationState.SUCCESS);
-                    } else {
-                        Exception error = result.getErrorOrNull();
-                        errorMessage.postValue(error != null ? error.getMessage() : "Error al registrarse");
-                        registrationState.postValue(RegistrationState.ERROR);
-                    }
-                });
+        loading.setValue(true);
+
+        registerUseCase.execute(fullName, username, email, password, useCaseResult -> {
+            // Results arrive on a background thread -> postValue.
+            loading.postValue(false);
+            if (useCaseResult.isSuccess()) {
+                registerSuccess.postValue(new Event<>(true));
+            } else {
+                errorMessage.postValue(new Event<>(mapError(useCaseResult.getErrorOrNull())));
+            }
+        });
     }
 
     /**
-     * Clears the current error message.
+     * Maps an exception coming back from the use case to a localized string
+     * resource id. Typed {@link AuthError}s are mapped one-to-one; anything
+     * else falls back to a generic message (R15.2).
+     *
+     * @param error the exception carried by {@code Result.Error}, may be {@code null}
+     * @return the string resource id to display
      */
-    public void clearError() {
-        errorMessage.setValue(null);
+    @StringRes
+    private int mapError(Exception error) {
+        if (error instanceof AuthException) {
+            return mapAuthError(((AuthException) error).getAuthError());
+        }
+        return R.string.error_generic;
     }
 
     /**
-     * Resets the registration state to idle and clears all fields.
+     * Maps a typed {@link AuthError} to its string resource.
+     *
+     * @param authError the typed error, may be {@code null}
+     * @return the matching string resource id
      */
-    public void resetState() {
-        registrationState.setValue(RegistrationState.IDLE);
-        username.setValue("");
-        email.setValue("");
-        password.setValue("");
-        confirmPassword.setValue("");
-        clearError();
+    @StringRes
+    private int mapAuthError(AuthError authError) {
+        if (authError == null) {
+            return R.string.error_generic;
+        }
+        switch (authError) {
+            case USERNAME_TAKEN:
+                return R.string.error_username_taken;
+            case EMAIL_TAKEN:
+                return R.string.error_email_taken;
+            case INVALID_CREDENTIALS:
+                return R.string.error_invalid_credentials;
+            case PERSISTENCE_ERROR:
+                return R.string.error_persistence;
+            case VALIDATION_ERROR:
+                return R.string.error_validation;
+            default:
+                return R.string.error_generic;
+        }
     }
 }

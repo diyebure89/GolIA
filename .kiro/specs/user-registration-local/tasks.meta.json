@@ -1,0 +1,445 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Añadir `fullName` al modelo de dominio `User`": [
+      {
+        "executionId": "93e21b38-dd31-4515-addd-cfc9c2f5d819",
+        "chatSessionId": "sess_db99a0ab-9fa8-4583-922c-47edf3b583d5",
+        "timestamp": 1789967907553
+      },
+      {
+        "executionId": "93e21b38-dd31-4515-addd-cfc9c2f5d819",
+        "chatSessionId": "sess_db99a0ab-9fa8-4583-922c-47edf3b583d5",
+        "timestamp": 1789967972999
+      }
+    ],
+    "1.2 Crear el contrato tipado de errores de autenticación": [
+      {
+        "executionId": "eea2c861-60e9-4733-99d2-4e5cb0780a03",
+        "chatSessionId": "sess_93d3a416-a0f9-4080-aaa0-bf3c24f9981f",
+        "timestamp": 1789968074289
+      },
+      {
+        "executionId": "eea2c861-60e9-4733-99d2-4e5cb0780a03",
+        "chatSessionId": "sess_93d3a416-a0f9-4080-aaa0-bf3c24f9981f",
+        "timestamp": 1789968331973
+      }
+    ],
+    "1.3 Crear los objetos de seguridad del dominio": [
+      {
+        "executionId": "eea2c861-60e9-4733-99d2-4e5cb0780a03",
+        "chatSessionId": "sess_93d3a416-a0f9-4080-aaa0-bf3c24f9981f",
+        "timestamp": 1789968075463
+      },
+      {
+        "executionId": "eea2c861-60e9-4733-99d2-4e5cb0780a03",
+        "chatSessionId": "sess_93d3a416-a0f9-4080-aaa0-bf3c24f9981f",
+        "timestamp": 1789968332684
+      }
+    ],
+    "1. Modelo de dominio, contrato de errores y objetos de seguridad": [
+      {
+        "executionId": "eea2c861-60e9-4733-99d2-4e5cb0780a03",
+        "chatSessionId": "sess_93d3a416-a0f9-4080-aaa0-bf3c24f9981f",
+        "timestamp": 1789968332884
+      }
+    ],
+    "2.1 Crear los tipos de validación": [
+      {
+        "executionId": "f4b0d51f-02bb-415c-a959-4dd632821286",
+        "chatSessionId": "sess_36c1f396-3bfd-4877-a504-870d18fc9042",
+        "timestamp": 1789968393706
+      },
+      {
+        "executionId": "f4b0d51f-02bb-415c-a959-4dd632821286",
+        "chatSessionId": "sess_36c1f396-3bfd-4877-a504-870d18fc9042",
+        "timestamp": 1789968577150
+      }
+    ],
+    "2.2 Implementar `RegistrationValidator` con las reglas exactas": [
+      {
+        "executionId": "f4b0d51f-02bb-415c-a959-4dd632821286",
+        "chatSessionId": "sess_36c1f396-3bfd-4877-a504-870d18fc9042",
+        "timestamp": 1789968577926
+      },
+      {
+        "executionId": "f4b0d51f-02bb-415c-a959-4dd632821286",
+        "chatSessionId": "sess_36c1f396-3bfd-4877-a504-870d18fc9042",
+        "timestamp": 1789968790492
+      }
+    ],
+    "2. Validación centralizada del dominio": [
+      {
+        "executionId": "f4b0d51f-02bb-415c-a959-4dd632821286",
+        "chatSessionId": "sess_36c1f396-3bfd-4877-a504-870d18fc9042",
+        "timestamp": 1789968790995
+      }
+    ],
+    "3. Checkpoint - Validación de dominio": [
+      {
+        "executionId": "d7309f53-c498-4bfc-96ba-049e20aaf11f",
+        "chatSessionId": "sess_60b04158-ff96-4035-9d7f-5b8692147f73",
+        "timestamp": 1789968893589
+      },
+      {
+        "executionId": "d7309f53-c498-4bfc-96ba-049e20aaf11f",
+        "chatSessionId": "sess_60b04158-ff96-4035-9d7f-5b8692147f73",
+        "timestamp": 1789969705969
+      }
+    ],
+    "4. Hasher PBKDF2 en la capa de datos": [
+      {
+        "executionId": "715c2767-d749-4873-989c-56e7f4a8a3c6",
+        "chatSessionId": "sess_db9c401c-695f-4e03-9de4-3c6a40141e6d",
+        "timestamp": 1789969777592
+      },
+      {
+        "executionId": "715c2767-d749-4873-989c-56e7f4a8a3c6",
+        "chatSessionId": "sess_db9c401c-695f-4e03-9de4-3c6a40141e6d",
+        "timestamp": 1789969909432
+      }
+    ],
+    "4.1 Implementar `Pbkdf2PasswordHasher`": [
+      {
+        "executionId": "b5bae660-5ea1-4607-aa27-9577b3db809b",
+        "chatSessionId": "sess_5329d9fd-4d1c-472a-a7c3-90a413504531",
+        "timestamp": 1789969979466
+      },
+      {
+        "executionId": "b5bae660-5ea1-4607-aa27-9577b3db809b",
+        "chatSessionId": "sess_5329d9fd-4d1c-472a-a7c3-90a413504531",
+        "timestamp": 1789970091623
+      }
+    ],
+    "5. Entity, DAO y mapper de usuario": [
+      {
+        "executionId": "00a0fcef-17d9-42c5-8e5a-7a5874d68b48",
+        "chatSessionId": "sess_6c382deb-280a-47d1-b064-5661807777d8",
+        "timestamp": 1790047464382
+      },
+      {
+        "executionId": "00a0fcef-17d9-42c5-8e5a-7a5874d68b48",
+        "chatSessionId": "sess_6c382deb-280a-47d1-b064-5661807777d8",
+        "timestamp": 1790047656570
+      }
+    ],
+    "5.2 Crear `UserDao`": [
+      {
+        "executionId": "68a1a146-9af1-4fc0-a7d4-17168eab6212",
+        "chatSessionId": "sess_b8cf58a8-eaf5-4d5c-8789-2823b57ee0a2",
+        "timestamp": 1790047702680
+      },
+      {
+        "executionId": "68a1a146-9af1-4fc0-a7d4-17168eab6212",
+        "chatSessionId": "sess_b8cf58a8-eaf5-4d5c-8789-2823b57ee0a2",
+        "timestamp": 1790047993516
+      }
+    ],
+    "5.3 Crear `UserEntityMapper`": [
+      {
+        "executionId": "e539aecc-0785-4df2-9a04-06deb550f6f5",
+        "chatSessionId": "sess_b4aec973-70c6-484b-b673-6eb98b5b3f30",
+        "timestamp": 1790048042530
+      },
+      {
+        "executionId": "e539aecc-0785-4df2-9a04-06deb550f6f5",
+        "chatSessionId": "sess_b4aec973-70c6-484b-b673-6eb98b5b3f30",
+        "timestamp": 1790048149770
+      }
+    ],
+    "6.1 Ajustar las firmas de `AuthRepository`": [
+      {
+        "executionId": "a2e07ead-b615-4406-afa3-928ec28f234a",
+        "chatSessionId": "sess_8d475910-cf9c-4d88-80f9-25296fa0e312",
+        "timestamp": 1790048194070
+      },
+      {
+        "executionId": "a2e07ead-b615-4406-afa3-928ec28f234a",
+        "chatSessionId": "sess_8d475910-cf9c-4d88-80f9-25296fa0e312",
+        "timestamp": 1790048299701
+      }
+    ],
+    "6.2 Ajustar `RegisterUseCase` y `LoginUseCase`": [
+      {
+        "executionId": "a2e07ead-b615-4406-afa3-928ec28f234a",
+        "chatSessionId": "sess_8d475910-cf9c-4d88-80f9-25296fa0e312",
+        "timestamp": 1790048195336
+      },
+      {
+        "executionId": "a2e07ead-b615-4406-afa3-928ec28f234a",
+        "chatSessionId": "sess_8d475910-cf9c-4d88-80f9-25296fa0e312",
+        "timestamp": 1790048300881
+      }
+    ],
+    "6. Contrato del repositorio y use cases": [
+      {
+        "executionId": "a2e07ead-b615-4406-afa3-928ec28f234a",
+        "chatSessionId": "sess_8d475910-cf9c-4d88-80f9-25296fa0e312",
+        "timestamp": 1790048301437
+      }
+    ],
+    "5.1 Crear `UserEntity`": [
+      {
+        "executionId": "1a801f24-3fe3-4146-8d24-3cb3674aeb7c",
+        "chatSessionId": "sess_453846ff-8771-47ee-93b7-b9840126d2ac",
+        "timestamp": 1790048373960
+      },
+      {
+        "executionId": "1a801f24-3fe3-4146-8d24-3cb3674aeb7c",
+        "chatSessionId": "sess_453846ff-8771-47ee-93b7-b9840126d2ac",
+        "timestamp": 1790048486192
+      }
+    ],
+    "7.1 Implementar `LocalAuthRepositoryImpl`": [
+      {
+        "executionId": "1a801f24-3fe3-4146-8d24-3cb3674aeb7c",
+        "chatSessionId": "sess_453846ff-8771-47ee-93b7-b9840126d2ac",
+        "timestamp": 1790048507775
+      },
+      {
+        "executionId": "1a801f24-3fe3-4146-8d24-3cb3674aeb7c",
+        "chatSessionId": "sess_453846ff-8771-47ee-93b7-b9840126d2ac",
+        "timestamp": 1790048624581
+      }
+    ],
+    "7. Implementación local del repositorio": [
+      {
+        "executionId": "1a801f24-3fe3-4146-8d24-3cb3674aeb7c",
+        "chatSessionId": "sess_453846ff-8771-47ee-93b7-b9840126d2ac",
+        "timestamp": 1790048625088
+      }
+    ],
+    "8.1 Adaptar `AuthRepositoryImpl` (remoto, inactivo) a las nuevas firmas": [
+      {
+        "executionId": "cc4eff1f-5794-47c0-8dd1-ac284d8dac03",
+        "chatSessionId": "sess_a5aa81ff-8341-4642-bb9b-457458c4e25a",
+        "timestamp": 1790048673555
+      },
+      {
+        "executionId": "cc4eff1f-5794-47c0-8dd1-ac284d8dac03",
+        "chatSessionId": "sess_a5aa81ff-8341-4642-bb9b-457458c4e25a",
+        "timestamp": 1790048773692
+      }
+    ],
+    "8.2 Mapear `fullName` en `UserMapper`": [
+      {
+        "executionId": "cc4eff1f-5794-47c0-8dd1-ac284d8dac03",
+        "chatSessionId": "sess_a5aa81ff-8341-4642-bb9b-457458c4e25a",
+        "timestamp": 1790048674338
+      },
+      {
+        "executionId": "cc4eff1f-5794-47c0-8dd1-ac284d8dac03",
+        "chatSessionId": "sess_a5aa81ff-8341-4642-bb9b-457458c4e25a",
+        "timestamp": 1790048774670
+      }
+    ],
+    "8. Adaptar la implementación remota y el mapper existente": [
+      {
+        "executionId": "cc4eff1f-5794-47c0-8dd1-ac284d8dac03",
+        "chatSessionId": "sess_a5aa81ff-8341-4642-bb9b-457458c4e25a",
+        "timestamp": 1790048775048
+      }
+    ],
+    "9. Base de datos y cableado de inyección de dependencias": [
+      {
+        "executionId": "89387f52-7041-4424-b8df-7fb06f8670fe",
+        "chatSessionId": "sess_3a6502f9-1b7c-43cf-8478-5ba70abe4af4",
+        "timestamp": 1790048824146
+      },
+      {
+        "executionId": "89387f52-7041-4424-b8df-7fb06f8670fe",
+        "chatSessionId": "sess_3a6502f9-1b7c-43cf-8478-5ba70abe4af4",
+        "timestamp": 1790048966321
+      }
+    ],
+    "9.1 Actualizar `GolIADatabase`": [
+      {
+        "executionId": "89ba0d19-5b2d-41c0-9567-40456f331fd0",
+        "chatSessionId": "sess_2ef35003-9330-4cc0-b461-abc7899e10f8",
+        "timestamp": 1790049026246
+      },
+      {
+        "executionId": "89ba0d19-5b2d-41c0-9567-40456f331fd0",
+        "chatSessionId": "sess_2ef35003-9330-4cc0-b461-abc7899e10f8",
+        "timestamp": 1790049121587
+      }
+    ],
+    "9.2 Proveer `UserDao` en `DatabaseModule`": [
+      {
+        "executionId": "362732be-d910-4b0e-82af-8ccc09fc3d3a",
+        "chatSessionId": "sess_358b8121-5380-4a18-b723-1a980513223e",
+        "timestamp": 1790049164058
+      },
+      {
+        "executionId": "362732be-d910-4b0e-82af-8ccc09fc3d3a",
+        "chatSessionId": "sess_358b8121-5380-4a18-b723-1a980513223e",
+        "timestamp": 1790049259221
+      }
+    ],
+    "9.3 Bindear `AuthRepository` a la implementación local": [
+      {
+        "executionId": "90ab9f2e-acec-495b-9239-7814e5e88c6b",
+        "chatSessionId": "sess_a2da7816-b14b-4f68-9016-7a3d759374ee",
+        "timestamp": 1790049283120
+      },
+      {
+        "executionId": "90ab9f2e-acec-495b-9239-7814e5e88c6b",
+        "chatSessionId": "sess_a2da7816-b14b-4f68-9016-7a3d759374ee",
+        "timestamp": 1790049357043
+      }
+    ],
+    "9.4 Crear `SecurityModule`": [
+      {
+        "executionId": "95f4a59c-07a1-4147-9267-e4d48402a0e1",
+        "chatSessionId": "sess_5689c826-3700-42fa-91e2-d1d6a28e2433",
+        "timestamp": 1790049402396
+      },
+      {
+        "executionId": "95f4a59c-07a1-4147-9267-e4d48402a0e1",
+        "chatSessionId": "sess_5689c826-3700-42fa-91e2-d1d6a28e2433",
+        "timestamp": 1790049458436
+      }
+    ],
+    "10. Checkpoint - Dominio, datos y DI integrados": [
+      {
+        "executionId": "f94cacfc-d3fe-43d7-b2f8-a472a6a36dbc",
+        "chatSessionId": "sess_a491fada-eea4-4f9c-bce6-47e8b9414688",
+        "timestamp": 1790049493756
+      },
+      {
+        "executionId": "f94cacfc-d3fe-43d7-b2f8-a472a6a36dbc",
+        "chatSessionId": "sess_a491fada-eea4-4f9c-bce6-47e8b9414688",
+        "timestamp": 1790049946596
+      }
+    ],
+    "11.1 Crear `Event<T>`": [
+      {
+        "executionId": "972f0db5-8a1c-4633-80d4-55c3a4a13d4e",
+        "chatSessionId": "sess_dd70e7b5-390e-46aa-a883-4b792cc6f76f",
+        "timestamp": 1790049999075
+      },
+      {
+        "executionId": "972f0db5-8a1c-4633-80d4-55c3a4a13d4e",
+        "chatSessionId": "sess_dd70e7b5-390e-46aa-a883-4b792cc6f76f",
+        "timestamp": 1790050100623
+      }
+    ],
+    "11. Wrapper de eventos y ViewModels": [
+      {
+        "executionId": "972f0db5-8a1c-4633-80d4-55c3a4a13d4e",
+        "chatSessionId": "sess_dd70e7b5-390e-46aa-a883-4b792cc6f76f",
+        "timestamp": 1790050147223
+      }
+    ],
+    "11.3 Implementar `RegisterViewModel`": [
+      {
+        "executionId": "c5534eea-b406-4648-82db-e26278332e28",
+        "chatSessionId": "sess_c0891628-1673-49da-b32a-99f78bdd3ea0",
+        "timestamp": 1790050174386
+      },
+      {
+        "executionId": "c5534eea-b406-4648-82db-e26278332e28",
+        "chatSessionId": "sess_c0891628-1673-49da-b32a-99f78bdd3ea0",
+        "timestamp": 1790050399677
+      }
+    ],
+    "11.4 Implementar `LoginViewModel`": [
+      {
+        "executionId": "337ce308-b33e-4330-b0eb-674148169af3",
+        "chatSessionId": "sess_9c2252d4-66a3-489a-bfd5-674fc6cbc37f",
+        "timestamp": 1790050443528
+      },
+      {
+        "executionId": "337ce308-b33e-4330-b0eb-674148169af3",
+        "chatSessionId": "sess_9c2252d4-66a3-489a-bfd5-674fc6cbc37f",
+        "timestamp": 1790050635203
+      }
+    ],
+    "12.1 Añadir strings de validación y errores tipados": [
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050745611
+      },
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050947067
+      }
+    ],
+    "12.2 Añadir color de error": [
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050746438
+      },
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050948414
+      }
+    ],
+    "12.3 Marcar campos obligatorios/opcional en `activity_registro.xml`": [
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050747748
+      },
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050949441
+      }
+    ],
+    "12. Recursos de UI": [
+      {
+        "executionId": "d43747a9-67d2-454e-b433-33acc382fcd4",
+        "chatSessionId": "sess_e1fff830-23eb-40d2-a262-5eb1cb18f1bd",
+        "timestamp": 1790050949984
+      }
+    ],
+    "13.1 Cablear `RegistroActivity`": [
+      {
+        "executionId": "b339e332-4bd1-4dd5-afb0-e9b8587094f8",
+        "chatSessionId": "sess_e63473bb-8295-4e61-aa2d-f17cb3755d8d",
+        "timestamp": 1790050992313
+      },
+      {
+        "executionId": "b339e332-4bd1-4dd5-afb0-e9b8587094f8",
+        "chatSessionId": "sess_e63473bb-8295-4e61-aa2d-f17cb3755d8d",
+        "timestamp": 1790051249351
+      }
+    ],
+    "13.2 Cablear `LoginActivity`": [
+      {
+        "executionId": "b339e332-4bd1-4dd5-afb0-e9b8587094f8",
+        "chatSessionId": "sess_e63473bb-8295-4e61-aa2d-f17cb3755d8d",
+        "timestamp": 1790050993495
+      },
+      {
+        "executionId": "b339e332-4bd1-4dd5-afb0-e9b8587094f8",
+        "chatSessionId": "sess_e63473bb-8295-4e61-aa2d-f17cb3755d8d",
+        "timestamp": 1790051250034
+      }
+    ],
+    "13. Cableado de Activities": [
+      {
+        "executionId": "b339e332-4bd1-4dd5-afb0-e9b8587094f8",
+        "chatSessionId": "sess_e63473bb-8295-4e61-aa2d-f17cb3755d8d",
+        "timestamp": 1790051250701
+      }
+    ],
+    "14. Checkpoint final - Verificación completa": [
+      {
+        "executionId": "2cdfc5f0-d5b7-47b1-8bfc-87b8b46dcb38",
+        "chatSessionId": "sess_5f9c2f6c-3e75-416d-915f-701559fb6137",
+        "timestamp": 1790051303408
+      },
+      {
+        "executionId": "2cdfc5f0-d5b7-47b1-8bfc-87b8b46dcb38",
+        "chatSessionId": "sess_5f9c2f6c-3e75-416d-915f-701559fb6137",
+        "timestamp": 1790051535716
+      }
+    ]
+  }
+}

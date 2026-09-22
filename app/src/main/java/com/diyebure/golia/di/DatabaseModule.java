@@ -8,6 +8,7 @@ import com.diyebure.golia.data.local.dao.CompetitionDao;
 import com.diyebure.golia.data.local.dao.MatchDao;
 import com.diyebure.golia.data.local.dao.PredictionDao;
 import com.diyebure.golia.data.local.dao.TeamDao;
+import com.diyebure.golia.data.local.dao.UserDao;
 import com.diyebure.golia.data.local.database.GolIADatabase;
 
 import javax.inject.Singleton;
@@ -67,5 +68,11 @@ public class DatabaseModule {
     @Singleton
     public PredictionDao providePredictionDao(GolIADatabase database) {
         return database.predictionDao();
+    }
+
+    @Provides
+    @Singleton
+    public UserDao provideUserDao(GolIADatabase database) {
+        return database.userDao();
     }
 }

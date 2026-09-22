@@ -43,9 +43,11 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public Result<User> login(String email, String password) {
+    public Result<User> login(String identifier, String password) {
         try {
-            LoginRequest request = new LoginRequest(email, password);
+            // NOTE: This is the remote (inactive) implementation. The remote API only
+            // accepts an email field, so the identifier (username or email) is sent as-is.
+            LoginRequest request = new LoginRequest(identifier, password);
             Call<AuthResponse> call = authApiService.login(request);
 
             Response<AuthResponse> response = call.execute();
@@ -77,9 +79,12 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public Result<User> register(String username, String email, String password, String country) {
+    public Result<User> register(String fullName, String username, String email, String password) {
         try {
-            RegisterRequest request = new RegisterRequest(username, email, password, country);
+            // NOTE: This is the remote (inactive) implementation. The remote API does not
+            // yet have fields for fullName/country, so null is passed for country and the
+            // fullName is not sent until the API supports it.
+            RegisterRequest request = new RegisterRequest(username, email, password, null);
             Call<AuthResponse> call = authApiService.register(request);
 
             Response<AuthResponse> response = call.execute();

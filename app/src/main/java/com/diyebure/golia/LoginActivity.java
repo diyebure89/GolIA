@@ -2,8 +2,10 @@ package com.diyebure.golia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText input_contrasena;
     private TextView text_crear_cuenta;
     private Button button_ingresar;
+    private ProgressBar progressBar_login;
     private LoginViewModel loginViewModel;
 
     @Override
@@ -54,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         input_contrasena = findViewById(R.id.input_contrasena);
         text_crear_cuenta = findViewById(R.id.text_crear_cuenta);
         button_ingresar = findViewById(R.id.button_ingresar);
+        progressBar_login = findViewById(R.id.progressBar_login);
     }
 
     private void setupListeners() {
@@ -70,37 +74,45 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void observeViewModel() {
-        loginViewModel.getLoginState().observe(this, state -> {
-            if (state == null) {
+        // LOADING is plain LiveData: show the progress indicator and disable the
+        // button while a request is in flight (survives rotation).
+        loginViewModel.getLoading().observe(this, this::showLoading);
+
+        // One-shot navigation to Home after a successful login (session already saved by the ViewModel).
+        loginViewModel.getNavigateToHome().observe(this, event -> {
+            if (event == null) {
                 return;
             }
-            switch (state) {
-                case LOADING:
-                    button_ingresar.setEnabled(false);
-                    break;
-                case SUCCESS:
-                    button_ingresar.setEnabled(true);
-                    navigateToHome();
-                    break;
-                case ERROR:
-                    button_ingresar.setEnabled(true);
-                    break;
-                case IDLE:
-                default:
-                    button_ingresar.setEnabled(true);
-                    break;
+            Boolean go = event.getContentIfNotHandled();
+            if (Boolean.TRUE.equals(go)) {
+                navigateToHome();
             }
         });
 
-        loginViewModel.getErrorMessage().observe(this, message -> {
-            if (message != null && !message.isEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        // One-shot error: global Toast with a mapped string resource id (does not reveal the field).
+        loginViewModel.getErrorMessage().observe(this, event -> {
+            if (event == null) {
+                return;
+            }
+            Integer messageRes = event.getContentIfNotHandled();
+            if (messageRes != null) {
+                Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    /**
+     * Shows or hides the loading indicator and disables the login button while a
+     * request is in flight (R10.4). The button stays hidden behind the spinner so
+     * the user cannot trigger a second submit.
+     */
+    private void showLoading(boolean show) {
+        progressBar_login.setVisibility(show ? View.VISIBLE : View.GONE);
+        button_ingresar.setEnabled(!show);
+    }
+
     private void navigateToHome() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

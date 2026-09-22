@@ -1,6 +1,6 @@
 package com.diyebure.golia.di;
 
-import com.diyebure.golia.data.repository.AuthRepositoryImpl;
+import com.diyebure.golia.data.repository.LocalAuthRepositoryImpl;
 import com.diyebure.golia.data.repository.MatchRepositoryImpl;
 import com.diyebure.golia.domain.repository.AuthRepository;
 import com.diyebure.golia.domain.repository.MatchRepository;
@@ -17,9 +17,13 @@ import dagger.hilt.components.SingletonComponent;
  * (data layer).
  *
  * <p>This module is abstract and uses {@code @Binds} instead of {@code @Provides}.
- * Because {@code AuthRepositoryImpl} and {@code MatchRepositoryImpl} already
+ * Because {@code LocalAuthRepositoryImpl} and {@code MatchRepositoryImpl} already
  * declare {@code @Inject} constructors, Hilt knows how to build them; we only
  * need to tell it "when someone asks for the interface, give them this impl".
+ *
+ * <p>{@link AuthRepository} is bound to the local, Room-backed
+ * {@code LocalAuthRepositoryImpl} for the MVP. The remote
+ * {@code AuthRepositoryImpl} is intentionally left unbound.
  *
  * <p>This is the idiomatic pattern: the presentation and use-case layers depend
  * only on the domain interfaces ({@link AuthRepository}, {@link MatchRepository}),
@@ -36,7 +40,7 @@ public abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    public abstract AuthRepository bindAuthRepository(AuthRepositoryImpl impl);
+    public abstract AuthRepository bindAuthRepository(LocalAuthRepositoryImpl impl);
 
     @Binds
     @Singleton

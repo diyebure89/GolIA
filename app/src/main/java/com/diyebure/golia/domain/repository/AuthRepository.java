@@ -11,24 +11,24 @@ import com.diyebure.golia.domain.model.User;
 public interface AuthRepository {
 
     /**
-     * Authenticate user with email and password.
+     * Authenticate a user with an identifier (username OR email) and password.
      *
-     * @param email User's email address
+     * @param identifier User's username or email address
      * @param password User's password
      * @return Result containing User on success or exception on failure
      */
-    Result<User> login(String email, String password);
+    Result<User> login(String identifier, String password);
 
     /**
      * Register a new user account.
      *
-     * @param username Desired username (3-20 characters, alphanumeric with underscores)
+     * @param fullName User's full name
+     * @param username Desired username (nullable when not provided)
      * @param email User's email address
      * @param password User's password (minimum 8 characters)
-     * @param country User's country code
      * @return Result containing User on success or exception on failure
      */
-    Result<User> register(String username, String email, String password, String country);
+    Result<User> register(String fullName, String username, String email, String password);
 
     /**
      * Logout current user and clear session.

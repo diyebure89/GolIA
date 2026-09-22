@@ -33,16 +33,16 @@ public class RegisterUseCase {
     /**
      * Executes the registration off the main thread.
      *
-     * @param username desired username
+     * @param fullName user full name
+     * @param username desired username (nullable when not provided)
      * @param email    user email
      * @param password user password
-     * @param country  user country code
      * @param callback receives {@code Result.Success<User>} or {@code Result.Error}
      */
-    public void execute(String username, String email, String password, String country,
+    public void execute(String fullName, String username, String email, String password,
                         Callback<User> callback) {
         executor.execute(() -> {
-            Result<User> result = authRepository.register(username, email, password, country);
+            Result<User> result = authRepository.register(fullName, username, email, password);
             callback.onResult(result);
         });
     }

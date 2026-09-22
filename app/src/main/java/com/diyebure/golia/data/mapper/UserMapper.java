@@ -24,6 +24,8 @@ public class UserMapper {
 
         return new User(
                 userDto.getId(),
+                // El DTO remoto puede pasar null/vacío mientras la API no tenga el campo fullName
+                null,
                 userDto.getUsername(),
                 userDto.getEmail(),
                 userDto.getCountry(),
@@ -47,6 +49,7 @@ public class UserMapper {
 
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        // El DTO remoto no tiene campo fullName; se omite mientras la API no lo soporte
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
         userDto.setCountry(user.getCountry());

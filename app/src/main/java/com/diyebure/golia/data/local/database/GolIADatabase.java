@@ -7,10 +7,12 @@ import com.diyebure.golia.data.local.dao.CompetitionDao;
 import com.diyebure.golia.data.local.dao.MatchDao;
 import com.diyebure.golia.data.local.dao.PredictionDao;
 import com.diyebure.golia.data.local.dao.TeamDao;
+import com.diyebure.golia.data.local.dao.UserDao;
 import com.diyebure.golia.data.local.entity.CompetitionEntity;
 import com.diyebure.golia.data.local.entity.MatchEntity;
 import com.diyebure.golia.data.local.entity.PredictionEntity;
 import com.diyebure.golia.data.local.entity.TeamEntity;
+import com.diyebure.golia.data.local.entity.UserEntity;
 
 /**
  * Room database for the GolIA application.
@@ -29,9 +31,10 @@ import com.diyebure.golia.data.local.entity.TeamEntity;
                 MatchEntity.class,
                 TeamEntity.class,
                 CompetitionEntity.class,
-                PredictionEntity.class
+                PredictionEntity.class,
+                UserEntity.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 public abstract class GolIADatabase extends RoomDatabase {
@@ -45,4 +48,6 @@ public abstract class GolIADatabase extends RoomDatabase {
     public abstract CompetitionDao competitionDao();
 
     public abstract PredictionDao predictionDao();
+
+    public abstract UserDao userDao();
 }
