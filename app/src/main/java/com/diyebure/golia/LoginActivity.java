@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText input_correo;
     private EditText input_contrasena;
     private TextView text_crear_cuenta;
+    private TextView text_recuperar_password;
     private Button button_ingresar;
     private ProgressBar progressBar_login;
     private LoginViewModel loginViewModel;
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         input_correo = findViewById(R.id.input_correo);
         input_contrasena = findViewById(R.id.input_contrasena);
         text_crear_cuenta = findViewById(R.id.text_crear_cuenta);
+        text_recuperar_password = findViewById(R.id.textView6);
         button_ingresar = findViewById(R.id.button_ingresar);
         progressBar_login = findViewById(R.id.progressBar_login);
     }
@@ -63,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
     private void setupListeners() {
         text_crear_cuenta.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, RegistroActivity.class)));
+
+        text_recuperar_password.setOnClickListener(v ->
+                Toast.makeText(LoginActivity.this, R.string.recuperar_password_no_disponible, Toast.LENGTH_SHORT).show());
 
         button_ingresar.setOnClickListener(v -> {
             String email = input_correo != null && input_correo.getText() != null
@@ -112,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHome() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class); // antes: HomeActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

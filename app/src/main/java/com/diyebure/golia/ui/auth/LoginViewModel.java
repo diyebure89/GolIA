@@ -105,6 +105,7 @@ public class LoginViewModel extends ViewModel {
                 preferencesManager.setLoggedIn(true);
                 if (user != null) {
                     preferencesManager.saveUserId(user.getId());
+                    preferencesManager.saveUserName(user.getFullName()); // R11.1
                 }
                 navigateToHome.postValue(new Event<>(true));
             } else {

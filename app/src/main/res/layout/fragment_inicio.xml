@@ -1,77 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:background="@android:color/transparent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
         android:padding="16dp"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Encabezado -->
-        <TextView
-            android:text="GOL‑IA"
-            android:textColor="@color/primary_blue"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_gravity="center" />
-
-        <!-- Bienvenida -->
-        <TextView
-            android:id="@+id/text_welcome"
-            android:text="BIENVENIDO"
-            android:textColor="@color/text_white"
-            android:textSize="18sp"
-            android:layout_marginTop="16dp" />
-
-        <!-- Estadísticas -->
-        <TextView
-            android:id="@+id/text_stats"
-            android:text="0 Pronóst. | 0% Aciertos | 0 Puntos | #0 Ranking"
-            android:textColor="@color/text_gray"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp" />
-
-        <!-- Botón de racha -->
+        <!-- Encabezado: logo GOL-IA a la izquierda, campana de notificaciones a la derecha -->
         <LinearLayout
-            android:id="@+id/button_streak"
             android:orientation="horizontal"
-            android:background="@color/primary_blue"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="GOL-IA"
+                android:textColor="@color/blue_end"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/icon_notifications"
+                android:src="@drawable/ic_noticias"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/cd_notificaciones"
+                app:tint="@color/text_white" />
+        </LinearLayout>
+
+        <!-- Tarjeta de bienvenida -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/blue_dark"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="Racha: "
+                android:id="@+id/text_welcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BIENVENIDO"
                 android:textColor="@color/text_white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/text_streak_count"
-                android:text="0"
-                android:textColor="@color/gold"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <!-- Cuatro estadísticas independientes: etiqueta fija + valor -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false">
+
+                <!-- Pronósticos -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/text_stat_pronosticos_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/blue_end"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_pronosticos"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Aciertos -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/text_stat_aciertos_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="@color/blue_end"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_aciertos"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Puntos -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/text_stat_puntos_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/blue_end"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_puntos"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Ranking -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/text_stat_ranking_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#0"
+                        android:textColor="@color/blue_end"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_ranking"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Sección de partidos -->
-        <TextView
-            android:id="@+id/text_upcoming_matches"
-            android:text="Partidos próximos"
-            android:textColor="@color/text_white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+        <!-- Sección "Partidos próximos" con enlace "Ver todos" -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical">
 
-        <!-- Tarjeta 1: Barcelona vs Real Madrid -->
+            <TextView
+                android:id="@+id/text_upcoming_matches"
+                android:text="@string/partidos_proximos"
+                android:textColor="@color/text_white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/text_see_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ver_todos"
+                android:textColor="@color/blue_end"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Tarjeta 1: FC Barcelona vs Real Madrid -->
         <LinearLayout
             android:id="@+id/card_match_1"
             android:orientation="vertical"
-            android:background="@color/primary_blue"
+            android:background="@color/blue_dark"
             android:padding="12dp"
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
@@ -80,25 +210,67 @@
             android:focusable="true">
 
             <TextView
-                android:text="LA LIGA — JORNADA 38"
-                android:textColor="@color/text_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LA LIGA — JORNADA 38"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:text="FC Barcelona vs Real Madrid · 14 Jun · 20:00"
-                android:textColor="@color/text_white" />
+            <!-- Equipo local + cuota -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-            <TextView
-                android:text="2.1 FC | 3.2 Empate | 2.8 Real"
-                android:textColor="@color/text_white"
-                android:textStyle="italic" />
+                <TextView
+                    android:text="FC Barcelona"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.10"
+                    android:textColor="@color/blue_end"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Equipo visitante + cuota -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:text="Real Madrid"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.80"
+                    android:textColor="@color/blue_end"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Tarjeta 2: Lakers vs Warriors -->
+        <!-- Tarjeta 2: LA Lakers vs Golden State -->
         <LinearLayout
             android:id="@+id/card_match_2"
             android:orientation="vertical"
-            android:background="@color/primary_blue"
+            android:background="@color/blue_dark"
             android:padding="12dp"
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
@@ -107,18 +279,60 @@
             android:focusable="true">
 
             <TextView
-                android:text="NBA PLAYOFFS — CONF. FINAL"
-                android:textColor="@color/text_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NBA PLAYOFFS — CONF. FINAL"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:text="LA Lakers vs Golden State · 14 Jun · 22:30"
-                android:textColor="@color/text_white" />
+            <!-- Equipo local + cuota -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-            <TextView
-                android:text="1.9 Lakers | 1.95 Warriors"
-                android:textColor="@color/text_white"
-                android:textStyle="italic" />
+                <TextView
+                    android:text="LA Lakers"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.90"
+                    android:textColor="@color/blue_end"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Equipo visitante + cuota -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:text="Golden State"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.95"
+                    android:textColor="@color/blue_end"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

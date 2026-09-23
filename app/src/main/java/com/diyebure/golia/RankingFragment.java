@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link RankingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RankingFragment extends Fragment {
+public class RankingFragment extends BasePlaceholderFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +62,10 @@ public class RankingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ranking, container, false);
+    }
+
+    @Override
+    protected void bindPlaceholderData() {
+        // Placeholder: la vista se define de forma estática en el layout.
     }
 }

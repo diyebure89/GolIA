@@ -52,9 +52,9 @@ Decisiones estructurales clave:
 | `ui/auth/RegisterViewModel.java` | `fullName`, validación centralizada, `RegisterUseCase` real, `Event<T>`, mapeo `AuthError` |
 | `ui/auth/LoginViewModel.java` | identificador username-o-email, `Event<T>`, guardar sesión, mapeo `AuthError` |
 | `RegistroActivity.java` | wiring de `editText_nombre`, errores por `TextInputLayout`, navegar a `LoginActivity` en éxito, `button2` atrás |
-| `LoginActivity.java` | Toast global de credenciales, navegar a Home, guardar sesión |
+| `LoginActivity.java` | Toast global de credenciales, navegar a Home, guardar sesión; `OnClickListener` en `textView6` para el placeholder de recuperación de contraseña (R16) |
 | `activity_registro.xml` / `activity_login.xml` | asteriscos obligatorios, "(opcional)", leyenda |
-| `strings.xml` | mensajes de validación y errores tipados |
+| `strings.xml` | mensajes de validación y errores tipados; nuevo string `recuperar_password_no_disponible` (R16) |
 
 ## Architecture
 
@@ -882,6 +882,13 @@ public abstract class SecurityModule {
 - Éxito: guardar sesión (lo hace el ViewModel) y navegar a `Home_Screen`.
 - Error `INVALID_CREDENTIALS`: `Toast` global (no `setError` por campo) para no revelar qué falló.
 - Eventos vía `Event<T>`.
+
+#### Marcador de posición: recuperación de contraseña (R16)
+
+- **Elemento:** el enlace "¿Olvidaste la contraseña?" es el `TextView` con id `textView6` en `activity_login.xml` (texto del recurso `recuperar_pasword`).
+- **Comportamiento:** `LoginActivity` registra un `OnClickListener` sobre `textView6` que muestra un `Toast` con el string `recuperar_password_no_disponible` = "La recuperación de contraseña no está disponible en esta versión".
+- **Alcance:** es una funcionalidad **puramente de UI** (placeholder). No hay `ViewModel`, use case, repositorio ni cambios de dominio asociados; no toca `Login_System` ni la base de datos, y no dispara ningún flujo de recuperación (ni por correo ni por ningún otro medio).
+- **Justificación:** el MVP es 100% local (Room/SQLite), sin backend ni servicio de correo, por lo que una recuperación real de contraseña no es posible. El placeholder deja el punto de entrada listo para una implementación futura (por ejemplo, cuando exista un backend).
 
 ### Indicadores visuales de obligatoriedad (R12)
 

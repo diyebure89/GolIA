@@ -237,6 +237,11 @@ Las tareas marcadas con `*` son opcionales (tests) y pueden omitirse para un MVP
     - Modificar `LoginActivity.java`: usar `input_correo` como identificador; llamar `LoginViewModel.login(identifier, password)`; mostrar/ocultar carga y deshabilitar el botón durante `LOADING`; en éxito navegar a `Home_Screen`; en error `INVALID_CREDENTIALS` mostrar Toast global (no `setError` por campo); observar vía `Event<T>`.
     - _Requirements: 10.4, 10.5, 11.2, 13.2, 15.2_
 
+  - [x] 13.3 Añadir placeholder de "¿Olvidaste la contraseña?" en `LoginActivity`
+    - Añadir en `res/values/strings.xml` el string `recuperar_password_no_disponible` = "La recuperación de contraseña no está disponible en esta versión".
+    - En `LoginActivity.java`: enlazar el `TextView` `textView6` y registrar un `OnClickListener` que muestre un Toast con ese string. No hay ViewModel/use case/repositorio: es puramente de UI (placeholder). No ejecutar ningún flujo de recuperación.
+    - _Requirements: 16.1, 16.2, 16.3_
+
 - [x] 14. Checkpoint final - Verificación completa
   - Ensure all tests pass, ask the user if questions arise.
 
@@ -259,7 +264,7 @@ Las tareas marcadas con `*` son opcionales (tests) y pueden omitirse para un MVP
     { "id": 2, "tasks": ["2.3", "2.4", "2.5", "2.6", "2.7", "4.2", "4.3", "4.4", "5.2", "5.3", "6.2", "8.2", "11.1"] },
     { "id": 3, "tasks": ["5.4", "7.1", "8.1", "9.1", "11.2", "12.1", "12.2"] },
     { "id": 4, "tasks": ["7.2", "7.3", "7.4", "7.5", "7.6", "7.7", "7.8", "9.2", "9.3", "9.4", "11.3", "11.4", "12.3"] },
-    { "id": 5, "tasks": ["11.5", "11.6", "11.7", "13.1", "13.2"] }
+    { "id": 5, "tasks": ["11.5", "11.6", "11.7", "13.1", "13.2", "13.3"] }
   ]
 }
 ```

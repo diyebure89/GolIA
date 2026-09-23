@@ -1,0 +1,299 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Crear el ícono vectorial de Noticias": [
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061375770
+      },
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061495945
+      }
+    ],
+    "1.2 Reescribir el menú de navegación inferior a 5 destinos": [
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061377249
+      },
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061496780
+      }
+    ],
+    "1.3 Reescribir el ColorStateList de los ítems de navegación": [
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061378502
+      },
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061498320
+      }
+    ],
+    "1.4 Añadir las cadenas nuevas de la pantalla Inicio": [
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061379443
+      },
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061499469
+      }
+    ],
+    "1. Crear recursos base de navegación (íconos, menú, ColorStateList, strings)": [
+      {
+        "executionId": "922bd778-3c5c-43c4-8c0b-134f2abf8e8f",
+        "chatSessionId": "sess_da3939f1-5f23-43a5-ba93-2940842290c2",
+        "timestamp": 1790061499721
+      }
+    ],
+    "2.1 Añadir persistencia del nombre en PreferencesManager": [
+      {
+        "executionId": "3a513947-cd72-4e83-958c-15c6fea2edfa",
+        "chatSessionId": "sess_febf1864-09e9-44f6-8bb5-e9f023ea5d60",
+        "timestamp": 1790061556231
+      },
+      {
+        "executionId": "3a513947-cd72-4e83-958c-15c6fea2edfa",
+        "chatSessionId": "sess_febf1864-09e9-44f6-8bb5-e9f023ea5d60",
+        "timestamp": 1790061693274
+      }
+    ],
+    "2. Extender la sesión local con el nombre de usuario": [
+      {
+        "executionId": "3a513947-cd72-4e83-958c-15c6fea2edfa",
+        "chatSessionId": "sess_febf1864-09e9-44f6-8bb5-e9f023ea5d60",
+        "timestamp": 1790061693718
+      }
+    ],
+    "3.1 Crear BasePlaceholderFragment": [
+      {
+        "executionId": "d8fb6fcb-629b-4402-a213-c35777b7b8a2",
+        "chatSessionId": "sess_da9ec035-035b-4b5b-a4b9-1a3f5a410134",
+        "timestamp": 1790061748725
+      },
+      {
+        "executionId": "d8fb6fcb-629b-4402-a213-c35777b7b8a2",
+        "chatSessionId": "sess_da9ec035-035b-4b5b-a4b9-1a3f5a410134",
+        "timestamp": 1790061907468
+      }
+    ],
+    "3.2 Reescribir el enum Screen a 5 destinos con FragmentFactory": [
+      {
+        "executionId": "d8fb6fcb-629b-4402-a213-c35777b7b8a2",
+        "chatSessionId": "sess_da9ec035-035b-4b5b-a4b9-1a3f5a410134",
+        "timestamp": 1790061749550
+      },
+      {
+        "executionId": "d8fb6fcb-629b-4402-a213-c35777b7b8a2",
+        "chatSessionId": "sess_da9ec035-035b-4b5b-a4b9-1a3f5a410134",
+        "timestamp": 1790061908502
+      }
+    ],
+    "3. Crear el contrato de UI común y el enum de destinos": [
+      {
+        "executionId": "d8fb6fcb-629b-4402-a213-c35777b7b8a2",
+        "chatSessionId": "sess_da9ec035-035b-4b5b-a4b9-1a3f5a410134",
+        "timestamp": 1790061908733
+      }
+    ],
+    "4. Checkpoint - Asegurar que el proyecto compila y los tests pasan": [
+      {
+        "executionId": "21c500be-1d03-4a02-b515-309042098fc2",
+        "chatSessionId": "sess_d407d4e0-d94a-4e39-a26d-55d3c69fbc11",
+        "timestamp": 1790061952032
+      },
+      {
+        "executionId": "21c500be-1d03-4a02-b515-309042098fc2",
+        "chatSessionId": "sess_d407d4e0-d94a-4e39-a26d-55d3c69fbc11",
+        "timestamp": 1790062339079
+      }
+    ],
+    "5.1 Ajustar activity_main.xml": [
+      {
+        "executionId": "047d4402-21fc-48e3-a34b-a4dd3ebab77d",
+        "chatSessionId": "sess_ea809450-dd62-42fd-a0ee-7642864e6199",
+        "timestamp": 1790062406220
+      },
+      {
+        "executionId": "047d4402-21fc-48e3-a34b-a4dd3ebab77d",
+        "chatSessionId": "sess_ea809450-dd62-42fd-a0ee-7642864e6199",
+        "timestamp": 1790062658654
+      }
+    ],
+    "5.2 Rediseñar fragment_inicio.xml según el mockup": [
+      {
+        "executionId": "047d4402-21fc-48e3-a34b-a4dd3ebab77d",
+        "chatSessionId": "sess_ea809450-dd62-42fd-a0ee-7642864e6199",
+        "timestamp": 1790062407259
+      },
+      {
+        "executionId": "047d4402-21fc-48e3-a34b-a4dd3ebab77d",
+        "chatSessionId": "sess_ea809450-dd62-42fd-a0ee-7642864e6199",
+        "timestamp": 1790062659734
+      }
+    ],
+    "5. Rediseñar los layouts de la pantalla principal e Inicio": [
+      {
+        "executionId": "047d4402-21fc-48e3-a34b-a4dd3ebab77d",
+        "chatSessionId": "sess_ea809450-dd62-42fd-a0ee-7642864e6199",
+        "timestamp": 1790062659939
+      },
+      {
+        "executionId": "4fc2681f-4d94-479c-968d-058800ca1d2a",
+        "chatSessionId": "sess_bd6ac164-b6a6-425f-ac90-2cabf442099a",
+        "timestamp": 1790062675694
+      },
+      {
+        "executionId": "4fc2681f-4d94-479c-968d-058800ca1d2a",
+        "chatSessionId": "sess_bd6ac164-b6a6-425f-ac90-2cabf442099a",
+        "timestamp": 1790062781267
+      }
+    ],
+    "6.1 Migrar los cuatro fragments placeholder a BasePlaceholderFragment": [
+      {
+        "executionId": "c52bcbdb-9b2a-41fe-be72-cbaea7dfafbc",
+        "chatSessionId": "sess_ce269ee0-ae1f-4c2e-bc14-78b5f7f7154e",
+        "timestamp": 1790062800676
+      },
+      {
+        "executionId": "c52bcbdb-9b2a-41fe-be72-cbaea7dfafbc",
+        "chatSessionId": "sess_ce269ee0-ae1f-4c2e-bc14-78b5f7f7154e",
+        "timestamp": 1790062910988
+      }
+    ],
+    "6.2 Reescribir InicioFragment con datos de sesión y placeholders": [
+      {
+        "executionId": "c52bcbdb-9b2a-41fe-be72-cbaea7dfafbc",
+        "chatSessionId": "sess_ce269ee0-ae1f-4c2e-bc14-78b5f7f7154e",
+        "timestamp": 1790062912234
+      },
+      {
+        "executionId": "c52bcbdb-9b2a-41fe-be72-cbaea7dfafbc",
+        "chatSessionId": "sess_ce269ee0-ae1f-4c2e-bc14-78b5f7f7154e",
+        "timestamp": 1790063100649
+      }
+    ],
+    "6. Adaptar los fragments al contrato común": [
+      {
+        "executionId": "c52bcbdb-9b2a-41fe-be72-cbaea7dfafbc",
+        "chatSessionId": "sess_ce269ee0-ae1f-4c2e-bc14-78b5f7f7154e",
+        "timestamp": 1790063101132
+      }
+    ],
+    "7.1 Implementar la navegación show/hide por tag y el estado seleccionado": [
+      {
+        "executionId": "69bfe03d-3ba1-49e7-9240-3b7dc2aa6404",
+        "chatSessionId": "sess_498ee5f8-c319-4eba-b776-05743d7b88df",
+        "timestamp": 1790063154409
+      },
+      {
+        "executionId": "69bfe03d-3ba1-49e7-9240-3b7dc2aa6404",
+        "chatSessionId": "sess_498ee5f8-c319-4eba-b776-05743d7b88df",
+        "timestamp": 1790063278306
+      }
+    ],
+    "7.2 Implementar el manejo del botón atrás con OnBackPressedCallback": [
+      {
+        "executionId": "69bfe03d-3ba1-49e7-9240-3b7dc2aa6404",
+        "chatSessionId": "sess_498ee5f8-c319-4eba-b776-05743d7b88df",
+        "timestamp": 1790063279496
+      },
+      {
+        "executionId": "69bfe03d-3ba1-49e7-9240-3b7dc2aa6404",
+        "chatSessionId": "sess_498ee5f8-c319-4eba-b776-05743d7b88df",
+        "timestamp": 1790063521074
+      }
+    ],
+    "7. Reescribir MainActivity como host de navegación": [
+      {
+        "executionId": "69bfe03d-3ba1-49e7-9240-3b7dc2aa6404",
+        "chatSessionId": "sess_498ee5f8-c319-4eba-b776-05743d7b88df",
+        "timestamp": 1790063521484
+      }
+    ],
+    "8. Checkpoint - Asegurar que la navegación compila y los tests pasan": [
+      {
+        "executionId": "e300cc9e-d48e-4e11-8726-4f4bd16e92d4",
+        "chatSessionId": "sess_3f1cd605-4951-41d5-b8ec-96df2d1bcd67",
+        "timestamp": 1790063559196
+      },
+      {
+        "executionId": "e300cc9e-d48e-4e11-8726-4f4bd16e92d4",
+        "chatSessionId": "sess_3f1cd605-4951-41d5-b8ec-96df2d1bcd67",
+        "timestamp": 1790063699335
+      }
+    ],
+    "9.1 Guardar el nombre de usuario al iniciar sesión": [
+      {
+        "executionId": "900cdffd-3926-4602-a392-641b48e7bbc2",
+        "chatSessionId": "sess_932a1ea5-59b3-4732-ac5e-09a002923da9",
+        "timestamp": 1790063748998
+      },
+      {
+        "executionId": "900cdffd-3926-4602-a392-641b48e7bbc2",
+        "chatSessionId": "sess_932a1ea5-59b3-4732-ac5e-09a002923da9",
+        "timestamp": 1790063866883
+      }
+    ],
+    "9.2 Apuntar la navegación post-login a MainActivity": [
+      {
+        "executionId": "900cdffd-3926-4602-a392-641b48e7bbc2",
+        "chatSessionId": "sess_932a1ea5-59b3-4732-ac5e-09a002923da9",
+        "timestamp": 1790063749802
+      },
+      {
+        "executionId": "900cdffd-3926-4602-a392-641b48e7bbc2",
+        "chatSessionId": "sess_932a1ea5-59b3-4732-ac5e-09a002923da9",
+        "timestamp": 1790063867308
+      }
+    ],
+    "9. Integrar el login con la nueva sesión y host": [
+      {
+        "executionId": "900cdffd-3926-4602-a392-641b48e7bbc2",
+        "chatSessionId": "sess_932a1ea5-59b3-4732-ac5e-09a002923da9",
+        "timestamp": 1790063867581
+      }
+    ],
+    "10.1 Eliminar HomeActivity y su layout, y actualizar el manifest": [
+      {
+        "executionId": "8e0147eb-990a-47a0-8b60-1dd5eb681286",
+        "chatSessionId": "sess_4d600f38-cc24-41a3-975f-5b19ff7b243a",
+        "timestamp": 1790063906206
+      },
+      {
+        "executionId": "8e0147eb-990a-47a0-8b60-1dd5eb681286",
+        "chatSessionId": "sess_4d600f38-cc24-41a3-975f-5b19ff7b243a",
+        "timestamp": 1790064018204
+      }
+    ],
+    "10. Limpiar la actividad obsoleta": [
+      {
+        "executionId": "8e0147eb-990a-47a0-8b60-1dd5eb681286",
+        "chatSessionId": "sess_4d600f38-cc24-41a3-975f-5b19ff7b243a",
+        "timestamp": 1790064018550
+      }
+    ],
+    "11. Checkpoint final - Asegurar que todo compila y los tests pasan": [
+      {
+        "executionId": "1dd1079f-ad0e-48de-8ae5-f900aed387ec",
+        "chatSessionId": "sess_d565a4a2-26ca-4333-9d8d-cb8ab82474a1",
+        "timestamp": 1790064078085
+      },
+      {
+        "executionId": "1dd1079f-ad0e-48de-8ae5-f900aed387ec",
+        "chatSessionId": "sess_d565a4a2-26ca-4333-9d8d-cb8ab82474a1",
+        "timestamp": 1790064449042
+      }
+    ]
+  }
+}

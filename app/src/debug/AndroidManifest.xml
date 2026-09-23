@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Solo para builds DEBUG. En Android 9 (API 28) e inferior, exportar la
+        base de datos a la carpeta pública de Descargas requiere este permiso.
+        En Android 10+ se usa MediaStore y NO se necesita permiso.
+        Este manifest no se fusiona en el APK de release.
+    -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+</manifest>

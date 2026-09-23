@@ -8,12 +8,13 @@
     <!--LOGIN-->
     <string name="titulo_login"> Inicie sesión para continuar</string>
     <string name="lbl_usuario">Ingrese Usuario</string>
-    <string name="txt_usuario">Usuario</string>
+    <string name="txt_usuario">Usuario o correo electronico</string>
     <string name="lbl_password">Ingrese contraseña</string>
     <string name="txt_password">Contraseña</string>
     <string name="btn_ingresar">Ingresar</string>
     <string name="lbl_crear_cuenta">Registrarse</string>
     <string name="recuperar_pasword">¿Olvidaste la contraseña?</string>
+    <string name="recuperar_password_no_disponible">La recuperación de contraseña no está disponible en esta versión</string>
 
     <!--REGISTRO-->
     <string name="btn_registro">Registrarse</string>
@@ -85,5 +86,15 @@
 
     <!--MENU-->
 
+
+    <!--PANTALLA INICIO-->
+    <string name="inicio_bienvenida_formato">BIENVENIDO %1$s</string>
+    <string name="ver_todos">Ver todos</string>
+    <string name="partidos_proximos">Partidos próximos</string>
+    <string name="cd_notificaciones">Notificaciones</string>
+    <string name="stat_pronosticos">Pronóst.</string>
+    <string name="stat_aciertos">Aciertos</string>
+    <string name="stat_puntos">Puntos</string>
+    <string name="stat_ranking">Ranking</string>
 
 </resources>

@@ -18,3 +18,7 @@ local.properties
 build-output.log
 run.log
 *.log
+
+# Local runtime database dumps
+*.db
+build_output.txt

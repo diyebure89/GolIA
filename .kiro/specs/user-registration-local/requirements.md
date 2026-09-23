@@ -11,7 +11,7 @@ Nota sobre el motor de base de datos: este proyecto persiste localmente con Room
 ## Glossary
 
 - **Registration_System**: Componente del dominio y datos que valida y persiste un nuevo usuario en la base de datos local (RegisterUseCase + AuthRepository + UserDao/Room).
-- **Login_System**: Componente que valida las credenciales de un usuario contra la base de datos local (LoginUseCase + AuthRepository + UserDao/Room).
+- **Login_System**: Componente que valida las credenciales de un usuario contra la base de datos local (LoginUseCase + AuthRepository + UserDao/Room). En este MVP local no soporta ningún flujo de recuperación de contraseña.
 - **Registro_UI**: La pantalla RegistroActivity y su RegisterViewModel, responsables de recibir la entrada del usuario, mostrar mensajes de validación y reflejar estados de carga/éxito/error. Tras un registro exitoso navega a Login_UI y no inicia sesión automáticamente.
 - **Login_UI**: La pantalla LoginActivity y su LoginViewModel, responsables de recibir las credenciales, reflejar estados de carga/éxito/error y navegar a Home_Screen tras un inicio de sesión exitoso.
 - **Password_Hasher**: Componente que transforma una contraseña en un hash con salt para su almacenamiento y verificación, sin exponer la contraseña en texto plano. Utiliza PBKDF2WithHmacSHA256, disponible de forma nativa en Android sin dependencias externas.
@@ -194,3 +194,15 @@ Nota sobre el motor de base de datos: este proyecto persiste localmente con Room
 
 1. THE Registration_System y THE Login_System SHALL definir un conjunto tipado de errores de autenticación que incluya al menos USERNAME_TAKEN, EMAIL_TAKEN, INVALID_CREDENTIALS, PERSISTENCE_ERROR y VALIDATION_ERROR.
 2. WHEN el dominio devuelve un error tipado, THE Registro_UI y THE Login_UI SHALL traducir el error tipado a un mensaje localizado para el usuario, desacoplando la lógica de dominio de los textos de UI.
+
+### Requirement 16: Marcador de posición para recuperación de contraseña
+
+**User Story:** Como usuario que olvidó su contraseña, quiero recibir una indicación clara al pulsar "¿Olvidaste la contraseña?", para saber que la recuperación no está disponible todavía en esta versión.
+
+#### Acceptance Criteria
+
+1. THE Login_UI SHALL presentar el elemento "¿Olvidaste la contraseña?" (textView6) como un control interactivo sobre el que el usuario puede pulsar.
+2. WHEN el usuario pulsa el elemento "¿Olvidaste la contraseña?", THE Login_UI SHALL mostrar un aviso (Toast) indicando que la recuperación de contraseña no está disponible en esta versión.
+3. THE Login_System SHALL NOT ejecutar ningún flujo de recuperación de contraseña, ni por correo electrónico ni por ningún otro medio, en este MVP local.
+
+**Nota de alcance:** dado que este MVP no dispone de backend ni de servicio de correo, la recuperación real de contraseña queda explícitamente fuera de alcance; el marcador de posición deja preparado el punto de entrada para una implementación futura.

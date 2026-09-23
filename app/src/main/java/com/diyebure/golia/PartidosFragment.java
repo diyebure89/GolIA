@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Fragment displaying all matches with filtering options.
  */
-public class PartidosFragment extends Fragment {
+public class PartidosFragment extends BasePlaceholderFragment {
 
     private TabLayout filterTabs;
     private RecyclerView matchesRecyclerView;
@@ -42,8 +42,8 @@ public class PartidosFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindPlaceholderData() {
+        View view = requireView();
         initializeViews(view);
         setupFilterTabs();
         loadMatches();

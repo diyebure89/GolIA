@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_home"
-        android:title="Inicio" />
-
-    <item
-        android:id="@+id/nav_matches"
-        android:icon="@drawable/ic_partidos"
-        android:title="Partidos" />
-
-    <item
-        android:id="@+id/nav_predictions"
-        android:icon="@drawable/ic_ranking"
-        android:title="Pronósticos" />
-
-    <item
-        android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_perfil"
-        android:title="Perfil" />
-
+    <item android:id="@+id/nav_inicio"   android:icon="@drawable/ic_home"     android:title="@string/inicio" />
+    <item android:id="@+id/nav_partidos" android:icon="@drawable/ic_partidos" android:title="@string/partidos" />
+    <item android:id="@+id/nav_noticias" android:icon="@drawable/ic_noticias" android:title="@string/noticias" />
+    <item android:id="@+id/nav_ranking"  android:icon="@drawable/ic_ranking"  android:title="@string/ranking" />
+    <item android:id="@+id/nav_perfil"   android:icon="@drawable/ic_perfil"   android:title="@string/perfil" />
 </menu>

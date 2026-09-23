@@ -30,6 +30,7 @@ public class PreferencesManager {
     private static final String KEY_ACCESS_TOKEN = "access_token";
     private static final String KEY_REFRESH_TOKEN = "refresh_token";
     private static final String KEY_USER_ID = "user_id";
+    private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
     private static final String KEY_TOKEN_EXPIRY = "token_expiry";
 
@@ -198,6 +199,22 @@ public class PreferencesManager {
     }
 
     /**
+     * Save user name securely.
+     */
+    public void saveUserName(String userName) {
+        String encrypted = encrypt(userName);
+        sharedPreferences.edit().putString(KEY_USER_NAME, encrypted).apply();
+    }
+
+    /**
+     * Get user name.
+     */
+    public String getUserName() {
+        String encrypted = sharedPreferences.getString(KEY_USER_NAME, null);
+        return decrypt(encrypted);
+    }
+
+    /**
      * Save token expiry timestamp.
      */
     public void saveTokenExpiry(long expiryTimestamp) {
@@ -247,6 +264,7 @@ public class PreferencesManager {
                 .remove(KEY_ACCESS_TOKEN)
                 .remove(KEY_REFRESH_TOKEN)
                 .remove(KEY_USER_ID)
+                .remove(KEY_USER_NAME)
                 .remove(KEY_IS_LOGGED_IN)
                 .remove(KEY_TOKEN_EXPIRY)
                 .apply();
