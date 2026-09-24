@@ -21,4 +21,7 @@ run.log
 
 # Local runtime database dumps
 *.db
+*.db-shm
+*.db-wal
+db_export/
 build_output.txt
