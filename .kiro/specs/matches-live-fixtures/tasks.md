@@ -8,29 +8,29 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
 
 ## Tasks
 
-- [ ] 1. Contrato del proveedor API-Football y reescritura del cliente
-  - [ ] 1.1 Configurar la API_Key vía BuildConfig
+- [x] 1. Contrato del proveedor API-Football y reescritura del cliente
+  - [x] 1.1 Configurar la API_Key vía BuildConfig
     - Añadir en `app/build.gradle` la lectura de `API_FOOTBALL_KEY` desde `local.properties` y exponerla como `buildConfigField "String", "API_FOOTBALL_KEY", ...`
     - Añadir la clave a `local.properties` (no versionado) y asegurar que `local.properties` esté en `.gitignore`
     - No incluir el valor literal de la clave en ningún archivo versionado
     - _Requirements: 2.1, 2.2_
 
-  - [ ] 1.2 Crear los DTOs anidados de API-Football
+  - [x] 1.2 Crear los DTOs anidados de API-Football
     - Crear en `data/remote/dto`: `FixtureResponseDto`, `FixtureItemDto`, `FixtureDto`, `StatusDto`, `VenueDto`, `LeagueDto`, `TeamsDto`, `TeamSideDto`, `GoalsDto` con anotaciones `@SerializedName` según el JSON de `/fixtures` (`response[].fixture/teams/goals/league`)
     - `StatusDto` expone `short` (mapeado a `shortCode`) y `elapsed`; `LeagueDto` expone `id`, `name`, `round`, `logo`; `VenueDto` expone `name`, `city`
     - _Requirements: 1.4, 1B.1, 1B.3_
 
-  - [ ] 1.3 Reescribir la interfaz FootballApiService al esquema /fixtures
+  - [x] 1.3 Reescribir la interfaz FootballApiService al esquema /fixtures
     - Reescribir `data/remote/api/FootballApiService` con `getFixturesByDate(@Query("date") String date)` y `getFixturesByLeague(@Query("league") int leagueId, @Query("season") int season)`, ambos devolviendo `Call<FixtureResponseDto>`
     - Eliminar/deprecar los métodos estilo football-data.org (`getCompetitions`, `getMatchesByDate` antiguo, `competitions/{id}/matches`, `teams/{id}`, `teams/{id}/matches`)
     - No usar identificadores de competición en formato cadena (`"PL"`), solo IDs numéricos vía query
     - _Requirements: 1.1, 1B.1, 1B.2, 1B.4_
 
-  - [ ] 1.4 Crear el ApiKeyInterceptor
+  - [x] 1.4 Crear el ApiKeyInterceptor
     - Crear `data/remote/ApiKeyInterceptor` (OkHttp `Interceptor`) que añade el header `x-apisports-key` con `BuildConfig.API_FOOTBALL_KEY` a cada petición
     - _Requirements: 1.2, 2.1_
 
-  - [ ] 1.5 Crear el StatusMapper
+  - [x] 1.5 Crear el StatusMapper
     - Crear `data/mapper/StatusMapper` con `MatchStatus map(String apiShortCode)` implementando la tabla del Requisito 6B (NS→SCHEDULED; 1H/HT/2H/ET/BT/P/LIVE→LIVE; FT/AET/PEN→FINISHED; PST→POSTPONED; CANC/ABD→CANCELLED)
     - Códigos nulos/vacíos/desconocidos → `SCHEDULED` por defecto y registrar (log) el código no reconocido
     - _Requirements: 6B.1, 6B.2_
@@ -44,37 +44,37 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
     - Tag: `Feature: matches-live-fixtures, Property 1`; ≥100 iteraciones; totalidad, correctitud e idempotencia
     - _Requirements: 6B.1, 6B.2_ _Properties: 1_
 
-  - [ ] 1.8 Crear el mapper DTO→dominio con filtro de Ligas_Objetivo
+  - [x] 1.8 Crear el mapper DTO→dominio con filtro de Competiciones_Objetivo
     - Crear `data/mapper/FixtureMapper` que transforma `FixtureItemDto` en `Match`, `Team`, `Competition`, usando `StatusMapper` para el estado y `fixture.status.elapsed` para el Minuto_Juego cuando el estado normalizado es `LIVE`
-    - Descartar partidos cuya `league.id` no pertenezca al conjunto de las seis Ligas_Objetivo (39, 140, 135, 78, 61, 239)
-    - Definir constante con el mapeo de las seis Ligas_Objetivo a sus IDs numéricos
+    - Descartar partidos cuya `league.id` no pertenezca al conjunto ampliado de Competiciones_Objetivo: ligas domésticas 39 (Premier League), 140 (LaLiga), 135 (Serie A), 78 (Bundesliga), 61 (Ligue 1), 239 (Colombia Primera A); clubes 2 (UEFA Champions League); selecciones 5 (UEFA Nations League) y Clasificación al Mundial 32 (Europa), 34 (Sudamérica/Conmebol), 29 (África), 30 (Asia), 31 (CONCACAF), 33 (Oceanía), 37 (Repechaje Intercontinental)
+    - Definir la constante `TARGET_LEAGUE_IDS` con el conjunto ampliado de IDs numéricos (39, 140, 135, 78, 61, 239, 2, 5, 32, 34, 29, 30, 31, 33, 37)
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 6B.3_
 
   - [ ]* 1.9 Test unitario de FixtureMapper
-    - Verificar mapeo de `FixtureItemDto` a `Match`/`Team`/`Competition` incluyendo venue/round/elapsed y el filtro de Ligas_Objetivo (descartar ligas fuera del conjunto)
+    - Verificar mapeo de `FixtureItemDto` a `Match`/`Team`/`Competition` incluyendo venue/round/elapsed y el filtro de Competiciones_Objetivo (descartar competiciones fuera del conjunto)
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 6B.3_
 
-- [ ] 2. Ampliación de datos y migración Room
-  - [ ] 2.1 Ampliar el modelo de dominio Match
+- [x] 2. Ampliación de datos y migración Room
+  - [x] 2.1 Ampliar el modelo de dominio Match
     - Añadir a `Match` los campos `Integer elapsedMinute`, `String venueName`, `String venueCity` con sus getters/setters; conservar las cuotas existentes sin cambios
     - _Requirements: 5.1, 5.5, 6.5_
 
-  - [ ] 2.2 Ampliar MatchEntity y su mapeo
+  - [x] 2.2 Ampliar MatchEntity y su mapeo
     - Añadir a `data/local/entity/MatchEntity` las columnas `@ColumnInfo(name="elapsed_minute") Integer elapsedMinute`, `@ColumnInfo(name="venue_name") String venueName`, `@ColumnInfo(name="venue_city") String venueCity`
     - Actualizar `toDomainModel()`/`fromDomainModel()` para mapear los tres campos nuevos y el marcador (goles local/visitante) y el Minuto_Juego
     - _Requirements: 5.1, 5.5, 6.5_
 
-  - [ ] 2.3 Definir la migración Room 2→3 y subir versión
+  - [x] 2.3 Definir la migración Room 2→3 y subir versión
     - Añadir en `GolIADatabase` la `Migration MIGRATION_2_3` con `ALTER TABLE matches ADD COLUMN` para `elapsed_minute`, `venue_name`, `venue_city`; subir `@Database(version = 3)`
     - Registrar `.addMigrations(MIGRATION_2_3)` en el `DatabaseModule` (Hilt)
     - _Requirements: 5.1, 5.5, 6.5_
 
-  - [ ]* 2.4 Test de migración Room (MigrationTestHelper)
+  - [x] 2.4 Test de migración Room (MigrationTestHelper)
     - Crear la BD en versión 2, migrar a 3 con `MIGRATION_2_3` y verificar que existen las columnas nuevas y que los datos previos se conservan
     - _Requirements: 5.1, 5.5, 6.5_
 
-- [ ] 3. Componentes de infraestructura
-  - [ ] 3.1 Implementar TimeRangeCalculator (Utilidad_Zona_Local)
+- [x] 3. Componentes de infraestructura
+  - [x] 3.1 Implementar TimeRangeCalculator (Utilidad_Zona_Local)
     - Crear la utilidad con `Range today(ZoneId)`, `Range tomorrow(ZoneId)`, `Range thisWeek(ZoneId)` e `isWithin(long epochMillis, Range)`, con límites en ms inclusivos (`00:00:00.000` / `23:59:59.999`), y clase interna `Range { long startMs; long endMs; }`
     - Único punto de verdad del cálculo de rangos temporales
     - _Requirements: 3.7, 4.1, 4.2_
@@ -88,7 +88,7 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
     - Tag: `Feature: matches-live-fixtures, Property 2`; ≥100 iteraciones
     - _Requirements: 3.4, 3.5, 3.6, 3.8, 4.1, 4.2_ _Properties: 2_
 
-  - [ ] 3.4 Implementar RequestBudgetManager
+  - [x] 3.4 Implementar RequestBudgetManager
     - Crear el gestor persistente (SharedPreferences vía `PreferencesManager`) del Presupuesto_Peticiones con `canRequest()`, `isMinIntervalElapsed()` (≥60000 ms), `recordRequest()`, `isExhausted()` (≥100) y `resetIfNewDay()`
     - _Requirements: 7.3, 7.4, 7.7_
 
@@ -101,7 +101,7 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
     - Tag: `Feature: matches-live-fixtures, Property 5`; ≥100 iteraciones
     - _Requirements: 7.3, 7.4, 7.7_ _Properties: 5_
 
-  - [ ] 3.7 Implementar SearchTextNormalizer
+  - [x] 3.7 Implementar SearchTextNormalizer
     - Crear la utilidad `String normalize(String)` que pasa a minúsculas y elimina diacríticos (`java.text.Normalizer` NFD + regex `\p{M}`)
     - _Requirements: 10.4_
 
@@ -114,48 +114,48 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
     - Tag: `Feature: matches-live-fixtures, Property 4`; ≥100 iteraciones
     - _Requirements: 10.4_ _Properties: 4_
 
-  - [ ] 3.10 Implementar LiveRefreshScheduler
+  - [x] 3.10 Implementar LiveRefreshScheduler
     - Crear el temporizador ligado al lifecycle con `start(long intervalMs, Runnable onTick)`, `stop()`, `isRunning()` (basado en `Handler`/`ScheduledExecutorService`)
     - _Requirements: 7.5, 7.6, 7B.1, 7B.2_
 
-- [ ] 4. Refactor del repositorio a firmas asíncronas
-  - [ ] 4.1 Actualizar la interfaz MatchRepository
+- [x] 4. Refactor del repositorio a firmas asíncronas
+  - [x] 4.1 Actualizar la interfaz MatchRepository
     - Redefinir `MatchRepository` con `getMatches(Callback<Result<List<Match>>>)` (cache-first), `refreshMatchesByDate(String isoDate, Callback<Result<List<Match>>>)`, `refreshLiveMatches(Callback<Result<List<Match>>>)`, `clearCache()`
     - Deprecar/eliminar los métodos football-data.org y las variantes síncronas previas
     - _Requirements: 1B.2, 12.5, 12.6_
 
-  - [ ] 4.2 Refactorizar MatchRepositoryImpl con @IoExecutor y Result
+  - [x] 4.2 Refactorizar MatchRepositoryImpl con @IoExecutor y Result
     - Ejecutar toda E/S de red y Room en el `@IoExecutor` (`ExecutorService`), publicando resultados vía `Callback<Result<...>>`; nunca en el hilo principal
-    - `getMatches`: leer de Cache_Partidos primero; `refreshMatchesByDate`: llamar `getFixturesByDate`, aplicar `StatusMapper`, filtrar a Ligas_Objetivo, mapear a dominio y upsert en Room; `refreshLiveMatches`: refresco en vivo
+    - `getMatches`: leer de Cache_Partidos primero; `refreshMatchesByDate`: llamar `getFixturesByDate`, aplicar `StatusMapper`, filtrar a Competiciones_Objetivo, mapear a dominio y upsert en Room; `refreshLiveMatches`: refresco en vivo
     - Integrar `RequestBudgetManager`: comprobar `canRequest()`/`isMinIntervalElapsed()` antes de cada petición, `recordRequest()` al realizarla; si `isExhausted()`, no realizar petición y devolver `Result.Success` con datos de caché
     - Propagar fallos de red/API/persistencia como `Result.Error` tipado
     - _Requirements: 1.1, 6B.1, 6B.3, 7.1, 7.2, 7.3, 7.7, 7.8, 12.5, 12.6_
 
   - [ ]* 4.3 Test unitario de MatchRepositoryImpl
-    - Con fakes de `FootballApiService`, DAOs y `RequestBudgetManager`: verificar cache-first, filtro de ligas, upsert, degradación a caché con cuota agotada y propagación de `Result.Error`
+    - Con fakes de `FootballApiService`, DAOs y `RequestBudgetManager`: verificar cache-first, filtro de Competiciones_Objetivo, upsert, degradación a caché con cuota agotada y propagación de `Result.Error`
     - _Requirements: 7.1, 7.7, 7.8, 12.6_
 
-- [ ] 5. Casos de uso del dominio
-  - [ ] 5.1 Implementar GetMatchesUseCase
+- [x] 5. Casos de uso del dominio
+  - [x] 5.1 Implementar GetMatchesUseCase
     - Crear `domain/usecase/GetMatchesUseCase` con `execute(Callback<Result<List<Match>>>)` delegando en `MatchRepository.getMatches`
     - _Requirements: 12.2, 12.3_
 
-  - [ ] 5.2 Implementar RefreshMatchesUseCase
+  - [x] 5.2 Implementar RefreshMatchesUseCase
     - Crear `domain/usecase/RefreshMatchesUseCase` con `execute(String isoDate, Callback<Result<List<Match>>>)` delegando en `refreshMatchesByDate`
     - _Requirements: 7.1, 7.2, 12.2, 12.3_
 
-  - [ ] 5.3 Implementar RefreshLiveMatchesUseCase
+  - [x] 5.3 Implementar RefreshLiveMatchesUseCase
     - Crear `domain/usecase/RefreshLiveMatchesUseCase` con `execute(Callback<Result<List<Match>>>)` delegando en `refreshLiveMatches`
     - _Requirements: 7.5, 12.2, 12.3_
 
-- [ ] 6. Capa de presentación
-  - [ ] 6.1 Crear modelos de presentación PartidosUiState, MatchUiModel y ChipHorario
+- [x] 6. Capa de presentación
+  - [x] 6.1 Crear modelos de presentación PartidosUiState, MatchUiModel y ChipHorario
     - Crear `PartidosUiState` (Loading, Content con `offlineNotice`/`quotaNotice`, Empty con `Type{FILTER,SEARCH}`, Error con `message`/`retryable`)
     - Crear `MatchUiModel` con los campos del diseño (liga, jornada, nombres, logos, hora local formateada, marcador/minuto, estadio, `status`, `scheduledDateTime`)
     - Crear `enum ChipHorario { HOY, MANANA, ESTA_SEMANA }`
     - _Requirements: 9.1, 9.2, 9.3, 10.7, 11.1, 7.7_
 
-  - [ ] 6.2 Implementar PartidosViewModel (@HiltViewModel)
+  - [x] 6.2 Implementar PartidosViewModel (@HiltViewModel)
     - Anotar con `@HiltViewModel`, inyectar los tres casos de uso, `TimeRangeCalculator`, `SearchTextNormalizer`, `LiveRefreshScheduler`; exponer `LiveData<PartidosUiState>`
     - `onChipSelected`: recalcular rango con `TimeRangeCalculator` y re-filtrar; `onSearchQueryChanged`: debounce 300 ms + normalización y re-filtrar dentro del chip activo; `onRefresh`/`onRetry`: solicitar refresco por fecha respetando el intervalo compartido de 60 s
     - `sortMatches`: `Comparator` compuesto grupo (LIVE=0, resto=1) → `scheduledDateTime` ascendente → liga alfabética → equipo local alfabético
@@ -176,36 +176,36 @@ Cada tarea es incremental y construye sobre las anteriores. Las sub-tareas de pr
     - Con `InstantTaskExecutorRule` y fakes de casos de uso/utilidades: transiciones Loading→Content/Empty/Error, selección de chip, búsqueda con debounce (tiempo controlable), reintento y arranque/parada de polling
     - _Requirements: 3.3, 7.7, 9.1, 9.2, 9.3, 9.4, 10.3, 10.6, 10.7_
 
-  - [ ] 6.6 Implementar MatchesAdapter con DiffUtil y Glide
+  - [x] 6.6 Implementar MatchesAdapter con DiffUtil y Glide
     - Crear `MatchesAdapter extends ListAdapter<MatchUiModel, VH>` con `MatchDiffCallback` (`areItemsTheSame` por id, `areContentsTheSame` por campos visibles)
     - En bind: liga+jornada, nombres, hora local, marcador/minuto según estado, estadio; cargar logos con Glide con placeholder ante error
     - _Requirements: 4.3, 5.2, 5.3, 5.4, 6.1, 6.2, 6.3, 12.4_
 
-- [ ] 7. UI y layouts con la paleta del login
+- [x] 7. UI y layouts con la paleta del login
   - [ ] 7.1 Rediseñar item_match.xml
     - Quitar `text_odds1`/`text_odds_x`/`text_odds2`; añadir `ImageView` de logos local/visitante, `TextView` de marcador, minuto en vivo y estadio; aplicar la paleta (`blue_dark`, `blue_start`, `blue_end`, `text_gray`)
     - _Requirements: 5.1, 5.2, 5.3, 6.1, 6.2, 6.3, 13.3_
 
-  - [ ] 7.2 Rediseñar fragment_partidos.xml
+  - [x] 7.2 Rediseñar fragment_partidos.xml
     - Reemplazar `TabLayout` por un `ChipGroup` (`singleSelection=true`) con chips "Hoy"/"Mañana"/"Esta semana"; encabezado "GOL-IA" con campana, título "Partidos" con icono de búsqueda; `SwipeRefreshLayout` envolviendo `recycler_matches`; `empty_view` (id `empty_view`); fondo con la paleta oscura azul del login
     - _Requirements: 3.1, 9.2, 13.1, 13.2_
 
-  - [ ] 7.3 Refactorizar PartidosFragment
+  - [x] 7.3 Refactorizar PartidosFragment
     - Eliminar la lógica mock y el adapter interno; extender `BasePlaceholderFragment` (`bindPlaceholderData()`); obtener `PartidosViewModel` con Hilt
     - `setupChips` (selección única, "Hoy" por defecto, resaltar activo con `blue_end`), `setupSearch` (TextWatcher → debounce delegado al ViewModel), `setupSwipeRefresh` (→ `onRefresh`), `observeState`/`render` (carga/contenido/vacío filtro/vacío búsqueda/error con reintentar, avisos offline/cuota, `submitList`)
     - `onResume` → `startLivePolling`, `onPause` → `stopLivePolling`
     - _Requirements: 3.1, 3.2, 3.3, 3.9, 7.2, 7B.1, 7B.2, 9.1, 9.2, 9.3, 9.4, 10.1, 10.5, 10.7, 11.1, 11.2, 12.1, 12.4_
 
-- [ ] 8. Wiring de Hilt
-  - [ ] 8.1 Configurar el módulo de red con ApiKeyInterceptor y FootballApiService
+- [x] 8. Wiring de Hilt
+  - [x] 8.1 Configurar el módulo de red con ApiKeyInterceptor y FootballApiService
     - En el `NetworkModule` (Hilt): registrar `ApiKeyInterceptor` en el `OkHttpClient`, configurar `Retrofit` con la base URL de API-Football y proveer `FootballApiService`
     - _Requirements: 1.2, 2.1, 12.3_
 
-  - [ ] 8.2 Proveer las utilidades de infraestructura y casos de uso
+  - [x] 8.2 Proveer las utilidades de infraestructura y casos de uso
     - Proveer `RequestBudgetManager`, `TimeRangeCalculator`, `SearchTextNormalizer`, `LiveRefreshScheduler` y los tres casos de uso; asegurar el binding de `MatchRepository`→`MatchRepositoryImpl` y del `@IoExecutor`
     - _Requirements: 12.3, 12.5_
 
-- [ ] 9. Checkpoint final
+- [x] 9. Checkpoint final
   - Asegurar que todas las pruebas pasan; preguntar al usuario si surgen dudas.
 
 ## Notes

@@ -24,6 +24,9 @@ public class Match {
     private double homeOdds;
     private double drawOdds;
     private double awayOdds;
+    private Integer elapsedMinute;
+    private String venueName;
+    private String venueCity;
 
     public Match() {
         this.id = UUID.randomUUID();
@@ -73,6 +76,9 @@ public class Match {
     public double getHomeOdds() { return homeOdds; }
     public double getDrawOdds() { return drawOdds; }
     public double getAwayOdds() { return awayOdds; }
+    public Integer getElapsedMinute() { return elapsedMinute; }
+    public String getVenueName() { return venueName; }
+    public String getVenueCity() { return venueCity; }
 
     // Setters
     public void setId(UUID id) { this.id = id; }
@@ -93,4 +99,7 @@ public class Match {
     public void setHomeOdds(double homeOdds) { this.homeOdds = homeOdds; }
     public void setDrawOdds(double drawOdds) { this.drawOdds = drawOdds; }
     public void setAwayOdds(double awayOdds) { this.awayOdds = awayOdds; }
+    public void setElapsedMinute(Integer elapsedMinute) { this.elapsedMinute = elapsedMinute; }
+    public void setVenueName(String venueName) { this.venueName = venueName; }
+    public void setVenueCity(String venueCity) { this.venueCity = venueCity; }
 }

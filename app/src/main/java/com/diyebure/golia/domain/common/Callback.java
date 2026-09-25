@@ -10,6 +10,7 @@ package com.diyebure.golia.domain.common;
  *
  * @param <T> type of the value carried on success
  */
+@FunctionalInterface
 public interface Callback<T> {
 
     void onResult(Result<T> result);

@@ -34,6 +34,12 @@ public class PreferencesManager {
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
     private static final String KEY_TOKEN_EXPIRY = "token_expiry";
 
+    // Request-budget keys (Presupuesto_Peticiones). Stored as plain (non-encrypted)
+    // values because they are counters/timestamps, not secrets.
+    private static final String KEY_REQUEST_COUNT = "request_count";
+    private static final String KEY_LAST_REQUEST_TS = "last_request_ts";
+    private static final String KEY_BUDGET_DAY = "budget_day";
+
     // Encryption constants
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
     private static final String KEY_ALIAS = "golia_auth_key";
@@ -279,5 +285,56 @@ public class PreferencesManager {
             return "Bearer " + token;
         }
         return null;
+    }
+
+    // ------------------------------------------------------------------
+    // Request-budget helpers (Presupuesto_Peticiones)
+    //
+    // These persist the daily API-Football request budget state. Values are
+    // stored in plain (non-encrypted) prefs keys because they are not secrets.
+    // Consumed by RequestBudgetManager (Requisitos 7.3, 7.4, 7.7).
+    // ------------------------------------------------------------------
+
+    /**
+     * Get the number of requests recorded for the current budget day.
+     */
+    public int getRequestCount() {
+        return sharedPreferences.getInt(KEY_REQUEST_COUNT, 0);
+    }
+
+    /**
+     * Persist the number of requests recorded for the current budget day.
+     */
+    public void setRequestCount(int count) {
+        sharedPreferences.edit().putInt(KEY_REQUEST_COUNT, count).apply();
+    }
+
+    /**
+     * Get the epoch-millis timestamp of the last recorded request, or 0 if none.
+     */
+    public long getLastRequestTimestamp() {
+        return sharedPreferences.getLong(KEY_LAST_REQUEST_TS, 0L);
+    }
+
+    /**
+     * Persist the epoch-millis timestamp of the last recorded request.
+     */
+    public void setLastRequestTimestamp(long timestampMs) {
+        sharedPreferences.edit().putLong(KEY_LAST_REQUEST_TS, timestampMs).apply();
+    }
+
+    /**
+     * Get the day marker (an integer identifying the calendar day) for which the
+     * current request count applies, or 0 if none has been recorded yet.
+     */
+    public int getBudgetDay() {
+        return sharedPreferences.getInt(KEY_BUDGET_DAY, 0);
+    }
+
+    /**
+     * Persist the day marker for which the current request count applies.
+     */
+    public void setBudgetDay(int day) {
+        sharedPreferences.edit().putInt(KEY_BUDGET_DAY, day).apply();
     }
 }

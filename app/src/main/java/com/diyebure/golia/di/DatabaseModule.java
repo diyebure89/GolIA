@@ -39,9 +39,11 @@ public class DatabaseModule {
                         context,
                         GolIADatabase.class,
                         GolIADatabase.DATABASE_NAME)
-                // Destructive migration keeps early development simple. Replace
-                // with real Migration objects before shipping to production so
-                // user data survives schema changes.
+                // Explicit migration 2 -> 3 preserves user data when the
+                // matches schema gains the elapsed_minute / venue columns.
+                // fallbackToDestructiveMigration remains as a safety net for
+                // any other (pre-2) schema jump during early development.
+                .addMigrations(GolIADatabase.MIGRATION_2_3)
                 .fallbackToDestructiveMigration()
                 .build();
     }

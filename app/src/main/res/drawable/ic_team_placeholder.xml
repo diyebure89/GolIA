@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Placeholder para logos de equipo cuando Glide no puede cargar/decodificar
+  la imagen remota (Requisitos 5.3, 5.4). Se usa como placeholder y error
+  drawable en MatchesAdapter y en item_match.xml (rediseño de la tarea 7.1).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#B0B0B0"
+        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,4c1.1,0 2.16,0.2 3.13,0.56l-1.6,1.79 -3.06,0 -1.6,-1.79C9.84,4.2 10.9,4 12,4zM4.56,8.87l2.2,0.71 0.95,2.92 -1.86,2.52 -2.32,0.03C4.09,15.09 4,14.06 4,13c0,-1.47 0.32,-2.86 0.9,-4.13zM8.34,20.06L6.9,18.24l0.94,-2.86h2.55l0.94,2.86 -1.44,1.82C10.11,19.96 9.07,20 8.34,20.06zM12,12.6l-1.9,-1.38 0.73,-2.24h2.34l0.73,2.24L12,12.6zM15.66,20.06c-0.73,-0.06 -1.77,-0.1 -2.66,-0.18l0,0 -1.44,-1.82 0.94,-2.86h2.55l0.94,2.86 -1.44,1.82zM19.15,15.05l-2.32,-0.03 -1.86,-2.52 0.95,-2.92 2.2,-0.71C18.68,10.14 20,11.53 20,13 20,14.06 19.91,15.09 19.15,15.05z" />
+</vector>

@@ -1,7 +1,10 @@
 package com.diyebure.golia.data.local.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.diyebure.golia.data.local.dao.CompetitionDao;
 import com.diyebure.golia.data.local.dao.MatchDao;
@@ -34,12 +37,29 @@ import com.diyebure.golia.data.local.entity.UserEntity;
                 PredictionEntity.class,
                 UserEntity.class
         },
-        version = 2,
-        exportSchema = false
+        version = 3,
+        exportSchema = true
 )
 public abstract class GolIADatabase extends RoomDatabase {
 
     public static final String DATABASE_NAME = "golia_database";
+
+    /**
+     * Migration from schema version 2 to 3.
+     *
+     * <p>Adds the {@code elapsed_minute}, {@code venue_name} and
+     * {@code venue_city} columns to the {@code matches} table to support the
+     * live minute and venue information from API-Football. Existing rows are
+     * preserved; the new columns default to NULL.
+     */
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase db) {
+            db.execSQL("ALTER TABLE matches ADD COLUMN elapsed_minute INTEGER");
+            db.execSQL("ALTER TABLE matches ADD COLUMN venue_name TEXT");
+            db.execSQL("ALTER TABLE matches ADD COLUMN venue_city TEXT");
+        }
+    };
 
     public abstract MatchDao matchDao();
 

@@ -14,6 +14,8 @@ import com.diyebure.golia.presentation.ui.common.Screen;
 import com.diyebure.golia.util.DebugTools;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Host único de navegación tras el login. Aloja el {@code fragment_container} y
  * la {@link BottomNavigationView} ({@code bottom_navigation}) con los cinco
@@ -29,7 +31,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * (registrado en {@code setupBackCallback()}): desde un destino distinto de
  * Inicio, el botón atrás lleva a Inicio (R9.3); desde Inicio, se delega la
  * salida por defecto del sistema (R9.4).</p>
+ *
+ * <p>Anotado con {@code @AndroidEntryPoint} para que Hilt pueda inyectar los
+ * {@code @HiltViewModel} de los fragments alojados (p. ej. el
+ * {@code PartidosViewModel} de {@code PartidosFragment}).</p>
  */
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private static final String KEY_SELECTED = "selected_menu_id";
@@ -146,6 +153,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         tx.commit();
+    }
+
+    /**
+     * Navega programáticamente a la pestaña de Partidos seleccionando su item en
+     * la {@link BottomNavigationView}, lo que reutiliza la conmutación show/hide
+     * existente. Usado por InicioFragment desde el enlace "Ver todos".
+     */
+    public void navigateToPartidos() {
+        if (bottomNavigation != null) {
+            bottomNavigation.setSelectedItemId(R.id.nav_partidos);
+        }
     }
 
     /** @return el tag estable del destino asociado al id de menú (fallback Inicio). */

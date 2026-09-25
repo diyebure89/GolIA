@@ -90,11 +90,27 @@
     <!--PANTALLA INICIO-->
     <string name="inicio_bienvenida_formato">BIENVENIDO %1$s</string>
     <string name="ver_todos">Ver todos</string>
-    <string name="partidos_proximos">Partidos próximos</string>
+    <string name="partidos_proximos">Próximos partidos</string>
     <string name="cd_notificaciones">Notificaciones</string>
     <string name="stat_pronosticos">Pronóst.</string>
     <string name="stat_aciertos">Aciertos</string>
     <string name="stat_puntos">Puntos</string>
     <string name="stat_ranking">Ranking</string>
+
+    <!--PANTALLA PARTIDOS (matches-live-fixtures)-->
+    <string name="app_brand">GOL-IA</string>
+    <string name="chip_ayer">Ayer</string>
+    <string name="chip_hoy">Hoy</string>
+    <string name="chip_manana">Mañana</string>
+    <string name="chip_esta_semana">Esta semana</string>
+    <string name="hint_buscar_partidos">Buscar equipo o liga</string>
+    <string name="cd_buscar">Buscar</string>
+    <string name="cd_home_logo">Logo del equipo local</string>
+    <string name="cd_away_logo">Logo del equipo visitante</string>
+    <string name="empty_filter">No hay partidos para este filtro</string>
+    <string name="empty_search">Sin resultados de búsqueda</string>
+    <string name="notice_offline">Mostrando datos sin conexión</string>
+    <string name="notice_quota">Se alcanzó el límite diario de peticiones</string>
+    <string name="btn_reintentar">Reintentar</string>
 
 </resources>

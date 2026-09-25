@@ -1,67 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tarjeta de partido de la Pantalla_Partidos (rediseño tarea 7.1).
+
+  Cambios respecto a la versión previa:
+  - Se ELIMINAN los TextView de cuotas (text_odds1 / text_odds_x / text_odds2):
+    las cuotas están fuera de alcance en la UI.
+  - Se AÑADEN: logos local/visitante (image_home_logo / image_away_logo),
+    marcador (text_score), minuto en vivo (text_elapsed), etiqueta de estado
+    (text_status) y estadio (text_venue).
+  - Se aplica la paleta del login (blue_dark, blue_start, blue_end, text_gray).
+
+  Los IDs coinciden exactamente con los que enlaza MatchesAdapter.VH.
+  Requisitos: 5.1, 5.2, 5.3, 6.1, 6.2, 6.3, 13.3
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_match_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    android:background="@drawable/bg_match_card"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Cabecera: liga + jornada -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/text_league"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_end"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="LA LIGA" />
 
         <TextView
             android:id="@+id/text_league_round"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            tools:text="JORNADA 38" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_team1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/text_team2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/text_date_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    <!-- Fila principal: logo local | nombres/estado central | logo visitante -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_odds1"
+        <!-- Equipo local -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_odds_x"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <ImageView
+                android:id="@+id/image_home_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/cd_home_logo"
+                android:src="@drawable/ic_team_placeholder" />
 
-        <TextView
-            android:id="@+id/text_odds2"
+            <TextView
+                android:id="@+id/text_team1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                tools:text="FC Barcelona" />
+
+        </LinearLayout>
+
+        <!-- Centro: marcador / minuto / estado -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="center"
+            android:minWidth="72dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="2 - 1"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_elapsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_live_badge"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/blue_dark"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="63'"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue_end"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="Disponible" />
+
+        </LinearLayout>
+
+        <!-- Equipo visitante -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_away_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/cd_away_logo"
+                android:src="@drawable/ic_team_placeholder" />
+
+            <TextView
+                android:id="@+id/text_team2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                tools:text="Real Madrid" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Hora local -->
+    <TextView
+        android:id="@+id/text_date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textColor="@color/text_gray"
+        android:textSize="13sp"
+        tools:text="14 Jun · 20:00" />
+
+    <!-- Estadio / ubicación (se oculta si no hay dato) -->
+    <TextView
+        android:id="@+id/text_venue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/text_gray"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="Camp Nou, Barcelona"
+        tools:visibility="visible" />
 
 </LinearLayout>

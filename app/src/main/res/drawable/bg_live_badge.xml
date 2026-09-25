@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Fondo del minuto de juego (text_elapsed) de un partido LIVE.
+  Pastilla con la paleta del login (blue_end) para resaltar el estado en vivo
+  (Requisitos 6.2, 13.3).
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/blue_end" />
+
+    <corners android:radius="10dp" />
+</shape>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Esta funcionalidad dota de contenido real a la Pantalla_Partidos (`PartidosFragment`) de GolIA, reemplazando los datos mock hardcodeados por fixtures reales de seis Ligas_Objetivo obtenidos de **API-Football (API-SPORTS)**. El diseño respeta la arquitectura existente del proyecto: Clean Architecture + MVVM + Hilt + Room + Retrofit, **100% en Java** (sin Kotlin ni coroutines), usando `ExecutorService` (`@IoExecutor`) para el threading de E/S y `LiveData` para exponer estado observable a la UI.
+Esta funcionalidad dota de contenido real a la Pantalla_Partidos (`PartidosFragment`) de GolIA, reemplazando los datos mock hardcodeados por fixtures reales de las Competiciones_Objetivo obtenidos de **API-Football (API-SPORTS)**. El diseño respeta la arquitectura existente del proyecto: Clean Architecture + MVVM + Hilt + Room + Retrofit, **100% en Java** (sin Kotlin ni coroutines), usando `ExecutorService` (`@IoExecutor`) para el threading de E/S y `LiveData` para exponer estado observable a la UI.
 
 ### Decisiones clave
 
@@ -71,8 +71,8 @@ El `PartidosFragment` nunca llama a `FootballApiService` ni a `MatchRepository` 
 ### Estrategia de datos: cache-first + refresh
 
 1. Al abrir la pantalla, el ViewModel pide primero los datos cacheados (Room) y los muestra de inmediato (Requisito 7.9).
-2. En paralelo, dispara un refresco remoto por-fecha (`/fixtures?date={YYYY-MM-DD}`), una sola petición que cubre todas las Ligas_Objetivo de esa fecha (Requisitos 1.1, 7.1).
-3. Al llegar la respuesta, se normaliza, se filtra a las seis ligas, se persiste en Room y se re-emite el `LiveData`.
+2. En paralelo, dispara un refresco remoto por-fecha (`/fixtures?date={YYYY-MM-DD}`), una sola petición que cubre todas las Competiciones_Objetivo de esa fecha (Requisitos 1.1, 7.1).
+3. Al llegar la respuesta, se normaliza, se filtra a las Competiciones_Objetivo, se persiste en Room y se re-emite el `LiveData`.
 4. Si el refresco falla o la cuota está agotada, se mantienen los datos cacheados con el aviso correspondiente (Requisitos 11, 7.7).
 
 ### Secuencia: abrir pantalla
@@ -98,7 +98,7 @@ sequenceDiagram
     R->>R: budget.canRequest()? intervalo 60s?
     R->>API: GET /fixtures?date=YYYY-MM-DD
     API-->>R: response[] (fixtures)
-    R->>R: StatusMapper + filtro Ligas_Objetivo + map a dominio
+    R->>R: StatusMapper + filtro Competiciones_Objetivo + map a dominio
     R->>DB: insertMatches (upsert)
     R-->>VM: Result.Success(List<Match>) (fresh)
     VM-->>F: PartidosUiState.Content (fresh)
@@ -258,7 +258,7 @@ Cambios de firma documentados:
 public interface MatchRepository {
     // Cache-first: entrega lo cacheado
     void getMatches(Callback<Result<List<Match>>> callback);
-    // Refresco remoto por fecha (una petición cubre todas las ligas)
+    // Refresco remoto por fecha (una petición cubre todas las Competiciones_Objetivo)
     void refreshMatchesByDate(String isoDate, Callback<Result<List<Match>>> callback);
     // Refresco en vivo
     void refreshLiveMatches(Callback<Result<List<Match>>> callback);
@@ -416,6 +416,28 @@ public class TeamSideDto { long id; String name; String logo; }
 public class GoalsDto  { Integer home; Integer away; }
 ```
 
+### Competiciones_Objetivo (filtro de IDs de liga)
+
+El mapeo DTO→dominio lo realiza `FixtureMapper`, cuya constante `FixtureMapper.TARGET_LEAGUE_IDS` contiene el conjunto ampliado de IDs numéricos de liga de API-Football usados para filtrar los fixtures (Requisitos 1.3, 1.5, 1.6). Cualquier `league.id` fuera de este conjunto se descarta:
+
+| Categoría | Competición | ID API-Football |
+| --- | --- | --- |
+| Liga doméstica | Premier League | 39 |
+| Liga doméstica | LaLiga / Primera División | 140 |
+| Liga doméstica | Serie A | 135 |
+| Liga doméstica | Bundesliga | 78 |
+| Liga doméstica | Ligue 1 | 61 |
+| Liga doméstica | Colombia Primera A | 239 |
+| Clubes | UEFA Champions League | 2 |
+| Selecciones | UEFA Nations League | 5 |
+| Selecciones | Clasificación al Mundial — Europa | 32 |
+| Selecciones | Clasificación al Mundial — Sudamérica/Conmebol | 34 |
+| Selecciones | Clasificación al Mundial — África | 29 |
+| Selecciones | Clasificación al Mundial — Asia | 30 |
+| Selecciones | Clasificación al Mundial — CONCACAF | 31 |
+| Selecciones | Clasificación al Mundial — Oceanía | 33 |
+| Selecciones | Clasificación al Mundial — Repechaje Intercontinental | 37 |
+
 ### PartidosUiState (estilo sealed)
 
 ```java
@@ -542,7 +564,7 @@ Enfoque dual: pruebas unitarias basadas en ejemplos para casos concretos y borde
 - **Ordenamiento** (`sortMatches`): mezclas de LIVE/No-LIVE, empates de horario, verificación de estabilidad.
 - **SearchTextNormalizer**: acentos, mayúsculas, cadenas mixtas, idempotencia.
 - **RequestBudgetManager**: incremento, tope de 100, reset diario, ventana de 60 s.
-- **Mappers DTO→dominio**: `FixtureItemDto` → `Match`/`Team`/`Competition`, incluyendo venue/round/elapsed y filtro de Ligas_Objetivo.
+- **Mappers DTO→dominio**: `FixtureItemDto` → `Match`/`Team`/`Competition`, incluyendo venue/round/elapsed y filtro de Competiciones_Objetivo.
 
 ### Pruebas basadas en propiedades (jqwik, ≥100 iteraciones)
 Cada test lleva el tag de trazabilidad **Feature: matches-live-fixtures, Property {n}: {texto}**.

@@ -70,6 +70,15 @@ public class MatchEntity {
     @ColumnInfo(name = "away_odds")
     private double awayOdds;
 
+    @ColumnInfo(name = "elapsed_minute")
+    private Integer elapsedMinute;
+
+    @ColumnInfo(name = "venue_name")
+    private String venueName;
+
+    @ColumnInfo(name = "venue_city")
+    private String venueCity;
+
     public MatchEntity() {}
 
     public MatchEntity(@NonNull String id, String externalId, String competitionId,
@@ -118,6 +127,9 @@ public class MatchEntity {
     public double getHomeOdds() { return homeOdds; }
     public double getDrawOdds() { return drawOdds; }
     public double getAwayOdds() { return awayOdds; }
+    public Integer getElapsedMinute() { return elapsedMinute; }
+    public String getVenueName() { return venueName; }
+    public String getVenueCity() { return venueCity; }
 
     // Setters
     public void setId(@NonNull String id) { this.id = id; }
@@ -138,6 +150,9 @@ public class MatchEntity {
     public void setHomeOdds(double homeOdds) { this.homeOdds = homeOdds; }
     public void setDrawOdds(double drawOdds) { this.drawOdds = drawOdds; }
     public void setAwayOdds(double awayOdds) { this.awayOdds = awayOdds; }
+    public void setElapsedMinute(Integer elapsedMinute) { this.elapsedMinute = elapsedMinute; }
+    public void setVenueName(String venueName) { this.venueName = venueName; }
+    public void setVenueCity(String venueCity) { this.venueCity = venueCity; }
 
     /**
      * Convert entity to domain model.
@@ -170,6 +185,9 @@ public class MatchEntity {
         match.setHomeOdds(homeOdds);
         match.setDrawOdds(drawOdds);
         match.setAwayOdds(awayOdds);
+        match.setElapsedMinute(elapsedMinute);
+        match.setVenueName(venueName);
+        match.setVenueCity(venueCity);
         return match;
     }
 
@@ -177,7 +195,7 @@ public class MatchEntity {
      * Create entity from domain model.
      */
     public static MatchEntity fromDomainModel(Match match) {
-        return new MatchEntity(
+        MatchEntity entity = new MatchEntity(
             match.getId() != null ? match.getId().toString() : null,
             match.getExternalId(),
             match.getCompetitionId(),
@@ -197,5 +215,9 @@ public class MatchEntity {
             match.getDrawOdds(),
             match.getAwayOdds()
         );
+        entity.setElapsedMinute(match.getElapsedMinute());
+        entity.setVenueName(match.getVenueName());
+        entity.setVenueCity(match.getVenueCity());
+        return entity;
     }
 }

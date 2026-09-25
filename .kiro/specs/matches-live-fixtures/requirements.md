@@ -4,22 +4,22 @@
 
 Esta funcionalidad dota de contenido real a la pantalla de Partidos (`PartidosFragment`) de la app GolIA, una aplicación Android de predicciones de fútbol construida con Clean Architecture + MVVM + Hilt + Room. La pantalla debe replicar el mockup adjunto: encabezado "GOL-IA" con campana de notificaciones, título "Partidos" con icono de búsqueda, una fila de chips de filtro por horario ("Hoy", "Mañana", "Esta semana") y una lista de tarjetas de partido con nombre de liga y jornada, hora local, logos y nombres de ambos equipos, marcador/cuotas, estado (por ejemplo "Disponible") y ubicación/estadio.
 
-Los datos provienen de la API gratuita API-Football (API-SPORTS). Se muestran partidos de exactamente seis competiciones: Colombia Primera A, Premier League (Inglaterra), LaLiga / Primera División (España), Serie A (Italia), Bundesliga (Alemania) y Ligue 1 (Francia). El estilo visual se alinea con la paleta oscura azul del login (`blue_dark`, `blue_start`, `blue_end`).
+Los datos provienen de la API gratuita API-Football (API-SPORTS). Se muestran partidos del conjunto ampliado de Competiciones_Objetivo, que abarca ligas domésticas (Premier League de Inglaterra, LaLiga / Primera División de España, Serie A de Italia, Bundesliga de Alemania, Ligue 1 de Francia y Colombia Primera A), competiciones de clubes (UEFA Champions League) y competiciones de selecciones (UEFA Nations League y la Clasificación al Mundial por confederación: Europa, Sudamérica/Conmebol, África, Asia, CONCACAF, Oceanía y el Repechaje Intercontinental). El estilo visual se alinea con la paleta oscura azul del login (`blue_dark`, `blue_start`, `blue_end`).
 
-La pantalla observa estado desde un ViewModel `@HiltViewModel` que consume `MatchRepository` (dominio) mediante casos de uso; el fragment no llama directamente a la API. Se reutiliza la infraestructura existente (`Match`, `MatchStatus`, `Competition`, `Team`, `MatchRepository`, `MatchRepositoryImpl`, `FootballApiService`, DAOs de Room, `GolIADatabase`, módulos Hilt), ajustándola para apuntar a API-Football real y a las seis ligas.
+La pantalla observa estado desde un ViewModel `@HiltViewModel` que consume `MatchRepository` (dominio) mediante casos de uso; el fragment no llama directamente a la API. Se reutiliza la infraestructura existente (`Match`, `MatchStatus`, `Competition`, `Team`, `MatchRepository`, `MatchRepositoryImpl`, `FootballApiService`, DAOs de Room, `GolIADatabase`, módulos Hilt), ajustándola para apuntar a API-Football real y al conjunto de Competiciones_Objetivo.
 
 ### Fuera de alcance (explícito)
 
 - La lógica de predicciones y apuestas. Las cuotas del mockup quedan fuera de alcance en este spec: no se obtienen ni se muestran cuotas, y realizar apuestas o predicciones no es parte de este spec.
 - La autenticación de usuario.
 - El contenido de otros fragments (Inicio, Noticias, Perfil, Ranking, Predicciones).
-- El mockup muestra "NBA Playoffs" como ejemplo ilustrativo; este spec cubre únicamente fútbol de las seis ligas indicadas.
+- El mockup muestra "NBA Playoffs" como ejemplo ilustrativo; este spec cubre únicamente fútbol de las Competiciones_Objetivo indicadas.
 
 ### Riesgos y compromisos a reflejar
 
 - El plan gratuito de API-Football permite 100 peticiones/día. Esto obliga a una caché local agresiva (Room) y a una política de refresco controlada. El "en vivo" no puede hacer polling cada pocos segundos; se acota el refresco periódico solo mientras haya partidos en vivo visibles.
 - La API key no debe almacenarse en el control de versiones; se lee desde un lugar seguro/local (por ejemplo `local.properties` expuesto vía `BuildConfig`).
-- Se DECIDIÓ migrar el cliente del esquema football-data.org al de API-Football (API-SPORTS): endpoint `/fixtures`, IDs numéricos de liga (39=Premier League, 140=LaLiga, 135=Serie A, 78=Bundesliga, 61=Ligue 1, 239=Colombia Primera A), header `x-apisports-key` y respuesta JSON anidada (`response[].fixture/teams/goals/league`). Esto implica reescribir `FootballApiService`, sus DTOs y mapeadores, y deprecar los métodos que no aplican (por ejemplo `getMatchesByDate` estilo football-data.org y `getCompetitions`).
+- Se DECIDIÓ migrar el cliente del esquema football-data.org al de API-Football (API-SPORTS): endpoint `/fixtures`, IDs numéricos de liga/competición (ligas domésticas: 39=Premier League, 140=LaLiga, 135=Serie A, 78=Bundesliga, 61=Ligue 1, 239=Colombia Primera A; clubes: 2=UEFA Champions League; selecciones: 5=UEFA Nations League y Clasificación al Mundial 32=Europa, 34=Sudamérica/Conmebol, 29=África, 30=Asia, 31=CONCACAF, 33=Oceanía, 37=Repechaje Intercontinental), header `x-apisports-key` y respuesta JSON anidada (`response[].fixture/teams/goals/league`). Esto implica reescribir `FootballApiService`, sus DTOs y mapeadores, y deprecar los métodos que no aplican (por ejemplo `getMatchesByDate` estilo football-data.org y `getCompetitions`).
 - El `MatchRepositoryImpl` actual usa llamadas Retrofit síncronas (`.execute()`) y ejecuta algunos DAOs en el hilo llamante. Se refactoriza para ejecutar la obtención de datos en un ejecutor de E/S (`@IoExecutor`) y propagar errores de forma tipada con `domain/common/Result`.
 - El esquema Room de `MatchEntity` actual NO tiene jornada, estadio ni minuto de juego. Los requisitos que dependen de esos campos implican una migración de Room.
 
@@ -40,34 +40,36 @@ El trabajo se aborda en este orden de prioridad para evitar retrabajo:
 - **Servicio_API_Football**: El cliente Retrofit `FootballApiService` que consume los endpoints de API-Football.
 - **Cache_Partidos**: El almacenamiento local en Room (`MatchDao`, `TeamDao`, `CompetitionDao`, `GolIADatabase`) de partidos, equipos y competiciones.
 - **Adaptador_Partidos**: El `RecyclerView.Adapter` que renderiza las tarjetas de partido usando `DiffUtil`.
-- **Ligas_Objetivo**: El conjunto exacto de seis competiciones: Colombia Primera A, Premier League, LaLiga/Primera División, Serie A, Bundesliga, Ligue 1.
+- **Competiciones_Objetivo**: El conjunto exacto de competiciones cuyos partidos se muestran, identificadas por su ID numérico de liga de API-Football. Abarca ligas domésticas (39 Premier League, 140 LaLiga/Primera División, 135 Serie A, 78 Bundesliga, 61 Ligue 1, 239 Colombia Primera A), competiciones de clubes (2 UEFA Champions League) y competiciones de selecciones (5 UEFA Nations League y la Clasificación al Mundial por confederación: 32 Europa, 34 Sudamérica/Conmebol, 29 África, 30 Asia, 31 CONCACAF, 33 Oceanía, 37 Repechaje Intercontinental). Cualquier competición fuera de este conjunto se descarta. (Anteriormente denominado Ligas_Objetivo cuando el conjunto se limitaba a las seis ligas domésticas.)
 - **Zona_Local**: La zona horaria configurada en el dispositivo del usuario.
 - **Utilidad_Zona_Local**: La única utilidad de cálculo de rangos temporales que, a partir de la Zona_Local, produce el Rango_Hoy, el Rango_Manana y el Rango_Esta_Semana. Es el único punto de verdad para el cálculo de rangos.
 - **API_Key**: La clave de autenticación de API-Football enviada en el header `x-apisports-key`.
 - **Presupuesto_Peticiones**: El contador diario persistente de peticiones realizadas a API-Football, con reset diario, usado para respetar el límite de 100 peticiones/día del plan gratuito.
 - **Minuto_Juego**: El minuto de juego transcurrido de un partido en estado `LIVE`, obtenido de `fixture.status.elapsed` de API-Football.
-- **Chip_Horario**: Cada uno de los chips de filtro "Hoy", "Mañana", "Esta semana" del `ChipGroup`.
+- **Chip_Horario**: Cada uno de los chips de filtro "Ayer", "Hoy", "Mañana", "Esta semana" del `ChipGroup`.
+- **Rango_Ayer**: Intervalo del día anterior al actual en Zona_Local, desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999`.
 - **Rango_Hoy**: Intervalo del día actual en Zona_Local, desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999`.
 - **Rango_Manana**: Intervalo del día siguiente al actual en Zona_Local, desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999`.
 - **Rango_Esta_Semana**: Intervalo desde el inicio inclusivo `00:00:00.000` del día actual hasta el fin inclusivo `23:59:59.999` del domingo de la semana actual en Zona_Local.
 - **Estado_UI**: El estado observable de la Pantalla_Partidos, uno de: Cargando, Contenido, Vacío, Error.
 - **Grupo_LIVE**: El grupo de partidos de la lista filtrada con `MatchStatus` `LIVE`, ubicado con prioridad sobre el Grupo_No_LIVE en el ordenamiento.
 - **Grupo_No_LIVE**: El grupo de partidos de la lista filtrada con `MatchStatus` `SCHEDULED` y demás estados distintos de `LIVE`, ubicado después del Grupo_LIVE en el ordenamiento.
+- **Pantalla_Inicio**: La interfaz gestionada por `InicioFragment` (`R.layout.fragment_inicio`) que muestra la bienvenida, las estadísticas y la sección "Próximos partidos" con datos reales de partidos.
 
 ## Requirements
 
 ### Requisito 1: Contrato del proveedor API-Football
 
-**Historia de Usuario:** Como usuario, quiero ver partidos reales de las seis ligas indicadas, para consultar información actualizada de los encuentros que me interesan.
+**Historia de Usuario:** Como usuario, quiero ver partidos reales de las Competiciones_Objetivo indicadas, para consultar información actualizada de los encuentros que me interesan.
 
 #### Criterios de Aceptación
 
-1. WHEN la Pantalla_Partidos solicita partidos, THE Repositorio_Partidos SHALL obtener los fixtures de la temporada actual de las seis Ligas_Objetivo mediante el Servicio_API_Football usando el endpoint `/fixtures`, priorizando la consulta por fecha (`/fixtures?date={YYYY-MM-DD}`) sobre la consulta por liga (`/fixtures?league={idNum}&season={year}`) para minimizar el número de peticiones.
+1. WHEN la Pantalla_Partidos solicita partidos, THE Repositorio_Partidos SHALL obtener los fixtures de la temporada actual de las Competiciones_Objetivo mediante el Servicio_API_Football usando el endpoint `/fixtures`, priorizando la consulta por fecha (`/fixtures?date={YYYY-MM-DD}`) sobre la consulta por liga (`/fixtures?league={idNum}&season={year}`) para minimizar el número de peticiones.
 2. WHEN el Servicio_API_Football realiza una petición a API-Football, THE Servicio_API_Football SHALL incluir la API_Key en el header `x-apisports-key`.
-3. THE Servicio_API_Football SHALL mapear cada una de las seis Ligas_Objetivo a su identificador numérico de liga de API-Football: 39 para Premier League, 140 para LaLiga/Primera División, 135 para Serie A, 78 para Bundesliga, 61 para Ligue 1 y 239 para Colombia Primera A.
+3. THE Servicio_API_Football SHALL mapear cada una de las Competiciones_Objetivo a su identificador numérico de liga de API-Football: ligas domésticas 39 para Premier League, 140 para LaLiga/Primera División, 135 para Serie A, 78 para Bundesliga, 61 para Ligue 1 y 239 para Colombia Primera A; competiciones de clubes 2 para UEFA Champions League; y competiciones de selecciones 5 para UEFA Nations League y la Clasificación al Mundial por confederación 32 para Europa, 34 para Sudamérica/Conmebol, 29 para África, 30 para Asia, 31 para CONCACAF, 33 para Oceanía y 37 para el Repechaje Intercontinental.
 4. WHEN API-Football responde con el formato JSON anidado del endpoint de fixtures (`response[].fixture/teams/goals/league`), THE Repositorio_Partidos SHALL mapear la respuesta a objetos de dominio `Match`, `Team` y `Competition`.
-5. THE Repositorio_Partidos SHALL limitar los partidos obtenidos a las seis Ligas_Objetivo y descartar competiciones fuera de ese conjunto.
-6. IF una respuesta de API-Football contiene un partido de una liga fuera de las Ligas_Objetivo, THEN THE Repositorio_Partidos SHALL excluir ese partido del resultado.
+5. THE Repositorio_Partidos SHALL limitar los partidos obtenidos a las Competiciones_Objetivo y descartar competiciones fuera de ese conjunto.
+6. IF una respuesta de API-Football contiene un partido de una competición fuera de las Competiciones_Objetivo, THEN THE Repositorio_Partidos SHALL excluir ese partido del resultado.
 
 ### Requisito 1B: Reescritura del cliente Retrofit al esquema de API-Football
 
@@ -92,13 +94,14 @@ El trabajo se aborda en este orden de prioridad para evitar retrabajo:
 
 ### Requisito 3: Filtros por chips de horario
 
-**Historia de Usuario:** Como usuario, quiero filtrar los partidos por "Hoy", "Mañana" y "Esta semana", para encontrar rápidamente los encuentros dentro del rango temporal que me interesa.
+**Historia de Usuario:** Como usuario, quiero filtrar los partidos por "Ayer", "Hoy", "Mañana" y "Esta semana", para encontrar rápidamente los encuentros dentro del rango temporal que me interesa.
 
 #### Criterios de Aceptación
 
-1. THE Pantalla_Partidos SHALL mostrar un `ChipGroup` con los tres Chip_Horario: "Hoy", "Mañana" y "Esta semana".
+1. THE Pantalla_Partidos SHALL mostrar un `ChipGroup` con los cuatro Chip_Horario en este orden: "Ayer", "Hoy", "Mañana" y "Esta semana".
 2. THE ChipGroup SHALL permitir la selección de un único Chip_Horario a la vez.
 3. WHEN la Pantalla_Partidos se abre, THE Pantalla_Partidos SHALL seleccionar por defecto el Chip_Horario "Hoy".
+3a. WHEN el usuario selecciona el Chip_Horario "Ayer", THE ViewModel_Partidos SHALL mostrar únicamente los partidos cuyo horario en Zona_Local cae dentro del Rango_Ayer, es decir desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999` del día anterior al actual en Zona_Local.
 4. WHEN el usuario selecciona el Chip_Horario "Hoy", THE ViewModel_Partidos SHALL mostrar únicamente los partidos cuyo horario en Zona_Local cae dentro del Rango_Hoy, es decir desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999` del día actual en Zona_Local.
 5. WHEN el usuario selecciona el Chip_Horario "Mañana", THE ViewModel_Partidos SHALL mostrar únicamente los partidos cuyo horario en Zona_Local cae dentro del Rango_Manana, es decir desde el inicio inclusivo `00:00:00.000` hasta el fin inclusivo `23:59:59.999` del día siguiente al actual en Zona_Local.
 6. WHEN el usuario selecciona el Chip_Horario "Esta semana", THE ViewModel_Partidos SHALL mostrar únicamente los partidos cuyo horario en Zona_Local cae dentro del Rango_Esta_Semana, es decir desde el inicio inclusivo `00:00:00.000` del día actual hasta el fin inclusivo `23:59:59.999` del domingo de la semana actual en Zona_Local.
@@ -165,7 +168,8 @@ El trabajo se aborda en este orden de prioridad para evitar retrabajo:
 
 #### Criterios de Aceptación
 
-1. WHEN la Pantalla_Partidos se abre, THE Repositorio_Partidos SHALL refrescar los partidos desde API-Football usando el endpoint por-fecha (`/fixtures?date={YYYY-MM-DD}`), de modo que una única petición cubra todas las Ligas_Objetivo de esa fecha en lugar de una petición por liga.
+1. WHEN la Pantalla_Partidos se abre, THE Repositorio_Partidos SHALL refrescar los partidos desde API-Football usando el endpoint por-fecha (`/fixtures?date={YYYY-MM-DD}`), de modo que una única petición cubra todas las Competiciones_Objetivo de esa fecha en lugar de una petición por competición.
+1a. WHEN el Repositorio_Partidos refresca por fecha, THE Repositorio_Partidos SHALL descargar una ventana de días que comience en el día anterior al actual (para poblar el Chip_Horario "Ayer") y abarque el día actual y los días siguientes hasta cubrir el Rango_Esta_Semana, realizando una petición por día dentro del Presupuesto_Peticiones.
 2. WHEN el usuario realiza pull-to-refresh, THE Repositorio_Partidos SHALL refrescar los partidos desde API-Football usando el endpoint por-fecha para minimizar el número de peticiones.
 3. WHEN el Repositorio_Partidos realiza una petición a API-Football, THE Repositorio_Partidos SHALL incrementar el Presupuesto_Peticiones, que es un contador diario persistente con reset diario.
 4. WHILE cualquier fuente de refresco (apertura de pantalla, pull-to-refresh o polling en vivo) solicita datos, THE ViewModel_Partidos SHALL aplicar un intervalo mínimo de 60 segundos COMPARTIDO entre todas las fuentes de refresco, descartando las solicitudes que lleguen antes de cumplirse ese intervalo desde la última petición.
@@ -255,3 +259,17 @@ El trabajo se aborda en este orden de prioridad para evitar retrabajo:
 1. THE Pantalla_Partidos SHALL usar un fondo con la paleta oscura azul del login (`blue_dark`, `blue_start`, `blue_end`).
 2. THE Pantalla_Partidos SHALL mostrar el encabezado "GOL-IA" con un icono de campana de notificaciones y el título "Partidos" con el icono de búsqueda, según el mockup.
 3. THE Adaptador_Partidos SHALL renderizar cada tarjeta de partido con el estilo del mockup coherente con la paleta del login.
+
+### Requisito 14: Sección "Próximos partidos" en el Inicio
+
+**Historia de Usuario:** Como usuario, quiero ver los próximos partidos reales directamente en la pantalla de Inicio, para consultar de un vistazo los encuentros más cercanos sin entrar a la pantalla de Partidos.
+
+#### Criterios de Aceptación
+
+1. THE Pantalla_Inicio (`InicioFragment`) SHALL mostrar en su sección "Próximos partidos" datos reales obtenidos de la misma fuente que la Pantalla_Partidos (los casos de uso `GetMatchesUseCase` y `RefreshMatchesUseCase` sobre `MatchRepository`), en lugar de tarjetas de ejemplo estáticas.
+2. THE Pantalla_Inicio SHALL observar su lista de próximos partidos desde un `InicioViewModel` (`@HiltViewModel`) mediante `LiveData`, sin invocar directamente el Servicio_API_Football ni el Repositorio_Partidos.
+3. WHEN el `InicioViewModel` deriva la lista de próximos partidos, THE `InicioViewModel` SHALL incluir los partidos con `MatchStatus` `LIVE` y los partidos con `MatchStatus` `SCHEDULED` cuyo horario sea posterior o igual al momento actual, ordenarlos con los `LIVE` primero y luego por horario ascendente, y limitar la lista a un máximo de 5 encuentros.
+4. THE Pantalla_Inicio SHALL renderizar cada próximo partido reutilizando el `Adaptador_Partidos` (`MatchesAdapter`) y el layout `item_match`, para mantener consistencia visual con la Pantalla_Partidos.
+5. WHEN el usuario activa el enlace "Ver todos" de la sección de próximos partidos, THE Pantalla_Inicio SHALL navegar a la pestaña Partidos de la `BottomNavigationView` (`R.id.nav_partidos`).
+6. THE Pantalla_Inicio SHALL mostrar el título de la sección como "Próximos partidos" (recurso `partidos_proximos`).
+7. IF la API_Key no está configurada o el refresco remoto falla, THEN THE Pantalla_Inicio SHALL mostrar los datos cacheados disponibles o una lista vacía, sin exponer estados de error (la sección es secundaria).

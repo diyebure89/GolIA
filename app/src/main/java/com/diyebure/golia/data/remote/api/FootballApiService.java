@@ -1,85 +1,49 @@
 package com.diyebure.golia.data.remote.api;
 
-import com.diyebure.golia.data.remote.dto.MatchDto.CompetitionResponseDto;
-import com.diyebure.golia.data.remote.dto.MatchDto.MatchResponseDto;
-import com.diyebure.golia.data.remote.dto.MatchDto.TeamResponseDto;
-
-import java.util.List;
+import com.diyebure.golia.data.remote.dto.FixtureResponseDto;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Retrofit API service interface for Football data endpoints.
- * Provides methods to fetch competitions, matches, and team data from the football API.
+ * Retrofit API service interface for the API-Football (API-SPORTS) provider.
+ *
+ * <p>All requests target the {@code /fixtures} endpoint and rely on numeric league
+ * identifiers passed as query parameters (never the football-data.org string codes
+ * such as {@code "PL"}). The response is the nested JSON structure exposed by
+ * {@link FixtureResponseDto} ({@code response[].fixture/teams/goals/league}).</p>
+ *
+ * <p>The required {@code x-apisports-key} authentication header is NOT declared per
+ * method here; it is injected transparently by an OkHttp interceptor
+ * ({@code ApiKeyInterceptor}) configured on the shared client.</p>
  */
 public interface FootballApiService {
 
     /**
-     * Get all available competitions.
+     * Get fixtures scheduled for a specific date.
      *
-     * @return Call containing list of competitions
+     * <p>Preferred entry point: a single request by date covers all target leagues
+     * for that day, minimising the number of requests against the daily quota.</p>
+     *
+     * @param date Date in {@code YYYY-MM-DD} format
+     * @return Call containing the nested fixtures response for that date
      */
-    @GET("competitions")
-    Call<CompetitionResponseDto> getCompetitions();
+    @GET("fixtures")
+    Call<FixtureResponseDto> getFixturesByDate(@Query("date") String date);
 
     /**
-     * Get matches for a specific competition.
+     * Get fixtures for a specific league and season.
      *
-     * @param competitionId The competition ID (e.g., "PL" for Premier League)
-     * @return Call containing list of matches for the competition
+     * @param leagueId The numeric API-Football league identifier
+     *                 (e.g. 39 Premier League, 140 LaLiga, 135 Serie A,
+     *                 78 Bundesliga, 61 Ligue 1, 239 Colombia Primera A)
+     * @param season   The season year (e.g. 2024)
+     * @return Call containing the nested fixtures response for that league and season
      */
-    @GET("competitions/{id}/matches")
-    Call<MatchResponseDto> getMatchesByCompetition(@Path("id") String competitionId);
-
-    /**
-     * Get matches scheduled for a specific date.
-     *
-     * @param date Date in YYYY-MM-DD format
-     * @return Call containing list of matches on that date
-     */
-    @GET("matches")
-    Call<MatchResponseDto> getMatchesByDate(@Query("date") String date);
-
-    /**
-     * Get matches within a date range.
-     *
-     * @param startDate Start date in YYYY-MM-DD format
-     * @param endDate End date in YYYY-MM-DD format
-     * @return Call containing list of matches within the date range
-     */
-    @GET("matches")
-    Call<MatchResponseDto> getMatchesByDateRange(
-            @Query("start_date") String startDate,
-            @Query("end_date") String endDate
+    @GET("fixtures")
+    Call<FixtureResponseDto> getFixturesByLeague(
+            @Query("league") int leagueId,
+            @Query("season") int season
     );
-
-    /**
-     * Get detailed information for a specific match.
-     *
-     * @param matchId The match ID
-     * @return Call containing match details
-     */
-    @GET("matches/{id}")
-    Call<MatchResponseDto> getMatchById(@Path("id") String matchId);
-
-    /**
-     * Get detailed information for a specific team.
-     *
-     * @param teamId The team ID
-     * @return Call containing team details
-     */
-    @GET("teams/{id}")
-    Call<TeamResponseDto> getTeamById(@Path("id") String teamId);
-
-    /**
-     * Get all matches for a specific team.
-     *
-     * @param teamId The team ID
-     * @return Call containing list of matches for the team
-     */
-    @GET("teams/{id}/matches")
-    Call<MatchResponseDto> getTeamMatches(@Path("id") String teamId);
 }

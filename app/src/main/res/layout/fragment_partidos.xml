@@ -1,33 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Pantalla_Partidos (rediseño tarea 7.2).
+
+  - Encabezado "GOL-IA" con campana de notificaciones.
+  - Título "Partidos" con icono de búsqueda que alterna el campo de texto.
+  - ChipGroup (singleSelection) con "Hoy" / "Mañana" / "Esta semana".
+  - SwipeRefreshLayout envolviendo recycler_matches.
+  - empty_view (id empty_view), indicador de carga, banners de aviso y
+    contenedor de error con reintentar.
+  - Fondo con la paleta oscura azul del login.
+
+  Requisitos: 3.1, 9.2, 13.1, 13.2
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_dark"
     android:orientation="vertical"
     tools:context=".PartidosFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout_filters"
+    <!-- Encabezado: marca GOL-IA + campana -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_brand"
+            android:textColor="@color/blue_end"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_notifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_notificaciones"
+            android:src="@drawable/ic_notifications" />
+
+    </LinearLayout>
+
+    <!-- Título "Partidos" + icono de búsqueda -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/partidos"
+            android:textColor="@color/text_white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_buscar"
+            android:src="@drawable/ic_search" />
+
+    </LinearLayout>
+
+    <!-- Campo de búsqueda (oculto hasta pulsar el icono de búsqueda) -->
+    <EditText
+        android:id="@+id/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_search_input"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="@string/hint_buscar_partidos"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:textColor="@color/text_white"
+        android:textColorHint="@color/text_gray"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <!-- Chips de horario -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_ayer"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_ayer"
+            android:textColor="@color/text_white" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_hoy"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_hoy"
+            android:textColor="@color/text_white" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_manana"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_manana"
+            android:textColor="@color/text_white" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_esta_semana"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_esta_semana"
+            android:textColor="@color/text_white" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Banners de aviso (offline / cuota) -->
+    <TextView
+        android:id="@+id/text_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_search_input"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/gold"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="Mostrando datos sin conexión"
+        tools:visibility="visible" />
+
+    <!-- Zona de contenido: recycler (con swipe) + estados vacío/carga/error -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_matches"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_matches"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingVertical="8dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/hello_blank_fragment"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/empty_filter"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
             android:visibility="gone" />
+
+        <!-- Contenedor de error con acción de reintentar -->
+        <LinearLayout
+            android:id="@+id/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/error_red"
+                android:textSize="16sp"
+                tools:text="No se pudieron cargar los partidos" />
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/btn_reintentar" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

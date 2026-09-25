@@ -1,101 +1,64 @@
 package com.diyebure.golia.domain.repository;
 
-import com.diyebure.golia.domain.model.Competition;
+import com.diyebure.golia.domain.common.Callback;
 import com.diyebure.golia.domain.model.Match;
-import com.diyebure.golia.domain.model.Team;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Repository interface for Match-related data operations.
- * Defines the contract for fetching and managing match data.
- * Implementations should handle data retrieval from remote and local sources.
+ *
+ * <p>Defines the contract for fetching and managing match data following an
+ * asynchronous, <strong>cache-first</strong> strategy. All operations run their
+ * blocking network/persistence work off the main thread (in the data-layer
+ * implementation via the shared IO executor) and publish their outcome through
+ * a {@link Callback}. The callback delivers a {@link com.diyebure.golia.domain.common.Result}
+ * that is either a success carrying the data or a typed error.
+ *
+ * <p>Design note: the previous football-data.org style and synchronous methods
+ * (e.g. {@code getUpcomingMatches}, {@code getLiveMatches}, {@code getMatchById},
+ * {@code getMatchesByCompetition}, {@code getMatchesByDateRange},
+ * {@code getCompetitions}, {@code getTeamById}, {@code getTeamMatches},
+ * {@code refreshMatches} and the old boolean {@code refreshLiveMatches}) have been
+ * removed in favour of the async signatures below. API-Football exposes fixtures
+ * through a single {@code /fixtures} endpoint, so a single date-based refresh
+ * covers every target league.
  */
 public interface MatchRepository {
 
     /**
-     * Get all upcoming matches (scheduled for future dates).
+     * Get matches following a cache-first strategy: delivers the currently
+     * cached matches without hitting the network.
      *
-     * @return List of upcoming matches sorted by scheduled time
+     * @param callback receives {@code Result.Success<List<Match>>} with the
+     *                 cached matches, or {@code Result.Error} on failure
      */
-    List<Match> getUpcomingMatches();
+    void getMatches(Callback<List<Match>> callback);
 
     /**
-     * Get all currently live matches.
+     * Refresh match data for a specific date from the remote API. A single
+     * request covers all target leagues for that date. The freshly fetched
+     * matches are persisted to the cache and delivered through the callback.
      *
-     * @return List of matches with LIVE status
+     * @param isoDate  the target date in ISO-8601 format ({@code yyyy-MM-dd})
+     * @param callback receives {@code Result.Success<List<Match>>} with the
+     *                 refreshed matches, or {@code Result.Error} on failure
      */
-    List<Match> getLiveMatches();
+    void refreshMatchesByDate(String isoDate, Callback<List<Match>> callback);
 
     /**
-     * Get a specific match by its ID.
+     * Refresh live match data (scores and elapsed minute) from the remote API.
+     * Intended to be called more frequently than a full refresh while there are
+     * live matches visible.
      *
-     * @param id The unique identifier of the match (UUID)
-     * @return The match if found, null otherwise
+     * @param callback receives {@code Result.Success<List<Match>>} with the
+     *                 updated matches, or {@code Result.Error} on failure
      */
-    Match getMatchById(UUID id);
+    void refreshLiveMatches(Callback<List<Match>> callback);
 
     /**
-     * Get matches filtered by competition.
-     *
-     * @param competitionId The competition ID (e.g., "PL", "CL")
-     * @return List of matches for the specified competition
-     */
-    List<Match> getMatchesByCompetition(String competitionId);
-
-    /**
-     * Get matches within a date range.
-     *
-     * @param start Start timestamp in milliseconds
-     * @param end End timestamp in milliseconds
-     * @return List of matches scheduled between start and end times
-     */
-    List<Match> getMatchesByDateRange(long start, long end);
-
-    /**
-     * Get all available competitions.
-     *
-     * @return List of competitions
-     */
-    List<Competition> getCompetitions();
-
-    /**
-     * Get team details by ID.
-     *
-     * @param teamId The team ID
-     * @return The team if found, null otherwise
-     */
-    Team getTeamById(String teamId);
-
-    /**
-     * Get all matches for a specific team.
-     *
-     * @param teamId The team ID
-     * @return List of matches involving the specified team
-     */
-    List<Match> getTeamMatches(String teamId);
-
-    /**
-     * Refresh match data from the remote API.
-     * This should be called when the user explicitly requests a refresh
-     * or when the cached data is potentially stale.
-     *
-     * @return true if refresh was successful, false otherwise
-     */
-    boolean refreshMatches();
-
-    /**
-     * Refresh live match data (more frequently than regular refresh).
-     * Used for updating scores during live matches.
-     *
-     * @return true if refresh was successful, false otherwise
-     */
-    boolean refreshLiveMatches();
-
-    /**
-     * Clear cached data and perform a full refresh.
-     * Should be used sparingly (e.g., on app restart or user request).
+     * Clear cached data. Should be used sparingly (e.g. on user request or when
+     * the cache must be invalidated).
      */
     void clearCache();
 }

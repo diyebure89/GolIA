@@ -6,6 +6,15 @@ plugins {
     alias(libs.plugins.spotless.plugin)
 }
 
+// Read the API-Football key from local.properties (not versioned).
+// Never hardcode the key value in versioned files.
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def apiFootballKey = localProperties.getProperty("API_FOOTBALL_KEY", "")
+
 android {
     namespace 'com.diyebure.golia'
     compileSdk 36
@@ -18,6 +27,24 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // API-Football key exposed via BuildConfig, read from local.properties.
+        buildConfigField "String", "API_FOOTBALL_KEY", "\"${apiFootballKey}\""
+
+        // Export Room schemas (JSON) so migration tests can validate the
+        // migrated schema with MigrationTestHelper. Schemas are written to
+        // app/schemas/<db-class>/<version>.json (e.g. version 2 and 3).
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    // Make the exported Room schemas available to instrumented (androidTest)
+    // tests so MigrationTestHelper can locate them at runtime.
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     buildTypes {
@@ -81,6 +108,9 @@ dependencies {
     implementation libs.material
     implementation libs.vectordrawable.animated
 
+    // SwipeRefreshLayout (pull-to-refresh en la Pantalla_Partidos)
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
     // Lottie for animations
     implementation 'com.airbnb.android:lottie:3.0.1'
 
@@ -118,6 +148,9 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit
+
+    // Room migration testing (MigrationTestHelper), pinned to the Room version.
+    androidTestImplementation libs.room.testing
 }
 
 

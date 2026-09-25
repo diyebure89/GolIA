@@ -9,19 +9,28 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.diyebure.golia.data.local.PreferencesManager;
+import com.diyebure.golia.presentation.adapter.MatchesAdapter;
 import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
+import com.diyebure.golia.presentation.ui.inicio.InicioViewModel;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * Home fragment displaying the welcome card, placeholder statistics and
- * upcoming match cards.
+ * Home fragment displaying the welcome card, placeholder statistics and the
+ * "Próximos partidos" section populated with real data.
  *
  * <p>El nombre mostrado proviene únicamente de la sesión local
  * ({@link PreferencesManager}), sin tocar base de datos ni repositorios
- * (R11.2). El resto de datos son placeholders a la espera de la futura
- * integración con ViewModels + repositorios (R8).
+ * (R11.2). Las estadísticas siguen siendo placeholders. Los próximos partidos
+ * se obtienen de {@link InicioViewModel}, que comparte la fuente de datos con la
+ * Pantalla_Partidos, y "Ver todos" navega a la pestaña Partidos.
  */
+@AndroidEntryPoint
 public class InicioFragment extends BasePlaceholderFragment {
 
     /** Nombre por defecto cuando la sesión no tiene un nombre válido (R7.2/R11.3). */
@@ -56,8 +65,19 @@ public class InicioFragment extends BasePlaceholderFragment {
         // Campana de notificaciones clickable sin acción (R7.1)
         v.findViewById(R.id.icon_notifications).setOnClickListener(view -> { /* sin acción */ });
 
-        // Las tarjetas de partido placeholder (card_match_1 / card_match_2) ya
-        // están definidas estáticamente en el layout (R7.5).
+        // Lista de próximos partidos con datos reales.
+        RecyclerView recyclerUpcoming = v.findViewById(R.id.recycler_upcoming);
+        recyclerUpcoming.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerUpcoming.setNestedScrollingEnabled(false);
+        MatchesAdapter adapter = new MatchesAdapter();
+        recyclerUpcoming.setAdapter(adapter);
+
+        InicioViewModel viewModel = new ViewModelProvider(this).get(InicioViewModel.class);
+        viewModel.getUpcomingMatches().observe(getViewLifecycleOwner(), adapter::submitList);
+
+        // "Ver todos" navega a la pestaña Partidos.
+        v.findViewById(R.id.text_see_all).setOnClickListener(view ->
+                ((MainActivity) requireActivity()).navigateToPartidos());
     }
 
     /**
