@@ -40,6 +40,13 @@ public class PreferencesManager {
     private static final String KEY_LAST_REQUEST_TS = "last_request_ts";
     private static final String KEY_BUDGET_DAY = "budget_day";
 
+    // News request-budget keys (Presupuesto_Peticiones_Noticias). Independent from
+    // the API-Football budget above: NewsData.io has its own daily quota reset at
+    // 00:00 UTC. Stored as plain values because they are counters/flags, not secrets.
+    private static final String KEY_NEWS_REQUEST_COUNT = "news_request_count";
+    private static final String KEY_NEWS_BUDGET_DAY = "news_budget_day";
+    private static final String KEY_NEWS_QUOTA_EXHAUSTED_DAY = "news_quota_exhausted_day";
+
     // Encryption constants
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
     private static final String KEY_ALIAS = "golia_auth_key";
@@ -336,5 +343,58 @@ public class PreferencesManager {
      */
     public void setBudgetDay(int day) {
         sharedPreferences.edit().putInt(KEY_BUDGET_DAY, day).apply();
+    }
+
+    // ------------------------------------------------------------------
+    // News request-budget helpers (Presupuesto_Peticiones_Noticias)
+    //
+    // These persist the daily NewsData.io request budget state, which is
+    // independent from the API-Football budget above and resets at 00:00 UTC.
+    // Consumed by NewsRequestBudgetManager (Requisitos 6.3, 6.4, 6.5, 6.10).
+    // ------------------------------------------------------------------
+
+    /**
+     * Get the number of NewsData.io requests recorded for the current UTC day.
+     */
+    public int getNewsRequestCount() {
+        return sharedPreferences.getInt(KEY_NEWS_REQUEST_COUNT, 0);
+    }
+
+    /**
+     * Persist the number of NewsData.io requests recorded for the current UTC day.
+     */
+    public void setNewsRequestCount(int count) {
+        sharedPreferences.edit().putInt(KEY_NEWS_REQUEST_COUNT, count).apply();
+    }
+
+    /**
+     * Get the UTC day marker for which the current news request count applies, or
+     * 0 if none has been recorded yet.
+     */
+    public int getNewsBudgetDay() {
+        return sharedPreferences.getInt(KEY_NEWS_BUDGET_DAY, 0);
+    }
+
+    /**
+     * Persist the UTC day marker for which the current news request count applies.
+     */
+    public void setNewsBudgetDay(int day) {
+        sharedPreferences.edit().putInt(KEY_NEWS_BUDGET_DAY, day).apply();
+    }
+
+    /**
+     * Get the UTC day marker until which the news quota is forced-exhausted after a
+     * provider 429, or 0 if the quota is not force-exhausted.
+     */
+    public int getNewsQuotaExhaustedDay() {
+        return sharedPreferences.getInt(KEY_NEWS_QUOTA_EXHAUSTED_DAY, 0);
+    }
+
+    /**
+     * Persist the UTC day marker until which the news quota is forced-exhausted
+     * after a provider 429. Use 0 to clear the flag.
+     */
+    public void setNewsQuotaExhaustedDay(int day) {
+        sharedPreferences.edit().putInt(KEY_NEWS_QUOTA_EXHAUSTED_DAY, day).apply();
     }
 }

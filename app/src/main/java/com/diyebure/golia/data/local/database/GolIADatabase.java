@@ -8,11 +8,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.diyebure.golia.data.local.dao.CompetitionDao;
 import com.diyebure.golia.data.local.dao.MatchDao;
+import com.diyebure.golia.data.local.dao.NewsArticleDao;
 import com.diyebure.golia.data.local.dao.PredictionDao;
 import com.diyebure.golia.data.local.dao.TeamDao;
 import com.diyebure.golia.data.local.dao.UserDao;
 import com.diyebure.golia.data.local.entity.CompetitionEntity;
 import com.diyebure.golia.data.local.entity.MatchEntity;
+import com.diyebure.golia.data.local.entity.NewsArticleEntity;
+import com.diyebure.golia.data.local.entity.NewsLeagueCrossRefEntity;
+import com.diyebure.golia.data.local.entity.NewsLeagueMetaEntity;
 import com.diyebure.golia.data.local.entity.PredictionEntity;
 import com.diyebure.golia.data.local.entity.TeamEntity;
 import com.diyebure.golia.data.local.entity.UserEntity;
@@ -35,9 +39,12 @@ import com.diyebure.golia.data.local.entity.UserEntity;
                 TeamEntity.class,
                 CompetitionEntity.class,
                 PredictionEntity.class,
-                UserEntity.class
+                UserEntity.class,
+                NewsArticleEntity.class,
+                NewsLeagueCrossRefEntity.class,
+                NewsLeagueMetaEntity.class
         },
-        version = 3,
+        version = 4,
         exportSchema = true
 )
 public abstract class GolIADatabase extends RoomDatabase {
@@ -61,6 +68,25 @@ public abstract class GolIADatabase extends RoomDatabase {
         }
     };
 
+    /**
+     * Migration from schema version 3 to 4.
+     *
+     * <p>Adds the local storage for the football news feed: the
+     * {@code news_article} table, the {@code news_league_cross_ref} join table
+     * (with its index on {@code league_key}) and the {@code news_league_meta}
+     * table tracking the last fetch instant per league. Existing rows in other
+     * tables are preserved; only new tables are created.
+     */
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase db) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS `news_article` (`article_id` TEXT NOT NULL, `title` TEXT, `description` TEXT, `image_url` TEXT, `source_name` TEXT, `article_url` TEXT, `published_at_epoch_utc` INTEGER NOT NULL, PRIMARY KEY(`article_id`))");
+            db.execSQL("CREATE TABLE IF NOT EXISTS `news_league_cross_ref` (`article_id` TEXT NOT NULL, `league_key` TEXT NOT NULL, PRIMARY KEY(`article_id`, `league_key`))");
+            db.execSQL("CREATE INDEX IF NOT EXISTS `index_news_league_cross_ref_league_key` ON `news_league_cross_ref` (`league_key`)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS `news_league_meta` (`league_key` TEXT NOT NULL, `last_fetched_at_epoch_ms` INTEGER NOT NULL, PRIMARY KEY(`league_key`))");
+        }
+    };
+
     public abstract MatchDao matchDao();
 
     public abstract TeamDao teamDao();
@@ -70,4 +96,6 @@ public abstract class GolIADatabase extends RoomDatabase {
     public abstract PredictionDao predictionDao();
 
     public abstract UserDao userDao();
+
+    public abstract NewsArticleDao newsArticleDao();
 }

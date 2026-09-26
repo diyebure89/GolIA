@@ -1,14 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  Pantalla_Noticias (football-news-feed, tarea 12.3).
+
+  - Encabezado "GOL-IA" con campana de notificaciones (coherente con Partidos).
+  - Título "Noticias Deportivas" con icono de búsqueda que alterna el campo de texto.
+  - Campo de búsqueda (edit_search_news) oculto hasta activar la búsqueda (R8.1).
+  - Fila horizontal desplazable de chips: ChipGroup dentro de un HorizontalScrollView,
+    con Chip_Todos (chip_todos) en primera posición; los chips de liga los añade el
+    fragment dinámicamente desde la fuente de verdad de Partidos (R1, R2.1, R2.6).
+  - Banner de aviso (text_notice) para OFFLINE / QUOTA / ERROR (R9, R10).
+  - SwipeRefreshLayout (swipe_refresh) envolviendo recycler_news (R2.7).
+  - Estados: carga (progress_loading), vacío de liga (empty_league_view),
+    vacío de búsqueda (empty_search_view) y error con reintentar (error_view) (R9.1, R9.3).
+  - Paleta oscura azul del login (R12.6); contentDescription no vacía en búsqueda y chips (R13.2).
+
+  Requisitos: 2.1, 2.6, 2.7, 9.1, 9.3, 12.6, 13.2
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_dark"
+    android:orientation="vertical"
     tools:context=".NoticiasFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Encabezado: marca GOL-IA + campana -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_brand"
+            android:textColor="@color/blue_end"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_notifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_notificaciones"
+            android:src="@drawable/ic_notifications" />
+
+    </LinearLayout>
+
+    <!-- Título "Noticias Deportivas" + icono de búsqueda -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/noticias_deportivas"
+            android:textColor="@color/text_white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_buscar_noticias"
+            android:src="@drawable/ic_search" />
+
+    </LinearLayout>
+
+    <!-- Campo de búsqueda (oculto hasta pulsar el icono de búsqueda) (R8.1) -->
+    <EditText
+        android:id="@+id/edit_search_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_search_input"
+        android:contentDescription="@string/cd_buscar_noticias"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="@string/hint_buscar_noticias"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:textColor="@color/text_white"
+        android:textColorHint="@color/text_gray"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <!-- Fila horizontal desplazable de chips de liga (R2.1) -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_chips_ligas"
+        android:paddingVertical="12dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_leagues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <!-- Chip_Todos en primera posición (R2.1). El fragment añade los chips de
+                 liga a continuación desde FixtureMapper.TARGET_LEAGUE_IDS. -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_todos"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/chip_todos"
+                android:text="@string/chip_todos"
+                android:textColor="@color/text_white" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <!-- Banner de aviso (offline / cuota / error con caché) (R9, R10) -->
+    <TextView
+        android:id="@+id/text_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_search_input"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/gold"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="Mostrando noticias sin conexión"
+        tools:visibility="visible" />
+
+    <!-- Zona de contenido: recycler (con swipe) + estados vacío/carga/error -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingVertical="8dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Estado vacío de liga (R9.3, empty=LEAGUE) -->
+        <TextView
+            android:id="@+id/empty_league_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/empty_noticias_liga"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <!-- Estado vacío de búsqueda (R8.7, empty=SEARCH) -->
+        <TextView
+            android:id="@+id/empty_search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/empty_noticias_busqueda"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <!-- Contenedor de error con acción de reintentar (R9.4) -->
+        <LinearLayout
+            android:id="@+id/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/error_red"
+                android:textSize="16sp"
+                tools:text="No se pudieron cargar las noticias" />
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/btn_reintentar" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

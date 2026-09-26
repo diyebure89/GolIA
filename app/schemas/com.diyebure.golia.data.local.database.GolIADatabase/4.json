@@ -1,0 +1,516 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "d1fd9677dc3e4382fa7ec2d72a41efec",
+    "entities": [
+      {
+        "tableName": "matches",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `external_id` TEXT, `competition_id` TEXT, `competition_name` TEXT, `matchday` INTEGER NOT NULL, `home_team_id` TEXT, `home_team_name` TEXT, `home_team_logo_url` TEXT, `away_team_id` TEXT, `away_team_name` TEXT, `away_team_logo_url` TEXT, `scheduled_date_time` INTEGER NOT NULL, `status` TEXT, `home_score` INTEGER, `away_score` INTEGER, `home_odds` REAL NOT NULL, `draw_odds` REAL NOT NULL, `away_odds` REAL NOT NULL, `elapsed_minute` INTEGER, `venue_name` TEXT, `venue_city` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "externalId",
+            "columnName": "external_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "competitionId",
+            "columnName": "competition_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "competitionName",
+            "columnName": "competition_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "matchday",
+            "columnName": "matchday",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "homeTeamId",
+            "columnName": "home_team_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeTeamName",
+            "columnName": "home_team_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeTeamLogoUrl",
+            "columnName": "home_team_logo_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "awayTeamId",
+            "columnName": "away_team_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "awayTeamName",
+            "columnName": "away_team_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "awayTeamLogoUrl",
+            "columnName": "away_team_logo_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scheduledDateTime",
+            "columnName": "scheduled_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeScore",
+            "columnName": "home_score",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "awayScore",
+            "columnName": "away_score",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeOdds",
+            "columnName": "home_odds",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "drawOdds",
+            "columnName": "draw_odds",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "awayOdds",
+            "columnName": "away_odds",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elapsedMinute",
+            "columnName": "elapsed_minute",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "venueName",
+            "columnName": "venue_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "venueCity",
+            "columnName": "venue_city",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "teams",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `logo_url` TEXT, `country` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logoUrl",
+            "columnName": "logo_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "competitions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `country` TEXT, `logo_url` TEXT, `season` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logoUrl",
+            "columnName": "logo_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "season",
+            "columnName": "season",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "predictions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `user_id` TEXT, `match_id` TEXT, `predicted_outcome` TEXT, `predicted_home_score` INTEGER, `predicted_away_score` INTEGER, `points_earned` INTEGER NOT NULL, `is_correct` INTEGER, `created_at` INTEGER NOT NULL, `finalized_at` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "matchId",
+            "columnName": "match_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "predictedOutcome",
+            "columnName": "predicted_outcome",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "predictedHomeScore",
+            "columnName": "predicted_home_score",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "predictedAwayScore",
+            "columnName": "predicted_away_score",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pointsEarned",
+            "columnName": "points_earned",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCorrect",
+            "columnName": "is_correct",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "finalizedAt",
+            "columnName": "finalized_at",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `full_name` TEXT, `username` TEXT, `email` TEXT NOT NULL, `password_algorithm` TEXT, `password_iterations` INTEGER NOT NULL, `password_salt` TEXT, `password_hash` TEXT, `created_at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullName",
+            "columnName": "full_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordAlgorithm",
+            "columnName": "password_algorithm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "passwordIterations",
+            "columnName": "password_iterations",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordSalt",
+            "columnName": "password_salt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "passwordHash",
+            "columnName": "password_hash",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_users_email",
+            "unique": true,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_users_email` ON `${TABLE_NAME}` (`email`)"
+          },
+          {
+            "name": "index_users_username",
+            "unique": true,
+            "columnNames": [
+              "username"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_users_username` ON `${TABLE_NAME}` (`username`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "news_article",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`article_id` TEXT NOT NULL, `title` TEXT, `description` TEXT, `image_url` TEXT, `source_name` TEXT, `article_url` TEXT, `published_at_epoch_utc` INTEGER NOT NULL, PRIMARY KEY(`article_id`))",
+        "fields": [
+          {
+            "fieldPath": "articleId",
+            "columnName": "article_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceName",
+            "columnName": "source_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "articleUrl",
+            "columnName": "article_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publishedAtEpochUtc",
+            "columnName": "published_at_epoch_utc",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "article_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "news_league_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`article_id` TEXT NOT NULL, `league_key` TEXT NOT NULL, PRIMARY KEY(`article_id`, `league_key`))",
+        "fields": [
+          {
+            "fieldPath": "articleId",
+            "columnName": "article_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "leagueKey",
+            "columnName": "league_key",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "article_id",
+            "league_key"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_news_league_cross_ref_league_key",
+            "unique": false,
+            "columnNames": [
+              "league_key"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_news_league_cross_ref_league_key` ON `${TABLE_NAME}` (`league_key`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "news_league_meta",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`league_key` TEXT NOT NULL, `last_fetched_at_epoch_ms` INTEGER NOT NULL, PRIMARY KEY(`league_key`))",
+        "fields": [
+          {
+            "fieldPath": "leagueKey",
+            "columnName": "league_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetchedAtEpochMs",
+            "columnName": "last_fetched_at_epoch_ms",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "league_key"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1fd9677dc3e4382fa7ec2d72a41efec')"
+    ]
+  }
+}

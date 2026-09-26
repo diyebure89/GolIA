@@ -14,6 +14,7 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.withInputStream { localProperties.load(it) }
 }
 def apiFootballKey = localProperties.getProperty("API_FOOTBALL_KEY", "")
+def newsDataKey = localProperties.getProperty("NEWSDATA_API_KEY", "")
 
 android {
     namespace 'com.diyebure.golia'
@@ -30,6 +31,9 @@ android {
 
         // API-Football key exposed via BuildConfig, read from local.properties.
         buildConfigField "String", "API_FOOTBALL_KEY", "\"${apiFootballKey}\""
+
+        // NewsData.io key exposed via BuildConfig, read from local.properties.
+        buildConfigField "String", "NEWSDATA_API_KEY", "\"${newsDataKey}\""
 
         // Export Room schemas (JSON) so migration tests can validate the
         // migrated schema with MigrationTestHelper. Schemas are written to

@@ -1,0 +1,380 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Spike: validar el contrato real de NewsData.io (tarea temprana)": [
+      {
+        "executionId": "f1d2c559-b3f4-4687-92b8-aeb006e5dd72",
+        "chatSessionId": "sess_34c4f1a9-0ce7-42a3-960a-b07898724c71",
+        "timestamp": 1790320775484
+      },
+      {
+        "executionId": "f1d2c559-b3f4-4687-92b8-aeb006e5dd72",
+        "chatSessionId": "sess_34c4f1a9-0ce7-42a3-960a-b07898724c71",
+        "timestamp": 1790320966583
+      }
+    ],
+    "2. Configuración de build y API key": [
+      {
+        "executionId": "e1933797-481c-490f-b939-5d8054a1f8d2",
+        "chatSessionId": "sess_021fa765-bbef-48a0-9c55-4de9d065e5c6",
+        "timestamp": 1790320997190
+      },
+      {
+        "executionId": "122d18b3-9957-4e60-8044-d8a28515868e",
+        "chatSessionId": "sess_3930fd6e-95e8-4573-b952-b71bb8c74cb6",
+        "timestamp": 1790388738851
+      },
+      {
+        "executionId": "122d18b3-9957-4e60-8044-d8a28515868e",
+        "chatSessionId": "sess_3930fd6e-95e8-4573-b952-b71bb8c74cb6",
+        "timestamp": 1790388895403
+      }
+    ],
+    "3.1 Crear `NewsDataApiService` (Retrofit) con `@GET(\"news\")` y parámetros `q`, `language`, `category`": [
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790388968777
+      },
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790389175029
+      }
+    ],
+    "3.2 Crear `NewsApiKeyInterceptor` que adjunta `apikey` como query param desde `BuildConfig.NEWSDATA_API_KEY`": [
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790388970554
+      },
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790389176254
+      }
+    ],
+    "3.3 Ampliar `NetworkModule` con el stack DI `@Named(\"newsdata\")`": [
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790388971656
+      },
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790389177673
+      }
+    ],
+    "3. Capa de red: cliente NewsData.io": [
+      {
+        "executionId": "b3736150-9243-4c04-a14e-667260f7577c",
+        "chatSessionId": "sess_cdd45464-95bf-4042-8f3a-397f6049d19b",
+        "timestamp": 1790389178168
+      }
+    ],
+    "4. DTOs del proveedor y mapper a dominio": [
+      {
+        "executionId": "471f2a10-35ad-47f5-96db-3a10dae29739",
+        "chatSessionId": "sess_2f77b0ff-7fb2-4cbc-97ca-e57a61f5fcc4",
+        "timestamp": 1790389271826
+      },
+      {
+        "executionId": "fe33f880-a838-4bbc-bab8-b8717fd9e7a3",
+        "chatSessionId": "sess_45c41c32-f4b5-41bd-bf77-ec9d46ecfc29",
+        "timestamp": 1790394511765
+      }
+    ],
+    "4.1 Crear DTOs `NewsResponseDto` y `NewsArticleDto` en `data/remote/dto`": [
+      {
+        "executionId": "471f2a10-35ad-47f5-96db-3a10dae29739",
+        "chatSessionId": "sess_2f77b0ff-7fb2-4cbc-97ca-e57a61f5fcc4",
+        "timestamp": 1790389498444
+      }
+    ],
+    "5.1 Crear el modelo de dominio `ArticuloNoticia`": [
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790389602625
+      },
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790389854334
+      }
+    ],
+    "5.2 Definir la interfaz `NewsRepository` y los errores tipados `NewsError`": [
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790389869498
+      },
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790390078137
+      }
+    ],
+    "5.3 Implementar `LeagueNewsQuery` con la tabla inicial y la clave `wc_qualification`": [
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790389871985
+      },
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790390079189
+      }
+    ],
+    "5.5 Implementar `GetNewsUseCase` y `RefreshNewsUseCase`": [
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790390083489
+      },
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790390243551
+      }
+    ],
+    "5. Dominio: modelo, contrato, consulta de ligas y errores": [
+      {
+        "executionId": "e9cd138c-4fce-4f42-83f4-3b13beed9448",
+        "chatSessionId": "sess_faf32185-33f7-4416-9082-e4c2e92d63c1",
+        "timestamp": 1790390244062
+      }
+    ],
+    "6.1 Implementar `util/CanonicalUrl` (normalización + SHA-256)": [
+      {
+        "executionId": "ebf77545-410d-490a-bde9-40fb653d2dc5",
+        "chatSessionId": "sess_9c42532f-a110-49d3-9db9-fafef50ee506",
+        "timestamp": 1790390448205
+      },
+      {
+        "executionId": "ebf77545-410d-490a-bde9-40fb653d2dc5",
+        "chatSessionId": "sess_9c42532f-a110-49d3-9db9-fafef50ee506",
+        "timestamp": 1790390577815
+      }
+    ],
+    "6.3 Implementar `NewsRequestBudgetManager` (`@Singleton`)": [
+      {
+        "executionId": "ebf77545-410d-490a-bde9-40fb653d2dc5",
+        "chatSessionId": "sess_9c42532f-a110-49d3-9db9-fafef50ee506",
+        "timestamp": 1790390583438
+      },
+      {
+        "executionId": "ebf77545-410d-490a-bde9-40fb653d2dc5",
+        "chatSessionId": "sess_9c42532f-a110-49d3-9db9-fafef50ee506",
+        "timestamp": 1790390747697
+      }
+    ],
+    "6. Utilidades: URL canónica y gestor de presupuesto": [
+      {
+        "executionId": "ebf77545-410d-490a-bde9-40fb653d2dc5",
+        "chatSessionId": "sess_9c42532f-a110-49d3-9db9-fafef50ee506",
+        "timestamp": 1790390748246
+      }
+    ],
+    "7.1 Implementar `NewsDataQueryBuilder`": [
+      {
+        "executionId": "8c60aaa9-2b25-4838-984e-7acafdb4f3af",
+        "chatSessionId": "sess_ae9ecbf8-16c4-4c82-90f5-49b5b3ce482d",
+        "timestamp": 1790390787872
+      },
+      {
+        "executionId": "8c60aaa9-2b25-4838-984e-7acafdb4f3af",
+        "chatSessionId": "sess_ae9ecbf8-16c4-4c82-90f5-49b5b3ce482d",
+        "timestamp": 1790391020694
+      }
+    ],
+    "7. Capa de datos remota: builder de consulta": [
+      {
+        "executionId": "8c60aaa9-2b25-4838-984e-7acafdb4f3af",
+        "chatSessionId": "sess_ae9ecbf8-16c4-4c82-90f5-49b5b3ce482d",
+        "timestamp": 1790391021222
+      }
+    ],
+    "8.1 Crear entidades `NewsArticleEntity`, `NewsLeagueCrossRefEntity` y `NewsLeagueMetaEntity`": [
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391070120
+      },
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391199539
+      }
+    ],
+    "8.2 Implementar `NewsArticleDao`": [
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391214681
+      },
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391331607
+      }
+    ],
+    "8.4 Migrar `GolIADatabase` v3→v4 y exportar schema 4": [
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391215704
+      },
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391655124
+      }
+    ],
+    "8. Capa de datos local: Room (entidades, DAO, migración)": [
+      {
+        "executionId": "dc308d00-41d9-40f1-a60f-3cd19ab4a7a0",
+        "chatSessionId": "sess_714f1960-bf89-4230-866e-27cad24faef6",
+        "timestamp": 1790391655664
+      }
+    ],
+    "9. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "455ab353-faf2-4898-aa58-8712af4a72df",
+        "chatSessionId": "sess_cc8bb54a-71a1-4253-b191-e1f86fac86d7",
+        "timestamp": 1790391702189
+      },
+      {
+        "executionId": "455ab353-faf2-4898-aa58-8712af4a72df",
+        "chatSessionId": "sess_cc8bb54a-71a1-4253-b191-e1f86fac86d7",
+        "timestamp": 1790391997628
+      }
+    ],
+    "10.1 Implementar `NewsRepositoryImpl` y su binding en `RepositoryModule`": [
+      {
+        "executionId": "0b741155-a2da-49d0-95ce-f7362761ad03",
+        "chatSessionId": "sess_31e18352-76c0-46ea-93c6-1bdf82c08982",
+        "timestamp": 1790392073831
+      },
+      {
+        "executionId": "0b741155-a2da-49d0-95ce-f7362761ad03",
+        "chatSessionId": "sess_31e18352-76c0-46ea-93c6-1bdf82c08982",
+        "timestamp": 1790392312966
+      }
+    ],
+    "10. Repositorio: orquestación de datos": [
+      {
+        "executionId": "0b741155-a2da-49d0-95ce-f7362761ad03",
+        "chatSessionId": "sess_31e18352-76c0-46ea-93c6-1bdf82c08982",
+        "timestamp": 1790392313364
+      }
+    ],
+    "11.1 Crear los modelos de UI `EstadoUi`, `ChipLiga` y `ArticleUiModel`": [
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790392385989
+      },
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790392585426
+      }
+    ],
+    "11.2 Implementar `NoticiasViewModel` (`@HiltViewModel`)": [
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790392590098
+      },
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790392804414
+      }
+    ],
+    "11.4 Implementar el filtro de búsqueda en el ViewModel": [
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790392809448
+      },
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790393030824
+      }
+    ],
+    "11. Presentación: estado, ViewModel y filtro": [
+      {
+        "executionId": "ea0180ab-1186-4aa0-85fb-da8aedfec315",
+        "chatSessionId": "sess_6510ac5b-5fe5-4beb-bd7e-9a5bf1918659",
+        "timestamp": 1790393031216
+      }
+    ],
+    "12.1 Implementar `NewsAdapter` (`ListAdapter` + `DiffUtil`), `NewsDiffCallback` y ViewHolder": [
+      {
+        "executionId": "f72f8d56-8cc0-4cf6-a331-b166c3ea6cf3",
+        "chatSessionId": "sess_d86733da-3e58-4ca5-ba98-1fb8561e4942",
+        "timestamp": 1790393081642
+      },
+      {
+        "executionId": "f72f8d56-8cc0-4cf6-a331-b166c3ea6cf3",
+        "chatSessionId": "sess_d86733da-3e58-4ca5-ba98-1fb8561e4942",
+        "timestamp": 1790393527267
+      }
+    ],
+    "12.3 Crear los layouts `fragment_noticias.xml` e `item_news.xml`": [
+      {
+        "executionId": "f72f8d56-8cc0-4cf6-a331-b166c3ea6cf3",
+        "chatSessionId": "sess_d86733da-3e58-4ca5-ba98-1fb8561e4942",
+        "timestamp": 1790393086334
+      },
+      {
+        "executionId": "f72f8d56-8cc0-4cf6-a331-b166c3ea6cf3",
+        "chatSessionId": "sess_d86733da-3e58-4ca5-ba98-1fb8561e4942",
+        "timestamp": 1790393528349
+      }
+    ],
+    "13.1 Conectar `NoticiasFragment` al ViewModel e integrarlo en la navegación existente": [
+      {
+        "executionId": "27aa3eab-c9e5-4eb3-9e22-f73b4a6d24cc",
+        "chatSessionId": "sess_af27f63b-86d3-4af6-b974-f3d0d7000662",
+        "timestamp": 1790393581142
+      },
+      {
+        "executionId": "27aa3eab-c9e5-4eb3-9e22-f73b4a6d24cc",
+        "chatSessionId": "sess_af27f63b-86d3-4af6-b974-f3d0d7000662",
+        "timestamp": 1790393849999
+      }
+    ],
+    "13. Cableado final: fragment y navegación": [
+      {
+        "executionId": "27aa3eab-c9e5-4eb3-9e22-f73b4a6d24cc",
+        "chatSessionId": "sess_af27f63b-86d3-4af6-b974-f3d0d7000662",
+        "timestamp": 1790393850548
+      }
+    ],
+    "14. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "081815cd-6367-4817-9b17-30393c9b7406",
+        "chatSessionId": "sess_45c41c32-f4b5-41bd-bf77-ec9d46ecfc29",
+        "timestamp": 1790393930736
+      },
+      {
+        "executionId": "081815cd-6367-4817-9b17-30393c9b7406",
+        "chatSessionId": "sess_45c41c32-f4b5-41bd-bf77-ec9d46ecfc29",
+        "timestamp": 1790394195984
+      }
+    ],
+    "4.2 Implementar `NewsMapper` (DTO → `ArticuloNoticia`)": [
+      {
+        "executionId": "fe33f880-a838-4bbc-bab8-b8717fd9e7a3",
+        "chatSessionId": "sess_45c41c32-f4b5-41bd-bf77-ec9d46ecfc29",
+        "timestamp": 1790394511251
+      }
+    ]
+  }
+}

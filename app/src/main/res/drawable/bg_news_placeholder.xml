@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Placeholder oscuro para la imagen de la tarjeta de noticia (item_news.xml).
+  Se muestra mientras Glide carga, ante ausencia de URL, fallo o timeout >10s
+  (Requisitos 7.4, 12.6, 13.1). Usa un degradado sutil de la paleta azul oscura
+  del resto de la app.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="315"
+        android:startColor="@color/blue_dark"
+        android:centerColor="#101830"
+        android:endColor="@color/blue_start"
+        android:type="linear" />
+
+</shape>

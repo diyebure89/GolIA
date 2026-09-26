@@ -113,4 +113,20 @@
     <string name="notice_quota">Se alcanzó el límite diario de peticiones</string>
     <string name="btn_reintentar">Reintentar</string>
 
+    <!--PANTALLA NOTICIAS (football-news-feed)-->
+    <string name="noticias_deportivas">Noticias Deportivas</string>
+    <string name="hint_buscar_noticias">Buscar noticias</string>
+    <string name="cd_buscar_noticias">Buscar noticias</string>
+    <string name="cd_tarjeta_noticia">Abrir noticia</string>
+    <string name="cd_imagen_noticia">Imagen de la noticia</string>
+    <string name="cd_chips_ligas">Filtros de liga</string>
+    <string name="chip_todos">Todos</string>
+    <string name="badge_futbol">Fútbol</string>
+    <string name="empty_noticias_liga">No hay noticias disponibles para esta liga</string>
+    <string name="empty_noticias_busqueda">Sin resultados de búsqueda</string>
+    <string name="error_noticias">No se pudieron cargar las noticias</string>
+    <string name="notice_offline_noticias">Mostrando noticias sin conexión</string>
+    <string name="notice_quota_noticias">Se alcanzó el límite diario de noticias</string>
+    <string name="error_abrir_noticia">No se encontró una app para abrir la noticia</string>
+
 </resources>

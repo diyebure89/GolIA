@@ -2,8 +2,10 @@ package com.diyebure.golia.di;
 
 import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.data.remote.ApiKeyInterceptor;
+import com.diyebure.golia.data.remote.NewsApiKeyInterceptor;
 import com.diyebure.golia.data.remote.api.AuthApiService;
 import com.diyebure.golia.data.remote.api.FootballApiService;
+import com.diyebure.golia.data.remote.api.NewsDataApiService;
 import com.diyebure.golia.data.remote.interceptor.AuthInterceptor;
 import com.diyebure.golia.data.remote.interceptor.LoggingInterceptor;
 
@@ -35,9 +37,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *       ({@value #FOOTBALL_BASE_URL}) with {@link ApiKeyInterceptor}, which
  *       attaches the {@code x-apisports-key} header to every fixtures request
  *       (Requirements 1.2, 2.1).</li>
+ *   <li>{@link #NEWSDATA_BACKEND}: NewsData.io
+ *       ({@value #NEWSDATA_BASE_URL}) with {@link NewsApiKeyInterceptor}, which
+ *       attaches the {@code apikey} query parameter to every news request
+ *       (Requirements 5.3, 5.4).</li>
  * </ul>
- * Splitting the clients keeps the API-Football key from ever being sent to the
- * GolIA backend and lets each service target its own base URL.
+ * Splitting the clients keeps each provider key isolated (the API-Football key
+ * is never sent to GolIA and the NewsData.io key never leaks to the other
+ * backends) and lets each service target its own base URL.
  */
 @Module
 @InstallIn(SingletonComponent.class)
@@ -49,8 +56,12 @@ public class NetworkModule {
     /** Qualifier for the API-Football (API-SPORTS) OkHttp/Retrofit stack. */
     private static final String FOOTBALL_BACKEND = "football";
 
+    /** Qualifier for the NewsData.io OkHttp/Retrofit stack. */
+    private static final String NEWSDATA_BACKEND = "newsdata";
+
     private static final String GOLIA_BASE_URL = "https://api.golia.app/v1/";
     private static final String FOOTBALL_BASE_URL = "https://v3.football.api-sports.io/";
+    private static final String NEWSDATA_BASE_URL = "https://newsdata.io/api/1/";
     private static final long CONNECT_TIMEOUT_SECONDS = 30;
     private static final long READ_TIMEOUT_SECONDS = 30;
     private static final long WRITE_TIMEOUT_SECONDS = 30;
@@ -147,5 +158,42 @@ public class NetworkModule {
     @Singleton
     public FootballApiService provideFootballApiService(@Named(FOOTBALL_BACKEND) Retrofit retrofit) {
         return retrofit.create(FootballApiService.class);
+    }
+
+    // --- NewsData.io stack ---
+
+    @Provides
+    @Singleton
+    @Named(NEWSDATA_BACKEND)
+    public OkHttpClient provideNewsDataOkHttpClient(
+            HttpLoggingInterceptor httpLoggingInterceptor,
+            NewsApiKeyInterceptor newsApiKeyInterceptor,
+            LoggingInterceptor loggingInterceptor) {
+
+        return new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(newsApiKeyInterceptor)
+                .addInterceptor(loggingInterceptor)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    @Named(NEWSDATA_BACKEND)
+    public Retrofit provideNewsDataRetrofit(@Named(NEWSDATA_BACKEND) OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .baseUrl(NEWSDATA_BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    public NewsDataApiService provideNewsDataApiService(@Named(NEWSDATA_BACKEND) Retrofit retrofit) {
+        return retrofit.create(NewsDataApiService.class);
     }
 }

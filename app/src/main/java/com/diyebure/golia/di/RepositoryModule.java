@@ -2,8 +2,10 @@ package com.diyebure.golia.di;
 
 import com.diyebure.golia.data.repository.LocalAuthRepositoryImpl;
 import com.diyebure.golia.data.repository.MatchRepositoryImpl;
+import com.diyebure.golia.data.repository.NewsRepositoryImpl;
 import com.diyebure.golia.domain.repository.AuthRepository;
 import com.diyebure.golia.domain.repository.MatchRepository;
+import com.diyebure.golia.domain.repository.NewsRepository;
 
 import javax.inject.Singleton;
 
@@ -45,4 +47,8 @@ public abstract class RepositoryModule {
     @Binds
     @Singleton
     public abstract MatchRepository bindMatchRepository(MatchRepositoryImpl impl);
+
+    @Binds
+    @Singleton
+    public abstract NewsRepository bindNewsRepository(NewsRepositoryImpl impl);
 }

@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.diyebure.golia.data.local.dao.CompetitionDao;
 import com.diyebure.golia.data.local.dao.MatchDao;
+import com.diyebure.golia.data.local.dao.NewsArticleDao;
 import com.diyebure.golia.data.local.dao.PredictionDao;
 import com.diyebure.golia.data.local.dao.TeamDao;
 import com.diyebure.golia.data.local.dao.UserDao;
@@ -43,7 +44,9 @@ public class DatabaseModule {
                 // matches schema gains the elapsed_minute / venue columns.
                 // fallbackToDestructiveMigration remains as a safety net for
                 // any other (pre-2) schema jump during early development.
-                .addMigrations(GolIADatabase.MIGRATION_2_3)
+                // MIGRATION_3_4 creates the football news feed tables
+                // (news_article, news_league_cross_ref, news_league_meta).
+                .addMigrations(GolIADatabase.MIGRATION_2_3, GolIADatabase.MIGRATION_3_4)
                 .fallbackToDestructiveMigration()
                 .build();
     }
@@ -76,5 +79,11 @@ public class DatabaseModule {
     @Singleton
     public UserDao provideUserDao(GolIADatabase database) {
         return database.userDao();
+    }
+
+    @Provides
+    @Singleton
+    public NewsArticleDao provideNewsArticleDao(GolIADatabase database) {
+        return database.newsArticleDao();
     }
 }
