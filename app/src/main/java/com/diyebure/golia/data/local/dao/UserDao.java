@@ -58,4 +58,35 @@ public interface UserDao {
      */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
     UserEntity getById(String id);
+
+    /**
+     * Update the editable personal data (username and email) for a user.
+     */
+    @Query("UPDATE users SET username = :username, email = :email WHERE id = :id")
+    void updatePersonalData(String id, String username, String email);
+
+    /**
+     * Update the stored password credential columns for a user.
+     */
+    @Query("UPDATE users SET password_algorithm = :alg, password_iterations = :iter, "
+            + "password_salt = :salt, password_hash = :hash WHERE id = :id")
+    void updateCredentials(String id, String alg, int iter, String salt, String hash);
+
+    /**
+     * Update the avatar path for a user. A {@code null} value clears the avatar.
+     */
+    @Query("UPDATE users SET avatar_uri = :avatarUri WHERE id = :id")
+    void updateAvatar(String id, String avatarUri);
+
+    /**
+     * Check whether another account (excluding the given id) already uses the email.
+     */
+    @Query("SELECT EXISTS(SELECT 1 FROM users WHERE email = :email AND id <> :selfId)")
+    boolean existsByEmailExcludingId(String email, String selfId);
+
+    /**
+     * Check whether another account (excluding the given id) already uses the username.
+     */
+    @Query("SELECT EXISTS(SELECT 1 FROM users WHERE username = :username AND id <> :selfId)")
+    boolean existsByUsernameExcludingId(String username, String selfId);
 }

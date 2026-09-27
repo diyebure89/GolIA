@@ -22,6 +22,7 @@ public class RegistrationValidator {
     private static final int USERNAME_MIN = 3;
     private static final int USERNAME_MAX = 30;
     private static final int PASSWORD_MIN = 8;
+    private static final int PASSWORD_MAX = 64;
 
     /** Allowed character set for a username (without the optional leading '@'). */
     private static final Pattern USERNAME_CHARSET = Pattern.compile("^[A-Za-z0-9_.]+$");
@@ -115,10 +116,10 @@ public class RegistrationValidator {
     }
 
     /**
-     * Validates the password (R4). Not trimmed. Required and at least
-     * {@value #PASSWORD_MIN} characters, then must contain at least one
-     * uppercase letter, one lowercase letter and one digit; the first failing
-     * condition (in that order) is returned.
+     * Validates the password (R4). Not trimmed. Required, between
+     * {@value #PASSWORD_MIN} and {@value #PASSWORD_MAX} characters, then must
+     * contain at least one uppercase letter, one lowercase letter and one
+     * digit; the first failing condition (in that order) is returned.
      *
      * @param password raw password, may be {@code null}
      * @return the detected error, or {@code null} when valid
@@ -129,6 +130,9 @@ public class RegistrationValidator {
         }
         if (password.length() < PASSWORD_MIN) {
             return ValidationError.PASSWORD_TOO_SHORT;
+        }
+        if (password.length() > PASSWORD_MAX) {
+            return ValidationError.PASSWORD_TOO_LONG;
         }
         if (!HAS_UPPER.matcher(password).matches()) {
             return ValidationError.PASSWORD_NO_UPPER;

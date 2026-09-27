@@ -1,0 +1,454 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Capa de datos base: entidad y DAO": [
+      {
+        "executionId": "6cf4de3c-2536-49b7-b25a-ee2c89563f3e",
+        "chatSessionId": "sess_c5f2ba45-6f59-47e3-808f-45bf205f1587",
+        "timestamp": 1790480716223
+      },
+      {
+        "executionId": "6cf4de3c-2536-49b7-b25a-ee2c89563f3e",
+        "chatSessionId": "sess_c5f2ba45-6f59-47e3-808f-45bf205f1587",
+        "timestamp": 1790480862526
+      }
+    ],
+    "1.2 Añadir las consultas de actualización y de unicidad excluyente a `UserDao`": [
+      {
+        "executionId": "63d47aae-bc33-4089-8e50-f7be101d6546",
+        "chatSessionId": "sess_8ed73fc5-e348-4687-8f09-45a85871225c",
+        "timestamp": 1790480910593
+      },
+      {
+        "executionId": "63d47aae-bc33-4089-8e50-f7be101d6546",
+        "chatSessionId": "sess_8ed73fc5-e348-4687-8f09-45a85871225c",
+        "timestamp": 1790481002294
+      }
+    ],
+    "1.1 Añadir la columna `avatar_uri` a `UserEntity` y actualizar el mapeo a dominio": [
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481261080
+      },
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481334655
+      }
+    ],
+    "2.1 Subir la versión de la base de datos a 5 y definir `MIGRATION_4_5`": [
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481340076
+      },
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481478003
+      }
+    ],
+    "2.2 Registrar `MIGRATION_4_5` en `di.DatabaseModule`": [
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481482003
+      },
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481556448
+      }
+    ],
+    "2.3 Escribir el test de migración v4→v5 (androidTest) análogo a `MatchMigrationTest`": [
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790481561044
+      },
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790482030314
+      }
+    ],
+    "2. Migración de esquema Room v4→v5": [
+      {
+        "executionId": "10ffa64b-3ab2-4235-b3fa-058361bee02c",
+        "chatSessionId": "sess_f55245b6-5d20-4ede-8079-51add31f6555",
+        "timestamp": 1790482030747
+      }
+    ],
+    "3. Validación del dominio": [
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482096262
+      },
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790483151284
+      }
+    ],
+    "3.1 Añadir la regla de longitud máxima 64 y `PASSWORD_TOO_LONG` a `RegistrationValidator`": [
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482101902
+      },
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482181464
+      }
+    ],
+    "3.2 Crear `ProfileValidator` que delega en `RegistrationValidator`": [
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482186143
+      },
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482930500
+      }
+    ],
+    "3.3 Escribir tests unitarios JVM de `ProfileValidator` usando el hook `isEmailPattern`": [
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790482948948
+      },
+      {
+        "executionId": "800ccc3b-6229-4a41-89fd-dd4e997a87ad",
+        "chatSessionId": "sess_f057f604-ed76-4a3b-a2cd-fa404490dc95",
+        "timestamp": 1790483150842
+      }
+    ],
+    "4. Ampliar el contrato de errores `AuthError`": [
+      {
+        "executionId": "0f84752f-ff2b-4e56-98c6-cd8e309224b0",
+        "chatSessionId": "sess_1f91bda8-fb7a-44f1-a504-264327c9a354",
+        "timestamp": 1790483189622
+      },
+      {
+        "executionId": "0f84752f-ff2b-4e56-98c6-cd8e309224b0",
+        "chatSessionId": "sess_1f91bda8-fb7a-44f1-a504-264327c9a354",
+        "timestamp": 1790483253997
+      }
+    ],
+    "4.1 Añadir `SESSION_UNAVAILABLE` y `SESSION_CLEAR_FAILED` al enum `AuthError`": [
+      {
+        "executionId": "1ce4b6fe-beab-4cda-88a2-1ebd9175d788",
+        "chatSessionId": "sess_515421cb-4baf-4536-9d95-6c36117ae3b9",
+        "timestamp": 1790483279016
+      },
+      {
+        "executionId": "1ce4b6fe-beab-4cda-88a2-1ebd9175d788",
+        "chatSessionId": "sess_515421cb-4baf-4536-9d95-6c36117ae3b9",
+        "timestamp": 1790483345583
+      }
+    ],
+    "5.1 Añadir la dependencia `androidx.exifinterface` al `build.gradle` del módulo `app`": [
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483380027
+      },
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483491465
+      }
+    ],
+    "5.2 Configurar `FileProvider` para la captura de cámara": [
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483380808
+      },
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483492482
+      }
+    ],
+    "5.3 Implementar `PhotoStorage` (validación, anti-OOM, EXIF, downscale, escritura determinista)": [
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483501915
+      },
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483645944
+      }
+    ],
+    "5. Almacenamiento y procesamiento de la foto de perfil": [
+      {
+        "executionId": "d410f661-e8c9-4b12-af90-afaa23c69347",
+        "chatSessionId": "sess_e43d0139-8024-4cc5-85f7-35ca904b5867",
+        "timestamp": 1790483646508
+      }
+    ],
+    "6. Dominio: interfaces, fuente de ranking y casos de uso": [
+      {
+        "executionId": "cf5353dd-8bf1-4957-8b69-404b5ff1c86c",
+        "chatSessionId": "sess_f73cec01-65df-454f-849c-d2698518ea65",
+        "timestamp": 1790483687903
+      },
+      {
+        "executionId": "cf5353dd-8bf1-4957-8b69-404b5ff1c86c",
+        "chatSessionId": "sess_f73cec01-65df-454f-849c-d2698518ea65",
+        "timestamp": 1790483991975
+      }
+    ],
+    "6.1 Definir la interfaz `ProfileRepository`": [
+      {
+        "executionId": "7dc2b5c6-699e-4b1e-8116-d9224264d490",
+        "chatSessionId": "sess_9878aa5b-cdf8-432f-bd3f-c8cbc91368f8",
+        "timestamp": 1790484106407
+      },
+      {
+        "executionId": "7dc2b5c6-699e-4b1e-8116-d9224264d490",
+        "chatSessionId": "sess_9878aa5b-cdf8-432f-bd3f-c8cbc91368f8",
+        "timestamp": 1790484178418
+      }
+    ],
+    "6.2 Definir `RankingDataSource`, `RankingSnapshot` y `PlaceholderRankingDataSource`": [
+      {
+        "executionId": "53e642f8-cf37-4d65-a043-279954d4b8c8",
+        "chatSessionId": "sess_8627f224-307b-442f-8fee-496f0cf8853c",
+        "timestamp": 1790484211316
+      },
+      {
+        "executionId": "53e642f8-cf37-4d65-a043-279954d4b8c8",
+        "chatSessionId": "sess_8627f224-307b-442f-8fee-496f0cf8853c",
+        "timestamp": 1790484374313
+      }
+    ],
+    "6.3 Implementar los casos de uso que despachan al `@IoExecutor`": [
+      {
+        "executionId": "ad9beef8-6c5d-4840-8590-8e9f4800072c",
+        "chatSessionId": "sess_a13d86c2-bd29-401e-8c43-8514c710a544",
+        "timestamp": 1790484422261
+      },
+      {
+        "executionId": "ad9beef8-6c5d-4840-8590-8e9f4800072c",
+        "chatSessionId": "sess_a13d86c2-bd29-401e-8c43-8514c710a544",
+        "timestamp": 1790484614163
+      }
+    ],
+    "7.1 Implementar `ProfileRepositoryImpl` siguiendo el patrón de `LocalAuthRepositoryImpl`": [
+      {
+        "executionId": "f31c7486-c451-41d4-adbc-02dd16e5c052",
+        "chatSessionId": "sess_73278880-b290-46a1-a93e-a4ccc3bf3990",
+        "timestamp": 1790484661048
+      },
+      {
+        "executionId": "f31c7486-c451-41d4-adbc-02dd16e5c052",
+        "chatSessionId": "sess_73278880-b290-46a1-a93e-a4ccc3bf3990",
+        "timestamp": 1790484879175
+      }
+    ],
+    "7.2 Escribir el test del `ChangePasswordUseCase`/repositorio (verificación + re-hash + no texto plano)": [
+      {
+        "executionId": "f31c7486-c451-41d4-adbc-02dd16e5c052",
+        "chatSessionId": "sess_73278880-b290-46a1-a93e-a4ccc3bf3990",
+        "timestamp": 1790484883151
+      },
+      {
+        "executionId": "f31c7486-c451-41d4-adbc-02dd16e5c052",
+        "chatSessionId": "sess_73278880-b290-46a1-a93e-a4ccc3bf3990",
+        "timestamp": 1790485224383
+      }
+    ],
+    "7. Capa de datos: implementación del repositorio": [
+      {
+        "executionId": "f31c7486-c451-41d4-adbc-02dd16e5c052",
+        "chatSessionId": "sess_73278880-b290-46a1-a93e-a4ccc3bf3990",
+        "timestamp": 1790485224885
+      }
+    ],
+    "8. Checkpoint - Asegurar que compila y pasan los tests": [
+      {
+        "executionId": "13c6057f-92a0-43cd-a1ea-f2e30ef4b1e4",
+        "chatSessionId": "sess_81f505ce-5fc8-4415-b886-c41b04cf5d8e",
+        "timestamp": 1790485297785
+      },
+      {
+        "executionId": "13c6057f-92a0-43cd-a1ea-f2e30ef4b1e4",
+        "chatSessionId": "sess_81f505ce-5fc8-4415-b886-c41b04cf5d8e",
+        "timestamp": 1790485707572
+      }
+    ],
+    "9.1 Añadir los bindings de `ProfileRepository` y `RankingDataSource` en `RepositoryModule`": [
+      {
+        "executionId": "a7186c9b-946c-461c-a851-cae597768999",
+        "chatSessionId": "sess_50c390f3-1dc8-486b-9ae8-caed7100eeb2",
+        "timestamp": 1790485759807
+      },
+      {
+        "executionId": "a7186c9b-946c-461c-a851-cae597768999",
+        "chatSessionId": "sess_50c390f3-1dc8-486b-9ae8-caed7100eeb2",
+        "timestamp": 1790485875717
+      }
+    ],
+    "9. Inyección de dependencias (Hilt)": [
+      {
+        "executionId": "a7186c9b-946c-461c-a851-cae597768999",
+        "chatSessionId": "sess_50c390f3-1dc8-486b-9ae8-caed7100eeb2",
+        "timestamp": 1790485876255
+      }
+    ],
+    "10.1 Implementar `Event<T>` (SingleLiveEvent) de un solo consumo": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790485929174
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486065336
+      }
+    ],
+    "10.3 Implementar `PerfilViewModel extends BaseViewModel`": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486082189
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486096591
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486378535
+      }
+    ],
+    "10.4 Crear el layout completo `fragment_perfil.xml` según el mockup": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486082504
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486097998
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486379893
+      }
+    ],
+    "10.5 Añadir los recursos de string de error localizados": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486082795
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486099057
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486381393
+      }
+    ],
+    "10.6 Reescribir `PerfilFragment` (`@AndroidEntryPoint`, binding, launchers, mapeo de errores)": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486083098
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486386079
+      },
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790487092129
+      }
+    ],
+    "11.1 Cablear la navegación de logout a `LoginActivity` con flags de tarea": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486083467
+      },
+      {
+        "executionId": "304f2af9-a4ca-41ae-8ce9-a6441205eb5a",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487150979
+      },
+      {
+        "executionId": "304f2af9-a4ca-41ae-8ce9-a6441205eb5a",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487321742
+      }
+    ],
+    "11.2 Integrar la sección Historial con `RankingDataSource`": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486083899
+      },
+      {
+        "executionId": "304f2af9-a4ca-41ae-8ce9-a6441205eb5a",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487152134
+      },
+      {
+        "executionId": "304f2af9-a4ca-41ae-8ce9-a6441205eb5a",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487322608
+      }
+    ],
+    "12. Checkpoint final - Asegurar que compila y pasan los tests": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790486084486
+      },
+      {
+        "executionId": "c3ff5936-aba3-4e24-8b80-995a1c7ce2fa",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487407865
+      },
+      {
+        "executionId": "c3ff5936-aba3-4e24-8b80-995a1c7ce2fa",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790488134322
+      }
+    ],
+    "10. Presentación: eventos, ViewModel, layout y Fragment": [
+      {
+        "executionId": "ae4772bf-204b-422b-9e81-10aa7c95b39e",
+        "chatSessionId": "sess_138dac28-a0b5-454d-beb0-145d04207f21",
+        "timestamp": 1790487093590
+      }
+    ],
+    "11. Cableado final y verificación": [
+      {
+        "executionId": "304f2af9-a4ca-41ae-8ce9-a6441205eb5a",
+        "chatSessionId": "sess_92f3f350-d756-4e94-955b-c9b80d87e88b",
+        "timestamp": 1790487322869
+      }
+    ]
+  }
+}

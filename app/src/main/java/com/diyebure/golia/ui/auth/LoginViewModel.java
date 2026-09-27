@@ -106,6 +106,8 @@ public class LoginViewModel extends ViewModel {
                 if (user != null) {
                     preferencesManager.saveUserId(user.getId());
                     preferencesManager.saveUserName(user.getFullName()); // R11.1
+                    // Persist the optional username so Home can prefer it over the full name.
+                    preferencesManager.saveUserUsername(user.getUsername());
                 }
                 navigateToHome.postValue(new Event<>(true));
             } else {

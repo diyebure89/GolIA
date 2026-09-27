@@ -1,7 +1,9 @@
 package com.diyebure.golia;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,10 @@ import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.presentation.adapter.MatchesAdapter;
 import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
 import com.diyebure.golia.presentation.ui.inicio.InicioViewModel;
+import com.diyebure.golia.util.DisplayName;
+import com.google.android.material.imageview.ShapeableImageView;
+
+import java.io.File;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,16 +30,19 @@ import dagger.hilt.android.AndroidEntryPoint;
  * Home fragment displaying the welcome card, placeholder statistics and the
  * "Próximos partidos" section populated with real data.
  *
- * <p>El nombre mostrado proviene únicamente de la sesión local
- * ({@link PreferencesManager}), sin tocar base de datos ni repositorios
- * (R11.2). Las estadísticas siguen siendo placeholders. Los próximos partidos
- * se obtienen de {@link InicioViewModel}, que comparte la fuente de datos con la
- * Pantalla_Partidos, y "Ver todos" navega a la pestaña Partidos.
+ * <p>La tarjeta de bienvenida muestra, centrados, el avatar del usuario, el
+ * texto fijo "BIENVENIDO" y el nombre a mostrar. El nombre y el avatar provienen
+ * únicamente de la sesión local ({@link PreferencesManager}) y del almacenamiento
+ * interno, sin tocar base de datos ni repositorios (R11.2). El nombre da
+ * prioridad al nombre de usuario sobre el nombre completo y usa "Invitado" como
+ * último recurso. Las estadísticas siguen siendo placeholders. Los próximos
+ * partidos se obtienen de {@link InicioViewModel}, que comparte la fuente de
+ * datos con la Pantalla_Partidos, y "Ver todos" navega a la pestaña Partidos.
  */
 @AndroidEntryPoint
 public class InicioFragment extends BasePlaceholderFragment {
 
-    /** Nombre por defecto cuando la sesión no tiene un nombre válido (R7.2/R11.3). */
+    /** Nombre por defecto cuando la sesión no tiene usuario ni nombre válidos (R7.2/R11.3). */
     private static final String DEFAULT_NAME = "Invitado";
 
     public InicioFragment() {
@@ -51,10 +60,9 @@ public class InicioFragment extends BasePlaceholderFragment {
     protected void bindPlaceholderData() {
         View v = requireView();
 
-        // Nombre desde sesión local con fallback (R7.2, R11.2, R11.3)
-        String name = readSessionName();
-        TextView welcome = v.findViewById(R.id.text_welcome);
-        welcome.setText(getString(R.string.inicio_bienvenida_formato, resolveName(name)));
+        // Nombre y avatar de la tarjeta de bienvenida (se refrescan también en
+        // onResume para reflejar cambios hechos en la Pantalla_Perfil).
+        refreshWelcomeCard(v);
 
         // 4 estadísticas independientes placeholder (R7.3)
         ((TextView) v.findViewById(R.id.text_stat_pronosticos_value)).setText("48");
@@ -80,29 +88,72 @@ public class InicioFragment extends BasePlaceholderFragment {
                 ((MainActivity) requireActivity()).navigateToPartidos());
     }
 
-    /**
-     * Resuelve el nombre a mostrar aplicando el fallback.
-     *
-     * <p>Método estático puro (sin dependencias de Android) para poder testearse
-     * en JVM sin instrumentación (R7.2/R11.3).
-     *
-     * @param sessionName nombre leído de la sesión local (puede ser {@code null})
-     * @return el nombre si no es nulo ni solo espacios, o {@link #DEFAULT_NAME}
-     */
-    static String resolveName(String sessionName) {
-        return (sessionName == null || sessionName.trim().isEmpty()) ? DEFAULT_NAME : sessionName;
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Al volver a la pestaña Inicio (show/hide no recrea el fragment), refresca
+        // el avatar y el nombre para reflejar de inmediato un cambio hecho en Perfil.
+        View v = getView();
+        if (v != null) {
+            refreshWelcomeCard(v);
+        }
     }
 
     /**
-     * Lee el nombre desde {@link PreferencesManager} (solo sesión local, R11.2).
+     * Refresca el nombre y el avatar de la tarjeta de bienvenida desde la sesión
+     * local y el almacenamiento interno. Se llama al crear la vista y en cada
+     * {@code onResume} para reflejar cambios hechos en la Pantalla_Perfil.
+     *
+     * <p>El prefijo fijo "BIENVENIDO" lo aporta el TextView del layout, por lo que
+     * aquí solo se fija el nombre resuelto (R7.2, R11.2, R11.3).
+     */
+    private void refreshWelcomeCard(View v) {
+        TextView welcome = v.findViewById(R.id.text_welcome);
+        welcome.setText(resolveDisplayName());
+        renderAvatar(v.findViewById(R.id.image_avatar_home));
+    }
+
+    /**
+     * Lee el nombre de usuario y el nombre completo de la sesión local y resuelve
+     * el nombre a mostrar dando prioridad al usuario (R7.2, R11.2, R11.3).
      *
      * <p>Se instancia {@code PreferencesManager} con el {@code ApplicationContext}
-     * (mismo comportamiento que su constructor {@code @Inject}), evitando
-     * acoplar el fragment a Hilt y manteniendo la lectura restringida a la
-     * sesión local.
+     * (mismo comportamiento que su constructor {@code @Inject}), evitando acoplar
+     * el fragment a Hilt y manteniendo la lectura restringida a la sesión local.
+     * La regla de prioridad vive en {@link DisplayName}, compartida con la
+     * Pantalla_Perfil.
      */
-    private String readSessionName() {
+    private String resolveDisplayName() {
         Context appContext = requireContext().getApplicationContext();
-        return new PreferencesManager(appContext).getUserName();
+        PreferencesManager prefs = new PreferencesManager(appContext);
+        return DisplayName.resolve(prefs.getUserUsername(), prefs.getUserName(), DEFAULT_NAME);
+    }
+
+    /**
+     * Carga el avatar de la tarjeta de bienvenida desde la foto de perfil guardada
+     * en almacenamiento interno ({@code filesDir/avatar_{userId}.jpg}, la misma que
+     * escribe {@code PhotoStorage}). Si no hay usuario en sesión o el archivo no
+     * existe, muestra el avatar por defecto sin error (coherente con la Pantalla_Perfil).
+     */
+    private void renderAvatar(ShapeableImageView avatar) {
+        if (avatar == null) {
+            return;
+        }
+        Context appContext = requireContext().getApplicationContext();
+        String userId = new PreferencesManager(appContext).getUserId();
+        if (!TextUtils.isEmpty(userId)) {
+            // Misma ruta y nombre determinista que escribe PhotoStorage
+            // (filesDir/avatar_{userId}.jpg), para compartir el archivo con Perfil.
+            File file = new File(appContext.getFilesDir(), "avatar_" + userId + ".jpg");
+            if (file.exists()) {
+                // El nombre de archivo es determinista, así que el URI no cambia al
+                // reemplazar la foto. Descartar el drawable actual fuerza a
+                // ImageView a releer el bitmap y no servir la versión cacheada.
+                avatar.setImageDrawable(null);
+                avatar.setImageURI(Uri.fromFile(file));
+                return;
+            }
+        }
+        avatar.setImageResource(R.drawable.ic_avatar_placeholder);
     }
 }

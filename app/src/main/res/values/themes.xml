@@ -7,4 +7,10 @@
     </style>
 
     <style name="Theme.GolIA" parent="Base.Theme.GolIA" />
+
+    <!-- Circular avatar shape for ShapeableImageView (profile-screen) -->
+    <style name="CircleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

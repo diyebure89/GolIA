@@ -44,7 +44,7 @@ import com.diyebure.golia.data.local.entity.UserEntity;
                 NewsLeagueCrossRefEntity.class,
                 NewsLeagueMetaEntity.class
         },
-        version = 4,
+        version = 5,
         exportSchema = true
 )
 public abstract class GolIADatabase extends RoomDatabase {
@@ -84,6 +84,21 @@ public abstract class GolIADatabase extends RoomDatabase {
             db.execSQL("CREATE TABLE IF NOT EXISTS `news_league_cross_ref` (`article_id` TEXT NOT NULL, `league_key` TEXT NOT NULL, PRIMARY KEY(`article_id`, `league_key`))");
             db.execSQL("CREATE INDEX IF NOT EXISTS `index_news_league_cross_ref_league_key` ON `news_league_cross_ref` (`league_key`)");
             db.execSQL("CREATE TABLE IF NOT EXISTS `news_league_meta` (`league_key` TEXT NOT NULL, `last_fetched_at_epoch_ms` INTEGER NOT NULL, PRIMARY KEY(`league_key`))");
+        }
+    };
+
+    /**
+     * Migration from schema version 4 to 5.
+     *
+     * <p>Adds the {@code avatar_uri} column to the {@code users} table to store
+     * the absolute path of the locally stored profile photo. Existing rows are
+     * preserved; the new column defaults to NULL for accounts created before
+     * the profile screen feature.
+     */
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase db) {
+            db.execSQL("ALTER TABLE users ADD COLUMN avatar_uri TEXT");
         }
     };
 

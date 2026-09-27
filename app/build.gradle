@@ -115,6 +115,11 @@ dependencies {
     // SwipeRefreshLayout (pull-to-refresh en la Pantalla_Partidos)
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    // ExifInterface (corrección de orientación EXIF de la foto de perfil - R8.6).
+    // FileProvider (androidx.core.content.FileProvider) para la captura de cámara
+    // llega de forma transitiva vía appcompat/activity-ktx/fragment/material.
+    implementation 'androidx.exifinterface:exifinterface:1.3.7'
+
     // Lottie for animations
     implementation 'com.airbnb.android:lottie:3.0.1'
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Destino temporal para la captura de cámara dentro de filesDir/images/ -->
+    <files-path
+        name="images"
+        path="images/" />
+    <!-- Avatares persistidos por PhotoStorage como avatar_{userId}.jpg en filesDir -->
+    <files-path
+        name="avatars"
+        path="." />
+</paths>

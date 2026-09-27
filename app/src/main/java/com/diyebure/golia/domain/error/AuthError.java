@@ -11,5 +11,7 @@ public enum AuthError {
     EMAIL_TAKEN,
     INVALID_CREDENTIALS,
     PERSISTENCE_ERROR,
-    VALIDATION_ERROR
+    VALIDATION_ERROR,
+    SESSION_UNAVAILABLE,   // no hay sesión válida al operar
+    SESSION_CLEAR_FAILED   // fallo al cerrar sesión
 }

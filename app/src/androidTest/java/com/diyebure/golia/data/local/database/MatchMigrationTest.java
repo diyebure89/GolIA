@@ -7,9 +7,9 @@ import static org.junit.Assert.fail;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import androidx.room.migration.AutoMigrationSpec;
 import androidx.room.testing.MigrationTestHelper;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -18,7 +18,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,11 +68,15 @@ public class MatchMigrationTest {
                     + "`away_odds` REAL NOT NULL, "
                     + "PRIMARY KEY(`id`))";
 
+    /** No auto-migrations are declared on {@link GolIADatabase}. */
+    private static final List<AutoMigrationSpec> NO_AUTO_MIGRATIONS =
+            Collections.emptyList();
+
     @Rule
     public MigrationTestHelper helper = new MigrationTestHelper(
             InstrumentationRegistry.getInstrumentation(),
             GolIADatabase.class,
-            new FrameworkSQLiteOpenHelperFactory());
+            NO_AUTO_MIGRATIONS);
 
     @Test
     public void migrate2To3_addsNewColumnsAndPreservesData() throws IOException {

@@ -46,7 +46,11 @@ public class DatabaseModule {
                 // any other (pre-2) schema jump during early development.
                 // MIGRATION_3_4 creates the football news feed tables
                 // (news_article, news_league_cross_ref, news_league_meta).
-                .addMigrations(GolIADatabase.MIGRATION_2_3, GolIADatabase.MIGRATION_3_4)
+                // MIGRATION_4_5 adds the avatar_uri column to the users table.
+                .addMigrations(
+                        GolIADatabase.MIGRATION_2_3,
+                        GolIADatabase.MIGRATION_3_4,
+                        GolIADatabase.MIGRATION_4_5)
                 .fallbackToDestructiveMigration()
                 .build();
     }

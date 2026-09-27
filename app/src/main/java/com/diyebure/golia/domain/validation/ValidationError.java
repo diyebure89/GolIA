@@ -24,6 +24,7 @@ public enum ValidationError {
     // Password (R4)
     PASSWORD_REQUIRED,
     PASSWORD_TOO_SHORT,
+    PASSWORD_TOO_LONG,
     PASSWORD_NO_UPPER,
     PASSWORD_NO_LOWER,
     PASSWORD_NO_DIGIT,

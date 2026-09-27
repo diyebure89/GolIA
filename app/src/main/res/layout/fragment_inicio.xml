@@ -40,22 +40,46 @@
                 app:tint="@color/text_white" />
         </LinearLayout>
 
-        <!-- Tarjeta de bienvenida -->
+        <!-- Tarjeta de bienvenida: avatar, "BIENVENIDO" y usuario/nombre, todo centrado -->
         <LinearLayout
             android:orientation="vertical"
             android:background="@color/blue_dark"
             android:padding="16dp"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
+            <!-- 1. Avatar circular -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_avatar_home"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:contentDescription="@string/cd_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_avatar_placeholder"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                app:strokeColor="@color/blue_end"
+                app:strokeWidth="2dp" />
+
+            <!-- 2. BIENVENIDO (texto fijo, centrado) -->
             <TextView
-                android:id="@+id/text_welcome"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BIENVENIDO"
+                android:layout_marginTop="12dp"
+                android:text="@string/inicio_bienvenida"
                 android:textColor="@color/text_white"
                 android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 3. Usuario o nombre (centrado) -->
+            <TextView
+                android:id="@+id/text_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/blue_end"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Cuatro estadísticas independientes: etiqueta fija + valor -->

@@ -31,6 +31,7 @@ public class PreferencesManager {
     private static final String KEY_REFRESH_TOKEN = "refresh_token";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USER_NAME = "user_name";
+    private static final String KEY_USER_USERNAME = "user_username";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
     private static final String KEY_TOKEN_EXPIRY = "token_expiry";
 
@@ -228,6 +229,23 @@ public class PreferencesManager {
     }
 
     /**
+     * Save the (optional) username securely. Stored encrypted like the display
+     * name; used by the Home welcome to prefer the username over the full name.
+     */
+    public void saveUserUsername(String username) {
+        String encrypted = encrypt(username);
+        sharedPreferences.edit().putString(KEY_USER_USERNAME, encrypted).apply();
+    }
+
+    /**
+     * Get the (optional) username, or {@code null} when the user has none.
+     */
+    public String getUserUsername() {
+        String encrypted = sharedPreferences.getString(KEY_USER_USERNAME, null);
+        return decrypt(encrypted);
+    }
+
+    /**
      * Save token expiry timestamp.
      */
     public void saveTokenExpiry(long expiryTimestamp) {
@@ -257,9 +275,15 @@ public class PreferencesManager {
      * Check if user is logged in.
      */
     public boolean isLoggedIn() {
+        // Local (MVP) auth has no remote backend issuing JWTs: login persists the
+        // session with setLoggedIn(true) + a user_id but never an access_token.
+        // Validity is therefore the is_logged_in flag plus a non-empty user_id,
+        // not a token the local flow never produces. When a remote backend is
+        // added the user_id is still stored at login, so this contract holds.
+        String userId = getUserId();
         return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false) &&
-                getToken() != null &&
-                !getToken().isEmpty();
+                userId != null &&
+                !userId.isEmpty();
     }
 
     /**
@@ -278,6 +302,7 @@ public class PreferencesManager {
                 .remove(KEY_REFRESH_TOKEN)
                 .remove(KEY_USER_ID)
                 .remove(KEY_USER_NAME)
+                .remove(KEY_USER_USERNAME)
                 .remove(KEY_IS_LOGGED_IN)
                 .remove(KEY_TOKEN_EXPIRY)
                 .apply();

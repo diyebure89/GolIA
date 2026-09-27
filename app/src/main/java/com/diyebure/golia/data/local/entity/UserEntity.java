@@ -57,11 +57,15 @@ public class UserEntity {
     @ColumnInfo(name = "created_at")
     private long createdAt;                 // epoch UTC millis
 
+    @ColumnInfo(name = "avatar_uri")
+    private String avatarUri;               // NULLABLE (absolute path to stored avatar; NULL when none)
+
     public UserEntity() {}
 
     public UserEntity(@NonNull String id, String fullName, String username, @NonNull String email,
                       String passwordAlgorithm, int passwordIterations,
-                      String passwordSalt, String passwordHash, long createdAt) {
+                      String passwordSalt, String passwordHash, long createdAt,
+                      String avatarUri) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
@@ -71,6 +75,7 @@ public class UserEntity {
         this.passwordSalt = passwordSalt;
         this.passwordHash = passwordHash;
         this.createdAt = createdAt;
+        this.avatarUri = avatarUri;
     }
 
     /**
@@ -89,7 +94,8 @@ public class UserEntity {
                 credential != null ? credential.getIterations() : 0,
                 credential != null ? credential.getSaltBase64() : null,
                 credential != null ? credential.getHashBase64() : null,
-                createdAt
+                createdAt,
+                null    // avatarUri: newly registered accounts have no avatar yet
         );
     }
 
@@ -104,7 +110,8 @@ public class UserEntity {
 
     /**
      * Convert to the domain model without exposing credentials.
-     * {@code country}/{@code avatarUrl} and statistics use default values.
+     * {@code country} and statistics use default values; {@code avatarUrl} is
+     * populated from the stored {@code avatar_uri} column.
      */
     public User toDomainModel() {
         return new User(
@@ -112,9 +119,9 @@ public class UserEntity {
                 fullName,
                 username,
                 email,
-                null,   // country
-                null,   // avatarUrl
-                0,      // totalPoints
+                null,       // country
+                avatarUri,  // avatarUrl (from avatar_uri column, may be null)
+                0,          // totalPoints
                 0,      // predictionsMade
                 0,      // predictionsCorrect
                 String.valueOf(createdAt)
@@ -133,6 +140,7 @@ public class UserEntity {
     public String getPasswordSalt() { return passwordSalt; }
     public String getPasswordHash() { return passwordHash; }
     public long getCreatedAt() { return createdAt; }
+    public String getAvatarUri() { return avatarUri; }
 
     // Setters
     public void setId(@NonNull String id) { this.id = id; }
@@ -144,4 +152,5 @@ public class UserEntity {
     public void setPasswordSalt(String passwordSalt) { this.passwordSalt = passwordSalt; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+    public void setAvatarUri(String avatarUri) { this.avatarUri = avatarUri; }
 }
