@@ -25,6 +25,18 @@ public final class Constants {
     // Intent Extras
     public static final String EXTRA_USER_ID = "extra_user_id";
     public static final String EXTRA_USER_EMAIL = "extra_user_email";
+    public static final String EXTRA_MATCH_ID = "extra_match_id";
+
+    // Prediction confirmation extras (match-detail-prediction, R7)
+    public static final String EXTRA_HOME_NAME = "extra_home_name";
+    public static final String EXTRA_AWAY_NAME = "extra_away_name";
+    public static final String EXTRA_PREDICTED_HOME_SCORE = "extra_predicted_home_score";
+    public static final String EXTRA_PREDICTED_AWAY_SCORE = "extra_predicted_away_score";
+    public static final String EXTRA_MATCH_DATE = "extra_match_date";
+    public static final String EXTRA_POSSIBLE_POINTS = "extra_possible_points";
+
+    // Maximum theoretical points of a single Prediction (Prediction_Scoring: 5 + 2 + 2 + 1 + 9)
+    public static final int PREDICTION_MAX_POINTS = 19;
 
     // Request Codes
     public static final int REQUEST_LOGIN = 1001;

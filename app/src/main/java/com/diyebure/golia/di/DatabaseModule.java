@@ -47,10 +47,14 @@ public class DatabaseModule {
                 // MIGRATION_3_4 creates the football news feed tables
                 // (news_article, news_league_cross_ref, news_league_meta).
                 // MIGRATION_4_5 adds the avatar_uri column to the users table.
+                // MIGRATION_5_6 de-duplicates predictions per (user_id, match_id)
+                // and creates the unique index enforcing at most one prediction
+                // per user and match.
                 .addMigrations(
                         GolIADatabase.MIGRATION_2_3,
                         GolIADatabase.MIGRATION_3_4,
-                        GolIADatabase.MIGRATION_4_5)
+                        GolIADatabase.MIGRATION_4_5,
+                        GolIADatabase.MIGRATION_5_6)
                 .fallbackToDestructiveMigration()
                 .build();
     }

@@ -3,6 +3,7 @@ package com.diyebure.golia.data.local.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.diyebure.golia.domain.model.Prediction;
@@ -11,7 +12,10 @@ import com.diyebure.golia.domain.model.PredictionOutcome;
 /**
  * Room entity for storing prediction data locally.
  */
-@Entity(tableName = "predictions")
+@Entity(
+    tableName = "predictions",
+    indices = { @Index(value = {"user_id", "match_id"}, unique = true) }
+)
 public class PredictionEntity {
 
     @PrimaryKey
@@ -107,7 +111,15 @@ public class PredictionEntity {
             } catch (IllegalArgumentException ignored) {}
         }
         if (matchId != null && !matchId.isEmpty()) {
+            // Preservamos SIEMPRE la PK original del partido (identidad de búsqueda
+            // que usa MatchDao.getMatchById), incluso si no es un UUID canónico
+            // (p. ej. "match-1" o "1035048" de filas persistidas). Así la lectura
+            // del historial no depende del parseo a UUID para localizar el partido.
+            prediction.setRawMatchId(matchId);
             try {
+                // Mantenemos el UUID del dominio cuando la PK es un UUID canónico
+                // (comportamiento preservado para PKs canónicas); si el parseo
+                // falla, la identidad ya está a salvo en rawMatchId.
                 prediction.setMatchId(java.util.UUID.fromString(matchId));
             } catch (IllegalArgumentException ignored) {}
         }

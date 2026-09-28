@@ -50,7 +50,7 @@ public final class MatchUiMapper {
         String round = m.getMatchday() > 0 ? ("Jornada " + m.getMatchday()) : "";
 
         return new MatchUiModel(
-                m.getId() != null ? m.getId().toString() : "",
+                resolveId(m),
                 nullSafe(m.getCompetitionName()),
                 round,
                 nullSafe(m.getHomeTeamName()),
@@ -66,6 +66,22 @@ public final class MatchUiMapper {
                 venueText,
                 status,
                 m.getScheduledDateTime());
+    }
+
+    /**
+     * Resuelve el id de presentación conservando la identidad de búsqueda del
+     * partido. Se prefiere {@code rawId} (la PK ORIGINAL de Room) porque es
+     * exactamente el valor que {@code MatchDao.getMatchById} usa para localizar la
+     * fila; así el id de la tarjeta coincide siempre con la PK persistida, aunque
+     * ésta no sea un UUID canónico. Si {@code rawId} no está presente (partidos en
+     * memoria que aún no provienen de Room) se cae al {@code id.toString()} como
+     * antes, preservando el comportamiento previo.
+     */
+    private static String resolveId(Match m) {
+        String rawId = m.getRawId();
+        return (rawId != null && !rawId.isEmpty())
+                ? rawId
+                : (m.getId() != null ? m.getId().toString() : "");
     }
 
     private static String formatKickoff(long epochMillis) {

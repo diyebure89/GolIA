@@ -44,7 +44,7 @@ import com.diyebure.golia.data.local.entity.UserEntity;
                 NewsLeagueCrossRefEntity.class,
                 NewsLeagueMetaEntity.class
         },
-        version = 5,
+        version = 6,
         exportSchema = true
 )
 public abstract class GolIADatabase extends RoomDatabase {
@@ -99,6 +99,52 @@ public abstract class GolIADatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase db) {
             db.execSQL("ALTER TABLE users ADD COLUMN avatar_uri TEXT");
+        }
+    };
+
+    /**
+     * Migration from schema version 5 to 6.
+     *
+     * <p>Enforces at most one prediction per ({@code user_id}, {@code match_id})
+     * pair by creating a UNIQUE index on the {@code predictions} table, matching
+     * the {@code @Index(value = {"user_id", "match_id"}, unique = true)} declared
+     * on {@code PredictionEntity}.
+     *
+     * <p>Because pre-existing data could already contain duplicate predictions
+     * for the same user and match, the migration first removes the duplicates,
+     * keeping only the most recent row per pair (highest {@code created_at}, with
+     * {@code rowid} as a deterministic tiebreaker) before creating the unique
+     * index. This prevents the {@code CREATE UNIQUE INDEX} statement from failing
+     * on a database that already violates the new constraint. Non-duplicate rows
+     * are preserved.
+     */
+    public static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase db) {
+            // (a) De-duplicate: keep the most recent row per (user_id, match_id).
+            // For each row, if there exists another row for the same pair that is
+            // more recent (greater created_at, or equal created_at but greater
+            // rowid), delete the current row. This leaves exactly one row per pair
+            // and is deterministic even when created_at values are equal.
+            db.execSQL(
+                    "DELETE FROM predictions "
+                            + "WHERE rowid NOT IN ("
+                            + "SELECT rowid FROM predictions AS p "
+                            + "WHERE NOT EXISTS ("
+                            + "SELECT 1 FROM predictions AS q "
+                            + "WHERE q.user_id = p.user_id "
+                            + "AND q.match_id = p.match_id "
+                            + "AND (q.created_at > p.created_at "
+                            + "OR (q.created_at = p.created_at AND q.rowid > p.rowid))"
+                            + ")"
+                            + ")");
+
+            // (b) Create the unique index. Room's default name for a composite
+            // unique index on (user_id, match_id) of table predictions.
+            db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS "
+                            + "`index_predictions_user_id_match_id` "
+                            + "ON `predictions` (`user_id`, `match_id`)");
         }
     };
 

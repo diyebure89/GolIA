@@ -1,0 +1,10 @@
+{
+  "pbtResults": {
+    "1. Escribir la prueba de exploración de la condición del bug": {
+      "status": "passed",
+      "failingExample": "Contraejemplos (bug CONFIRMADO — la prueba falla como se esperaba sobre el código sin arreglar):\n- match_id=\"match-1\": tras PredictionEntity.toDomainModel(), Prediction.matchId = null; resolveMatch devuelve null (guarda de matchId==null) => el partido existente NO se resuelve (\"Partido no disponible\"). AssertionError en GetUserPredictionsIdentityTest.java:86 y :127.\n- match_id=\"1035048\": idéntico; matchId tras toDomainModel = null; Match resuelto = null. AssertionError en :106.\nCONTROL match_id UUID canónico \"9b1deb4d-3b7d-3b1a-8a1e-0b2c3d4e5f60\": PASA (el partido se resuelve). 4 tests, 3 fallan (no-UUID), 1 pasa (control).",
+      "lastRunTimestamp": 1790573227982
+    }
+  },
+  "executionHistory": {}
+}

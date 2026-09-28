@@ -1,6 +1,7 @@
 package com.diyebure.golia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +20,8 @@ import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.presentation.adapter.MatchesAdapter;
 import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
 import com.diyebure.golia.presentation.ui.inicio.InicioViewModel;
+import com.diyebure.golia.presentation.ui.partidos.MatchUiModel;
+import com.diyebure.golia.util.Constants;
 import com.diyebure.golia.util.DisplayName;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -77,7 +80,9 @@ public class InicioFragment extends BasePlaceholderFragment {
         RecyclerView recyclerUpcoming = v.findViewById(R.id.recycler_upcoming);
         recyclerUpcoming.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerUpcoming.setNestedScrollingEnabled(false);
-        MatchesAdapter adapter = new MatchesAdapter();
+        // Al pulsar una tarjeta se abre el detalle con la PK del partido
+        // (MatchUiModel.id, no el externalId) en EXTRA_MATCH_ID (R1.1, R1.2, R1.3).
+        MatchesAdapter adapter = new MatchesAdapter(this::openMatchDetail);
         recyclerUpcoming.setAdapter(adapter);
 
         InicioViewModel viewModel = new ViewModelProvider(this).get(InicioViewModel.class);
@@ -86,6 +91,17 @@ public class InicioFragment extends BasePlaceholderFragment {
         // "Ver todos" navega a la pestaña Partidos.
         v.findViewById(R.id.text_see_all).setOnClickListener(view ->
                 ((MainActivity) requireActivity()).navigateToPartidos());
+    }
+
+    /**
+     * Abre {@link DetallePartidoActivity} para el partido pulsado, transportando
+     * su clave primaria ({@link MatchUiModel#id}) en {@link Constants#EXTRA_MATCH_ID}
+     * (R1.2, R1.3).
+     */
+    private void openMatchDetail(@NonNull MatchUiModel match) {
+        Intent intent = new Intent(requireContext(), DetallePartidoActivity.class);
+        intent.putExtra(Constants.EXTRA_MATCH_ID, match.id);
+        startActivity(intent);
     }
 
     @Override

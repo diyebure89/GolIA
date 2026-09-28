@@ -66,6 +66,14 @@ android {
         viewBinding true
         buildConfig true
     }
+
+    // Permite que los tests unitarios JVM ejerciten código que toca stubs de
+    // Android (p. ej. android.text.TextUtils dentro de MatchUiMapper) sin
+    // necesidad de Robolectric: los métodos no implementados devuelven valores
+    // por defecto en lugar de lanzar "Method ... not mocked".
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     
     lint {
         abortOnError = false

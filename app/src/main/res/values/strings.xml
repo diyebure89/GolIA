@@ -185,4 +185,57 @@
     <string name="perfil_exito_password">Contraseña actualizada</string>
     <string name="perfil_exito_foto">Foto de perfil actualizada</string>
 
+    <!--PANTALLA DETALLE DEL PARTIDO (match-detail-prediction) -->
+    <string name="detalle_partido_titulo">Detalle del Partido</string>
+    <string name="cd_back">Atrás</string>
+    <string name="detalle_estadisticas_temporada">Estadísticas de temporada</string>
+    <string name="detalle_stat_victorias">Victorias</string>
+    <string name="detalle_stat_goles_promedio">Goles promedio</string>
+    <string name="detalle_stat_forma_reciente">Forma reciente</string>
+    <string name="detalle_stat_local_visitante">Local vs Visitante</string>
+    <string name="detalle_hacer_pronostico">Hacer Pronóstico</string>
+    <string name="detalle_editar_pronostico">Editar Pronóstico</string>
+    <string name="detalle_ver_pronostico">Ver Pronóstico</string>
+    <string name="detalle_pronostico_cerrado">El pronóstico está cerrado para este partido</string>
+    <string name="detalle_pronostico_proximamente">Pronóstico próximamente</string>
+    <string name="error_match_not_found">No se encontró el partido</string>
+
+    <!--ETIQUETAS DE ESTADO DEL PARTIDO (MatchStatus -> string, R2.6) -->
+    <string name="estado_partido_scheduled">Programado</string>
+    <string name="estado_partido_live">En vivo</string>
+    <string name="estado_partido_finished">Finalizado</string>
+    <string name="estado_partido_postponed">Aplazado</string>
+    <string name="estado_partido_cancelled">Cancelado</string>
+
+    <!--PANTALLA CONFIRMACIÓN DEL PRONÓSTICO (match-detail-prediction, R7) -->
+    <string name="confirmacion_titulo">Pronóstico registrado</string>
+    <string name="confirmacion_mensaje">¡Tu pronóstico quedó registrado!</string>
+    <string name="confirmacion_marcador_pronosticado">Marcador pronosticado</string>
+    <string name="confirmacion_marcador_valor">%1$d - %2$d</string>
+    <string name="confirmacion_puntos_posibles">Puntos posibles: %1$d</string>
+    <string name="confirmacion_ver_historial">Ver historial</string>
+    <string name="confirmacion_ir_inicio">Ir al inicio</string>
+    <string name="confirmacion_historial_proximamente">Historial próximamente</string>
+
+    <!--PANTALLA PRONÓSTICO (match-detail-prediction, R5) -->
+    <string name="pronostico_titulo">Hacer Pronóstico</string>
+    <string name="pronostico_vs">vs</string>
+    <string name="pronostico_local">Local</string>
+    <string name="pronostico_visitante">Visitante</string>
+    <string name="pronostico_marcador_exacto">Marcador exacto</string>
+    <string name="pronostico_marcador_separador">-</string>
+    <string name="pronostico_guardar">Guardar pronóstico</string>
+    <string name="pronostico_error_requerido">Ambos marcadores son obligatorios</string>
+    <string name="pronostico_error_rango">Ingresa un número entero entre 0 y 99</string>
+
+    <!--PANTALLA HISTORIAL DE PRONÓSTICOS (match-detail-prediction, R8) -->
+    <string name="historial_titulo">Mis pronósticos</string>
+    <string name="historial_vacio">Aún no has hecho ningún pronóstico</string>
+    <string name="historial_partido_no_disponible">Partido no disponible</string>
+    <string name="historial_estado_pendiente">Pendiente</string>
+    <string name="historial_estado_acertado">Acertado</string>
+    <string name="historial_estado_fallido">Fallido</string>
+    <!--Puntos ganados por un pronóstico resuelto (R8.4, R8.5) -->
+    <string name="historial_puntos">%1$d pts</string>
+
 </resources>

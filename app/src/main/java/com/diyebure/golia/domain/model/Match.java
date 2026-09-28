@@ -7,6 +7,24 @@ import java.util.UUID;
  */
 public class Match {
     private UUID id;
+    /**
+     * Identidad ORIGINAL del partido tal y como está almacenada en la clave
+     * primaria (PK) de Room ({@code MatchEntity.id}, de tipo String).
+     *
+     * <p>El campo {@link #id} es un {@code UUID} y, por diseño, no puede
+     * representar una PK que no sea un UUID canónico (p. ej. "match-1" o
+     * "1035048" de filas persistidas por versiones anteriores). Cuando el parseo
+     * a UUID falla, {@code id} termina siendo un UUID aleatorio que NO coincide
+     * con la PK, y el Detalle no encuentra el partido (MATCH_NOT_FOUND).</p>
+     *
+     * <p>Por eso conservamos aquí la PK exacta: {@code rawId} porta la identidad
+     * de búsqueda sin depender del parseo UUID, de modo que
+     * {@code MatchUiModel.id == MatchEntity.id} de extremo a extremo y
+     * {@code MatchDao.getMatchById} localice siempre la fila. Puede ser
+     * {@code null} para partidos construidos en memoria que aún no provienen de
+     * Room (en ese caso se cae al {@code id.toString()} como antes).</p>
+     */
+    private String rawId;
     private String externalId;
     private String competitionId;
     private String competitionName;
@@ -59,6 +77,8 @@ public class Match {
 
     // Getters
     public UUID getId() { return id; }
+    /** Devuelve la PK original (String) preservada desde Room, o null si no aplica. */
+    public String getRawId() { return rawId; }
     public String getExternalId() { return externalId; }
     public String getCompetitionId() { return competitionId; }
     public String getCompetitionName() { return competitionName; }
@@ -82,6 +102,8 @@ public class Match {
 
     // Setters
     public void setId(UUID id) { this.id = id; }
+    /** Fija la PK original (String) preservada desde Room. */
+    public void setRawId(String rawId) { this.rawId = rawId; }
     public void setExternalId(String externalId) { this.externalId = externalId; }
     public void setCompetitionId(String competitionId) { this.competitionId = competitionId; }
     public void setCompetitionName(String competitionName) { this.competitionName = competitionName; }

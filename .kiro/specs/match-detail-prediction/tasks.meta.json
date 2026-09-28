@@ -1,0 +1,458 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Dominio puro: puntuación y estadísticas (sin dependencias de Android)": [
+      {
+        "executionId": "d09cf87c-24f9-4f10-b92c-1fbcf0a8828f",
+        "chatSessionId": "sess_cfa9bedd-c8c9-451c-a322-e84f171d2dc2",
+        "timestamp": 1790497998865
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498940905
+      }
+    ],
+    "1.1 Implementar `Prediction_Scorer` con la regla `Prediction_Scoring`": [
+      {
+        "executionId": "d09cf87c-24f9-4f10-b92c-1fbcf0a8828f",
+        "chatSessionId": "sess_cfa9bedd-c8c9-451c-a322-e84f171d2dc2",
+        "timestamp": 1790497999859
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498628471
+      }
+    ],
+    "1.2 Implementar `Season_Stats_Calculator` (funciones puras sobre `List<Match>`)": [
+      {
+        "executionId": "d09cf87c-24f9-4f10-b92c-1fbcf0a8828f",
+        "chatSessionId": "sess_cfa9bedd-c8c9-451c-a322-e84f171d2dc2",
+        "timestamp": 1790498001651
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498629687
+      }
+    ],
+    "1.3 Definir el contrato de error tipado del pronóstico": [
+      {
+        "executionId": "d09cf87c-24f9-4f10-b92c-1fbcf0a8828f",
+        "chatSessionId": "sess_cfa9bedd-c8c9-451c-a322-e84f171d2dc2",
+        "timestamp": 1790498003083
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498631120
+      }
+    ],
+    "1.4 Implementar la validación del marcador": [
+      {
+        "executionId": "d09cf87c-24f9-4f10-b92c-1fbcf0a8828f",
+        "chatSessionId": "sess_cfa9bedd-c8c9-451c-a322-e84f171d2dc2",
+        "timestamp": 1790498003881
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498632108
+      }
+    ],
+    "1.6 Tests unitarios JVM requeridos de dominio (R11)": [
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498637973
+      },
+      {
+        "executionId": "f5174982-3057-4800-b353-5f2718e70d47",
+        "chatSessionId": "sess_20b3b291-372d-4fae-9f20-319828c1268b",
+        "timestamp": 1790498940221
+      }
+    ],
+    "2.1 Añadir índice único (user_id, match_id) a `PredictionEntity`": [
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499003671
+      },
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499057198
+      }
+    ],
+    "2.2 Añadir la consulta de estadísticas por equipo a `MatchDao`": [
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499007215
+      },
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499060915
+      }
+    ],
+    "2.3 Subir versión de Room y crear la migración del índice único": [
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499065164
+      },
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499311625
+      }
+    ],
+    "2. Capa de datos: entidad, índice único, DAOs y migración": [
+      {
+        "executionId": "5b23876f-1d12-4044-81e2-159d1a86406b",
+        "chatSessionId": "sess_efd26bc0-9d6b-455e-9425-96c9c357d555",
+        "timestamp": 1790499312264
+      }
+    ],
+    "3. Repositorio de partidos: obtención por id (cache-first)": [
+      {
+        "executionId": "0a603ca8-ea72-40eb-9658-97db4e6b10e8",
+        "chatSessionId": "sess_337a2723-7266-43eb-bfda-fb60f02d53cb",
+        "timestamp": 1790563278968
+      },
+      {
+        "executionId": "0a603ca8-ea72-40eb-9658-97db4e6b10e8",
+        "chatSessionId": "sess_337a2723-7266-43eb-bfda-fb60f02d53cb",
+        "timestamp": 1790563560019
+      }
+    ],
+    "3.1 Añadir `getMatchById` a `MatchRepository` e implementarlo": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564001463
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564010451
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564113620
+      }
+    ],
+    "4.1 Definir la interfaz `PredictionRepository` (dominio)": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564001805
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564132567
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564234666
+      }
+    ],
+    "4.2 Implementar `PredictionRepositoryImpl` (`@Singleton`, `@Inject`)": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564002014
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564238503
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564432459
+      }
+    ],
+    "4.3 Implementar `PredictionResolverUseCase` idempotente": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564002248
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564436502
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564548407
+      }
+    ],
+    "4.4 Integrar el resolver en el refresco de partidos": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564002480
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564552754
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564759926
+      }
+    ],
+    "4.5 Tests requeridos de repositorio/resolver (R11)": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564002765
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564763598
+      },
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790565100855
+      }
+    ],
+    "5.1 Vincular `PredictionRepository` y exponer constante de Intent": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564003020
+      },
+      {
+        "executionId": "9727bb7d-6063-4467-b54c-861111d48f5b",
+        "chatSessionId": "sess_ab39f18b-b870-430c-ad20-b70f3291c458",
+        "timestamp": 1790565293689
+      },
+      {
+        "executionId": "9727bb7d-6063-4467-b54c-861111d48f5b",
+        "chatSessionId": "sess_ab39f18b-b870-430c-ad20-b70f3291c458",
+        "timestamp": 1790565400232
+      }
+    ],
+    "6. Checkpoint - Asegurar que compila y pasan los tests de dominio/datos": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564003347
+      },
+      {
+        "executionId": "1440067b-c494-452c-bcfb-1c3241470350",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790569651948
+      }
+    ],
+    "7.1 Implementar los use cases de lectura que despachan al `@IoExecutor`": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564003558
+      },
+      {
+        "executionId": "f8387249-9345-46a1-ada8-3aecf116d728",
+        "chatSessionId": "sess_2de54eaa-c828-4956-8734-b5b2d7201eae",
+        "timestamp": 1790565650725
+      },
+      {
+        "executionId": "f8387249-9345-46a1-ada8-3aecf116d728",
+        "chatSessionId": "sess_2de54eaa-c828-4956-8734-b5b2d7201eae",
+        "timestamp": 1790566188721
+      }
+    ],
+    "7.2 Crear `DetallePartidoActivity` + `DetallePartidoViewModel` y su layout": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564003813
+      },
+      {
+        "executionId": "f8387249-9345-46a1-ada8-3aecf116d728",
+        "chatSessionId": "sess_2de54eaa-c828-4956-8734-b5b2d7201eae",
+        "timestamp": 1790566194118
+      },
+      {
+        "executionId": "f8387249-9345-46a1-ada8-3aecf116d728",
+        "chatSessionId": "sess_2de54eaa-c828-4956-8734-b5b2d7201eae",
+        "timestamp": 1790566711827
+      }
+    ],
+    "8.1 Crear `PronosticoActivity` + `PronosticoViewModel` y su layout": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564004068
+      },
+      {
+        "executionId": "004a8a05-df42-42b8-ad42-2bba82f12f38",
+        "chatSessionId": "sess_431b8cc9-04e5-4e93-a801-bf6f17c99120",
+        "timestamp": 1790566783611
+      },
+      {
+        "executionId": "004a8a05-df42-42b8-ad42-2bba82f12f38",
+        "chatSessionId": "sess_431b8cc9-04e5-4e93-a801-bf6f17c99120",
+        "timestamp": 1790567431438
+      }
+    ],
+    "8.2 Crear `ConfirmacionActivity` y su layout": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564004329
+      },
+      {
+        "executionId": "004a8a05-df42-42b8-ad42-2bba82f12f38",
+        "chatSessionId": "sess_431b8cc9-04e5-4e93-a801-bf6f17c99120",
+        "timestamp": 1790566784514
+      },
+      {
+        "executionId": "004a8a05-df42-42b8-ad42-2bba82f12f38",
+        "chatSessionId": "sess_431b8cc9-04e5-4e93-a801-bf6f17c99120",
+        "timestamp": 1790567432182
+      }
+    ],
+    "9.1 Crear `HistorialPronosticosActivity` + `HistorialViewModel`, adapter y layout": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564004564
+      },
+      {
+        "executionId": "36dbe864-c0ca-418f-abe6-2c24a0d30dab",
+        "chatSessionId": "sess_655ec21d-df98-44ce-b314-3c30694e7cec",
+        "timestamp": 1790567528098
+      },
+      {
+        "executionId": "36dbe864-c0ca-418f-abe6-2c24a0d30dab",
+        "chatSessionId": "sess_655ec21d-df98-44ce-b314-3c30694e7cec",
+        "timestamp": 1790567912629
+      }
+    ],
+    "10.1 Cablear el click del partido en Inicio y Partidos": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564004868
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568014508
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568256016
+      }
+    ],
+    "10.2 Añadir recursos de string localizados": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564005062
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568015162
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568256819
+      }
+    ],
+    "10.3 Registrar las Activities y el back en el manifest": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564005252
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568016325
+      },
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568258300
+      }
+    ],
+    "11. Checkpoint final - Compilar y verificar el flujo completo": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790564005424
+      },
+      {
+        "executionId": "e2765e97-8664-4419-a2d0-baffb6093c92",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790569772437
+      },
+      {
+        "executionId": "e2765e97-8664-4419-a2d0-baffb6093c92",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790570125185
+      }
+    ],
+    "4. Repositorio de pronósticos y resolución": [
+      {
+        "executionId": "4adc7fbb-b3a4-4317-93bb-8d5cd5cc49df",
+        "chatSessionId": "sess_c65c68b6-d1ae-4039-900f-b429fb57ba6a",
+        "timestamp": 1790565101339
+      }
+    ],
+    "5. Inyección de dependencias (Hilt)": [
+      {
+        "executionId": "9727bb7d-6063-4467-b54c-861111d48f5b",
+        "chatSessionId": "sess_ab39f18b-b870-430c-ad20-b70f3291c458",
+        "timestamp": 1790565400515
+      }
+    ],
+    "7. Presentación: casos de uso de lectura y detalle": [
+      {
+        "executionId": "f8387249-9345-46a1-ada8-3aecf116d728",
+        "chatSessionId": "sess_2de54eaa-c828-4956-8734-b5b2d7201eae",
+        "timestamp": 1790566712297
+      }
+    ],
+    "8. Presentación: registro del pronóstico y confirmación": [
+      {
+        "executionId": "004a8a05-df42-42b8-ad42-2bba82f12f38",
+        "chatSessionId": "sess_431b8cc9-04e5-4e93-a801-bf6f17c99120",
+        "timestamp": 1790567432454
+      }
+    ],
+    "9. Presentación: historial de pronósticos": [
+      {
+        "executionId": "36dbe864-c0ca-418f-abe6-2c24a0d30dab",
+        "chatSessionId": "sess_655ec21d-df98-44ce-b314-3c30694e7cec",
+        "timestamp": 1790567913283
+      }
+    ],
+    "10. Navegación desde la lista y strings": [
+      {
+        "executionId": "75d76104-dd6e-497d-9664-34d293838183",
+        "chatSessionId": "sess_8431ff91-6305-478e-ab3d-b39480f2e694",
+        "timestamp": 1790568258595
+      }
+    ]
+  }
+}

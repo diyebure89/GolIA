@@ -35,6 +35,13 @@ public interface MatchDao {
     MatchEntity getMatchById(String matchId);
 
     /**
+     * Get finished matches involving a specific team (as home or away).
+     * Used to compute season statistics for a team.
+     */
+    @Query("SELECT * FROM matches WHERE status = 'FINISHED' AND (home_team_id = :teamId OR away_team_id = :teamId)")
+    List<MatchEntity> getFinishedMatchesByTeam(String teamId);
+
+    /**
      * Get match by external ID.
      */
     @Query("SELECT * FROM matches WHERE external_id = :externalId")

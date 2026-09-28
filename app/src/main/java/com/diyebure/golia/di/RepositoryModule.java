@@ -4,10 +4,12 @@ import com.diyebure.golia.data.repository.LocalAuthRepositoryImpl;
 import com.diyebure.golia.data.repository.MatchRepositoryImpl;
 import com.diyebure.golia.data.repository.NewsRepositoryImpl;
 import com.diyebure.golia.data.repository.PlaceholderRankingDataSource;
+import com.diyebure.golia.data.repository.PredictionRepositoryImpl;
 import com.diyebure.golia.data.repository.ProfileRepositoryImpl;
 import com.diyebure.golia.domain.repository.AuthRepository;
 import com.diyebure.golia.domain.repository.MatchRepository;
 import com.diyebure.golia.domain.repository.NewsRepository;
+import com.diyebure.golia.domain.repository.PredictionRepository;
 import com.diyebure.golia.domain.repository.ProfileRepository;
 import com.diyebure.golia.domain.repository.RankingDataSource;
 
@@ -51,6 +53,10 @@ public abstract class RepositoryModule {
     @Binds
     @Singleton
     public abstract MatchRepository bindMatchRepository(MatchRepositoryImpl impl);
+
+    @Binds
+    @Singleton
+    public abstract PredictionRepository bindPredictionRepository(PredictionRepositoryImpl impl);
 
     @Binds
     @Singleton

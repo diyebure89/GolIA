@@ -1,5 +1,6 @@
 package com.diyebure.golia;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,8 +25,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.diyebure.golia.presentation.adapter.MatchesAdapter;
 import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
 import com.diyebure.golia.presentation.ui.partidos.ChipHorario;
+import com.diyebure.golia.presentation.ui.partidos.MatchUiModel;
 import com.diyebure.golia.presentation.ui.partidos.PartidosUiState;
 import com.diyebure.golia.presentation.ui.partidos.PartidosViewModel;
+import com.diyebure.golia.util.Constants;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -118,9 +121,22 @@ public class PartidosFragment extends BasePlaceholderFragment {
     }
 
     private void setupRecycler() {
-        adapter = new MatchesAdapter();
+        // Al pulsar una tarjeta se abre el detalle con la PK del partido
+        // (MatchUiModel.id, no el externalId) en EXTRA_MATCH_ID (R1.1, R1.2, R1.3).
+        adapter = new MatchesAdapter(this::openMatchDetail);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * Abre {@link DetallePartidoActivity} para el partido pulsado, transportando
+     * su clave primaria ({@link MatchUiModel#id}) en {@link Constants#EXTRA_MATCH_ID}
+     * (R1.2, R1.3).
+     */
+    private void openMatchDetail(@NonNull MatchUiModel match) {
+        Intent intent = new Intent(requireContext(), DetallePartidoActivity.class);
+        intent.putExtra(Constants.EXTRA_MATCH_ID, match.id);
+        startActivity(intent);
     }
 
     // ==================== Chips (Requisitos 3.1, 3.2, 3.3, 3.9) ====================

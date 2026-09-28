@@ -13,8 +13,12 @@ import com.diyebure.golia.data.remote.dto.FixtureResponseDto;
 import com.diyebure.golia.di.qualifier.IoExecutor;
 import com.diyebure.golia.domain.common.Callback;
 import com.diyebure.golia.domain.common.Result;
+import com.diyebure.golia.domain.error.PredictionError;
+import com.diyebure.golia.domain.error.PredictionException;
 import com.diyebure.golia.domain.model.Match;
+import com.diyebure.golia.domain.model.MatchStatus;
 import com.diyebure.golia.domain.repository.MatchRepository;
+import com.diyebure.golia.domain.repository.PredictionRepository;
 import com.diyebure.golia.util.RequestBudgetManager;
 
 import java.io.IOException;
@@ -74,6 +78,7 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
     private final MatchDao matchDao;
     private final FixtureMapper fixtureMapper;
     private final RequestBudgetManager requestBudgetManager;
+    private final PredictionRepository predictionRepository;
     private final ExecutorService executor;
 
     @Inject
@@ -82,11 +87,13 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
             MatchDao matchDao,
             FixtureMapper fixtureMapper,
             RequestBudgetManager requestBudgetManager,
+            PredictionRepository predictionRepository,
             @IoExecutor ExecutorService executor) {
         this.apiService = apiService;
         this.matchDao = matchDao;
         this.fixtureMapper = fixtureMapper;
         this.requestBudgetManager = requestBudgetManager;
+        this.predictionRepository = predictionRepository;
         this.executor = executor;
     }
 
@@ -98,6 +105,27 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
                 callback.onResult(new Result.Success<>(matches));
             } catch (Exception e) {
                 Log.e(TAG, "Error reading cached matches", e);
+                callback.onResult(new Result.Error(e));
+            }
+        });
+    }
+
+    @Override
+    public void getMatchById(String matchId, Callback<Match> callback) {
+        // Cache-first read by primary key. Runs on the IO executor and never hits
+        // the network nor touches the RequestBudgetManager (Requirements 2.1, 2.9).
+        executor.execute(() -> {
+            try {
+                MatchEntity entity = matchDao.getMatchById(matchId);
+                if (entity == null) {
+                    // No match with that id in the cache (Requirement 2.7).
+                    callback.onResult(new Result.Error(
+                            new PredictionException(PredictionError.MATCH_NOT_FOUND)));
+                    return;
+                }
+                callback.onResult(new Result.Success<>(entity.toDomainModel()));
+            } catch (Exception e) {
+                Log.e(TAG, "Error reading cached match by id " + matchId, e);
                 callback.onResult(new Result.Error(e));
             }
         });
@@ -215,6 +243,15 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
                 matchDao.insertMatches(accumulatedEntities);
             }
 
+            // 4) Resolve pending predictions for matches that came back FINISHED
+            //    with a final score (R9.8). This runs INLINE on the current IO
+            //    thread of the refresh (no new threads, no network calls) by
+            //    calling the PredictionRepository directly per finished match. The
+            //    resolver is idempotent, so already-resolved predictions are left
+            //    untouched. Resolution failures are logged and never abort or
+            //    downgrade the refresh result.
+            resolveFinishedPredictions(accumulatedMatches);
+
             // Only surface an error when nothing at all could be obtained and a
             // network failure actually occurred; otherwise return what we have.
             if (accumulatedMatches.isEmpty() && lastError != null) {
@@ -226,6 +263,46 @@ public class MatchRepositoryImpl extends BaseRepository implements MatchReposito
         } catch (Exception e) {
             Log.e(TAG, "Error refreshing matches starting " + startIsoDate, e);
             callback.onResult(new Result.Error(e));
+        }
+    }
+
+    /**
+     * Resolves the pending predictions of the freshly refreshed matches that are
+     * {@code FINISHED} with a final score (R9.8).
+     *
+     * <p>Called from {@link #refreshWindowInternal} right after the match upsert,
+     * so it runs on the same IO thread as the refresh. It delegates to
+     * {@link PredictionRepository#resolveForMatch(Match)} directly (rather than the
+     * {@code PredictionResolverUseCase}, which would re-dispatch onto the executor
+     * and spawn extra work) to keep the resolution inline on the current thread.
+     * The resolver is idempotent and performs no network calls.</p>
+     *
+     * <p>A resolution failure for one match is logged and does not stop the rest,
+     * nor does it affect the refresh {@link Result} delivered to the caller: the
+     * refresh already succeeded when we reach this point.</p>
+     *
+     * @param refreshedMatches the matches accumulated during this refresh
+     */
+    private void resolveFinishedPredictions(List<Match> refreshedMatches) {
+        if (refreshedMatches == null || refreshedMatches.isEmpty()) {
+            return;
+        }
+        for (Match match : refreshedMatches) {
+            if (match.getStatus() != MatchStatus.FINISHED
+                    || match.getHomeScore() == null
+                    || match.getAwayScore() == null) {
+                continue;
+            }
+            try {
+                Result<Void> result = predictionRepository.resolveForMatch(match);
+                if (result.isError()) {
+                    Log.e(TAG, "Failed resolving predictions for finished match "
+                            + match.getId(), result.getErrorOrNull());
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error resolving predictions for finished match "
+                        + match.getId(), e);
+            }
         }
     }
 

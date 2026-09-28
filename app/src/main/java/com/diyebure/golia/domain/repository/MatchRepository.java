@@ -36,6 +36,21 @@ public interface MatchRepository {
     void getMatches(Callback<List<Match>> callback);
 
     /**
+     * Get a single {@link Match} by its primary-key id following a cache-first
+     * strategy. Reads exclusively from the local database (by {@code matches.id})
+     * on the IO executor and never performs a network request nor touches the
+     * request budget.
+     *
+     * @param matchId  the primary-key id of the match to read (String)
+     * @param callback receives {@code Result.Success<Match>} with the cached
+     *                 match, or {@code Result.Error} carrying a
+     *                 {@link com.diyebure.golia.domain.error.PredictionException}
+     *                 with {@link com.diyebure.golia.domain.error.PredictionError#MATCH_NOT_FOUND}
+     *                 when no match with that id exists in the cache
+     */
+    void getMatchById(String matchId, Callback<Match> callback);
+
+    /**
      * Refresh match data for a specific date from the remote API. A single
      * request covers all target leagues for that date. The freshly fetched
      * matches are persisted to the cache and delivered through the callback.

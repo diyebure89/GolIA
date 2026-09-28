@@ -160,7 +160,17 @@ public class MatchEntity {
     public Match toDomainModel() {
         Match match = new Match();
         if (id != null) {
+            // Preservamos la PK ORIGINAL tal cual en rawId: es la identidad de
+            // búsqueda que usa MatchDao.getMatchById (WHERE id = :matchId) y la que
+            // debe llegar a MatchUiModel.id. Así el id que abre el Detalle coincide
+            // siempre con la fila persistida, incluso si la PK no es un UUID
+            // canónico (p. ej. "match-1" o "1035048" de versiones anteriores).
+            match.setRawId(id);
             try {
+                // Mantenemos el UUID del dominio cuando la PK es un UUID canónico
+                // parseable (comportamiento preservado). Si el parseo falla, el
+                // dominio conserva un UUID aleatorio, pero rawId ya porta la PK
+                // real, de modo que la identidad de búsqueda NO se pierde.
                 match.setId(java.util.UUID.fromString(id));
             } catch (IllegalArgumentException ignored) {}
         }
