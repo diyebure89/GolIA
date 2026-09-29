@@ -3,8 +3,8 @@ package com.diyebure.golia.di;
 import com.diyebure.golia.data.repository.LocalAuthRepositoryImpl;
 import com.diyebure.golia.data.repository.MatchRepositoryImpl;
 import com.diyebure.golia.data.repository.NewsRepositoryImpl;
-import com.diyebure.golia.data.repository.PlaceholderRankingDataSource;
 import com.diyebure.golia.data.repository.PredictionRepositoryImpl;
+import com.diyebure.golia.data.repository.RealRankingDataSource;
 import com.diyebure.golia.data.repository.ProfileRepositoryImpl;
 import com.diyebure.golia.domain.repository.AuthRepository;
 import com.diyebure.golia.domain.repository.MatchRepository;
@@ -68,5 +68,5 @@ public abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    public abstract RankingDataSource bindRankingDataSource(PlaceholderRankingDataSource impl);
+    public abstract RankingDataSource bindRankingDataSource(RealRankingDataSource impl);
 }

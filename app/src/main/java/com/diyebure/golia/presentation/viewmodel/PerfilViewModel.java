@@ -21,8 +21,11 @@ import com.diyebure.golia.domain.usecase.profile.UpdateProfilePhotoUseCase;
 import com.diyebure.golia.domain.validation.ProfileValidator;
 import com.diyebure.golia.domain.validation.ValidationError;
 import com.diyebure.golia.domain.validation.ValidationResult;
+import com.diyebure.golia.di.qualifier.IoExecutor;
 import com.diyebure.golia.presentation.ProfileFormState;
 import com.diyebure.golia.presentation.util.Event;
+
+import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
@@ -95,6 +98,7 @@ public class PerfilViewModel extends BaseViewModel {
     private final ProfileValidator profileValidator;
     private final RankingDataSource rankingDataSource;
     private final PreferencesManager preferencesManager;
+    private final ExecutorService ioExecutor;
 
     private final MutableLiveData<ProfileFormState> formState = new MutableLiveData<>();
     private final MutableLiveData<String> avatarPreviewPath = new MutableLiveData<>();
@@ -130,7 +134,8 @@ public class PerfilViewModel extends BaseViewModel {
                            LogoutUseCase logoutUseCase,
                            ProfileValidator profileValidator,
                            RankingDataSource rankingDataSource,
-                           PreferencesManager preferencesManager) {
+                           PreferencesManager preferencesManager,
+                           @IoExecutor ExecutorService ioExecutor) {
         this.loadProfileUseCase = loadProfileUseCase;
         this.updatePersonalDataUseCase = updatePersonalDataUseCase;
         this.changePasswordUseCase = changePasswordUseCase;
@@ -139,9 +144,12 @@ public class PerfilViewModel extends BaseViewModel {
         this.profileValidator = profileValidator;
         this.rankingDataSource = rankingDataSource;
         this.preferencesManager = preferencesManager;
+        this.ioExecutor = ioExecutor;
 
-        // The ranking source is a synchronous placeholder shared with Inicio (R11).
-        this.ranking.setValue(rankingDataSource.getRankingForCurrentUser());
+        // The ranking source now reads real users/predictions from Room, so it
+        // must run off the main thread and publish with postValue (R11).
+        this.ioExecutor.execute(() ->
+                ranking.postValue(rankingDataSource.getRankingForCurrentUser()));
     }
 
     // ==================== Exposed state ====================

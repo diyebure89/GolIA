@@ -238,4 +238,29 @@
     <!--Puntos ganados por un pronóstico resuelto (R8.4, R8.5) -->
     <string name="historial_puntos">%1$d pts</string>
 
+    <!--PANTALLA RANKING (ranking-screen) -->
+    <!--Descripción de contenido del avatar de una fila del ranking-->
+    <string name="cd_ranking_avatar">Avatar del participante</string>
+    <!--Línea de métricas de una fila: "% acierto · Racha: N" (R5.1) -->
+    <string name="ranking_metricas_formato">%1$d%% acierto · Racha: %2$d</string>
+    <!--Puntos de una fila con separador de miles regional: "3,420 pts" (R5.4) -->
+    <string name="ranking_puntos_formato">%1$s pts</string>
+    <!--Distintivo mostrado cuando el participante aporta puntos en vivo (R6.5) -->
+    <string name="ranking_en_vivo">en vivo</string>
+    <!--Encabezado y subtítulo local/demo (R1.1, R2.4) -->
+    <string name="ranking_titulo">Ranking Global</string>
+    <string name="ranking_subtitulo_demo">Ranking local/demo · sin conexión entre dispositivos</string>
+    <string name="cd_ranking_trofeo">Trofeo del ranking</string>
+    <!--Chips de periodo (Semanal por defecto) (R4.1) -->
+    <string name="ranking_periodo_semanal">Semanal</string>
+    <string name="ranking_periodo_mensual">Mensual</string>
+    <string name="ranking_periodo_total">Total</string>
+    <!--Números de posición del podio (R3.2) -->
+    <string name="ranking_posicion_1">1</string>
+    <string name="ranking_posicion_2">2</string>
+    <string name="ranking_posicion_3">3</string>
+    <!--Estados de la pantalla (R7.3, R7.4) -->
+    <string name="ranking_vacio">Aún no hay puntos en este periodo</string>
+    <string name="ranking_error">No se pudo cargar el ranking</string>
+
 </resources>

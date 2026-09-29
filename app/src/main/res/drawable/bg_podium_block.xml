@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Fondo de los bloques 2.º y 3.º del podio (fragment_ranking.xml).
+  Igual paleta que la tarjeta de partido: relleno blue_dark con borde azul
+  sutil, sin el destacado dorado del 1.º puesto (Requisitos 3.1, 3.2).
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/blue_dark" />
+
+    <corners android:radius="16dp" />
+
+    <stroke
+        android:width="1dp"
+        android:color="#1A007BFF" />
+</shape>

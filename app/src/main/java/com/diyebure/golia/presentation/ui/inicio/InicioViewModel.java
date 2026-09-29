@@ -7,8 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diyebure.golia.BuildConfig;
+import com.diyebure.golia.di.qualifier.IoExecutor;
 import com.diyebure.golia.domain.model.Match;
 import com.diyebure.golia.domain.model.MatchStatus;
+import com.diyebure.golia.domain.model.RankingSnapshot;
+import com.diyebure.golia.domain.repository.RankingDataSource;
 import com.diyebure.golia.domain.usecase.GetMatchesUseCase;
 import com.diyebure.golia.domain.usecase.RefreshMatchesUseCase;
 import com.diyebure.golia.presentation.ui.partidos.MatchUiMapper;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
@@ -47,27 +51,56 @@ public class InicioViewModel extends ViewModel {
 
     private final GetMatchesUseCase getMatches;
     private final RefreshMatchesUseCase refreshMatches;
+    private final RankingDataSource rankingDataSource;
+    private final ExecutorService ioExecutor;
 
     private final MutableLiveData<List<MatchUiModel>> upcomingMatches = new MutableLiveData<>();
+
+    /**
+     * Métricas reales del ranking del usuario actual para la tarjeta de
+     * bienvenida (pronósticos, aciertos %, puntos, posición). Puede ser
+     * {@code null} cuando el usuario no está en el ranking; en ese caso la
+     * tarjeta muestra un estado neutro (R11).
+     */
+    private final MutableLiveData<RankingSnapshot> ranking = new MutableLiveData<>();
 
     /** True cuando la clave de API está ausente (bloquea el refresco remoto). */
     private final boolean apiKeyMissing;
 
     @Inject
-    public InicioViewModel(GetMatchesUseCase getMatches, RefreshMatchesUseCase refreshMatches) {
+    public InicioViewModel(GetMatchesUseCase getMatches,
+                           RefreshMatchesUseCase refreshMatches,
+                           RankingDataSource rankingDataSource,
+                           @IoExecutor ExecutorService ioExecutor) {
         this.getMatches = getMatches;
         this.refreshMatches = refreshMatches;
+        this.rankingDataSource = rankingDataSource;
+        this.ioExecutor = ioExecutor;
         this.apiKeyMissing = isBlank(BuildConfig.API_FOOTBALL_KEY);
 
         // Emitir una lista vacía inicial para evitar nulls en los observadores.
         upcomingMatches.setValue(Collections.emptyList());
 
         initLoad();
+        loadRanking();
     }
 
     /** @return los próximos partidos ya mapeados para pintar en el Inicio. */
     public LiveData<List<MatchUiModel>> getUpcomingMatches() {
         return upcomingMatches;
+    }
+
+    /** @return las métricas reales del ranking del usuario actual (R11). */
+    public LiveData<RankingSnapshot> getRanking() {
+        return ranking;
+    }
+
+    /**
+     * Calcula el ranking real del usuario actual fuera del hilo principal (lee
+     * usuarios y pronósticos de Room) y lo publica con {@code postValue}.
+     */
+    private void loadRanking() {
+        ioExecutor.execute(() -> ranking.postValue(rankingDataSource.getRankingForCurrentUser()));
     }
 
     /**

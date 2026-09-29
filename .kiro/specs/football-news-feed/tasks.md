@@ -174,7 +174,7 @@ Las subtareas marcadas con `*` (pruebas unitarias, de propiedades e integración
     - **Property 11: Límite de longitud del texto de búsqueda**
     - **Validates: Requirements 8.6**
 
-- [~] 12. Presentación: adaptador y vistas
+- [ ] 12. Presentación: adaptador y vistas
   - [x] 12.1 Implementar `NewsAdapter` (`ListAdapter` + `DiffUtil`), `NewsDiffCallback` y ViewHolder
     - Bind con título ≤2 líneas, descripción ≤3 líneas, fuente ≤1 línea, fecha en formato corto de la zona local; ocultar campos ausentes sin dejar hueco; badge de liga/categoría; carga de imagen con Glide (placeholder, crossfade, timeout 10s).
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 11.3, 13.1_

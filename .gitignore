@@ -25,3 +25,8 @@ run.log
 *.db-wal
 db_export/
 build_output.txt
+build_done.txt
+
+# jqwik property-test local cache
+.jqwik-database
+app/.jqwik-database

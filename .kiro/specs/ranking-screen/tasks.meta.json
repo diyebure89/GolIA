@@ -1,0 +1,313 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Crear el enum `Ranking_Period` y los modelos de datos del ranking": [
+      {
+        "executionId": "098c9a19-f198-45df-a499-b5fbec0eaad9",
+        "chatSessionId": "sess_2abf794e-85a5-427e-a317-1e9f7f0ea36b",
+        "timestamp": 1790647746396
+      },
+      {
+        "executionId": "098c9a19-f198-45df-a499-b5fbec0eaad9",
+        "chatSessionId": "sess_2abf794e-85a5-427e-a317-1e9f7f0ea36b",
+        "timestamp": 1790648019803
+      }
+    ],
+    "1. Definir los modelos de dominio del ranking": [
+      {
+        "executionId": "098c9a19-f198-45df-a499-b5fbec0eaad9",
+        "chatSessionId": "sess_2abf794e-85a5-427e-a317-1e9f7f0ea36b",
+        "timestamp": 1790648020103
+      }
+    ],
+    "2.1 Implementar `Ranking_Calculator` (dominio puro) reutilizando `Prediction_Scorer`": [
+      {
+        "executionId": "b759fa9c-beb4-4b7b-914d-9a82d8e164ea",
+        "chatSessionId": "sess_c9c3679c-d2ae-458d-82ff-a4f79540841c",
+        "timestamp": 1790648063815
+      },
+      {
+        "executionId": "b759fa9c-beb4-4b7b-914d-9a82d8e164ea",
+        "chatSessionId": "sess_c9c3679c-d2ae-458d-82ff-a4f79540841c",
+        "timestamp": 1790648346421
+      }
+    ],
+    "2. Implementar el motor puro de cálculo del ranking": [
+      {
+        "executionId": "b759fa9c-beb4-4b7b-914d-9a82d8e164ea",
+        "chatSessionId": "sess_c9c3679c-d2ae-458d-82ff-a4f79540841c",
+        "timestamp": 1790648346952
+      }
+    ],
+    "3. Checkpoint — motor de cálculo verificado": [
+      {
+        "executionId": "4c5b618f-f66c-41c1-88c3-210fd723abfe",
+        "chatSessionId": "sess_94c8a182-02d2-4d1f-8755-49a7d33de500",
+        "timestamp": 1790648502106
+      },
+      {
+        "executionId": "4c5b618f-f66c-41c1-88c3-210fd723abfe",
+        "chatSessionId": "sess_94c8a182-02d2-4d1f-8755-49a7d33de500",
+        "timestamp": 1790648658835
+      }
+    ],
+    "4.1 Implementar `SeedProfiles` como constantes de dominio deterministas": [
+      {
+        "executionId": "e14390d7-c1ce-4b2b-8ce2-c0c25dfb1340",
+        "chatSessionId": "sess_c79938a4-111e-4284-98be-715b075e7587",
+        "timestamp": 1790648689311
+      },
+      {
+        "executionId": "e14390d7-c1ce-4b2b-8ce2-c0c25dfb1340",
+        "chatSessionId": "sess_c79938a4-111e-4284-98be-715b075e7587",
+        "timestamp": 1790649027131
+      }
+    ],
+    "4. Definir la fuente de participantes seed": [
+      {
+        "executionId": "e14390d7-c1ce-4b2b-8ce2-c0c25dfb1340",
+        "chatSessionId": "sess_c79938a4-111e-4284-98be-715b075e7587",
+        "timestamp": 1790649027572
+      }
+    ],
+    "5.1 Implementar `Ranking_Participant_Provider`": [
+      {
+        "executionId": "6091dca9-c144-4db9-9576-cc1b9bac0c6b",
+        "chatSessionId": "sess_08bd138a-e468-4b22-8540-3675ccd971e7",
+        "timestamp": 1790649105350
+      },
+      {
+        "executionId": "6091dca9-c144-4db9-9576-cc1b9bac0c6b",
+        "chatSessionId": "sess_08bd138a-e468-4b22-8540-3675ccd971e7",
+        "timestamp": 1790649272808
+      }
+    ],
+    "5.2 Implementar `GetRankingUseCase` sobre `@IoExecutor`": [
+      {
+        "executionId": "6091dca9-c144-4db9-9576-cc1b9bac0c6b",
+        "chatSessionId": "sess_08bd138a-e468-4b22-8540-3675ccd971e7",
+        "timestamp": 1790649282382
+      },
+      {
+        "executionId": "6091dca9-c144-4db9-9576-cc1b9bac0c6b",
+        "chatSessionId": "sess_08bd138a-e468-4b22-8540-3675ccd971e7",
+        "timestamp": 1790649426088
+      }
+    ],
+    "5. Implementar el proveedor de participantes y el use case": [
+      {
+        "executionId": "6091dca9-c144-4db9-9576-cc1b9bac0c6b",
+        "chatSessionId": "sess_08bd138a-e468-4b22-8540-3675ccd971e7",
+        "timestamp": 1790649426745
+      }
+    ],
+    "6. Checkpoint — cálculo end-to-end de dominio verificado": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649492219
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650400454
+      }
+    ],
+    "2.2 Escribir property test: total del periodo = suma disjunta de consolidado y live": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649664012
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650379849
+      }
+    ],
+    "2.3 Escribir property test: live sin marcador aporta cero y no falla": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649665124
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650380215
+      }
+    ],
+    "2.4 Escribir property test: Win_Percentage en 0..100 y 0 sin resueltos": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649666562
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650381147
+      }
+    ],
+    "2.5 Escribir property test: racha global, no negativa, se corta con el primer fallo": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649667980
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650382783
+      }
+    ],
+    "2.6 Escribir property test: orden y desempate deterministas y totales": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649668946
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650383879
+      }
+    ],
+    "2.7 Escribir property test: el filtro de periodo respeta la ventana temporal": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649677192
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650388499
+      }
+    ],
+    "2.8 Escribir property test: un pronóstico sin Match en caché no participa": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649678663
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650390072
+      }
+    ],
+    "2.9 Escribir tests unitarios de ejemplos de borde para `Ranking_Calculator`": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649679910
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650391364
+      }
+    ],
+    "4.2 Escribir tests unitarios de determinismo de `SeedProfiles`": [
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790649681209
+      },
+      {
+        "executionId": "1a9a1ab5-1fd4-42dd-9184-80ba149a9e20",
+        "chatSessionId": "sess_b810f8dc-7222-4ebc-bd56-11dc98877d01",
+        "timestamp": 1790650392832
+      }
+    ],
+    "7.1 Implementar `RankingUiState` (sellado) y `RankingViewModel extends BaseViewModel`": [
+      {
+        "executionId": "a00f98be-d04a-4f07-ba61-63c9e4101a49",
+        "chatSessionId": "sess_be516c95-d05c-4c60-9598-495326996414",
+        "timestamp": 1790650486293
+      },
+      {
+        "executionId": "6a60cdc1-62b3-4522-80f7-d6cd47ead6f5",
+        "chatSessionId": "sess_be516c95-d05c-4c60-9598-495326996414",
+        "timestamp": 1790651953196
+      }
+    ],
+    "7. Implementar la capa de presentación (ViewModel y estado)": [
+      {
+        "executionId": "6a60cdc1-62b3-4522-80f7-d6cd47ead6f5",
+        "chatSessionId": "sess_be516c95-d05c-4c60-9598-495326996414",
+        "timestamp": 1790651955284
+      }
+    ],
+    "8.1 Crear el layout `fragment_ranking.xml` según el mock": [
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790651996739
+      },
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790652403952
+      }
+    ],
+    "8.2 Implementar `RankingAdapter` para la lista de posiciones": [
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790651997630
+      },
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790652404597
+      }
+    ],
+    "8.3 Implementar `RankingFragment` observando el estado": [
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790652410679
+      },
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790652870887
+      }
+    ],
+    "8. Implementar la vista del ranking": [
+      {
+        "executionId": "7a880a0e-dde8-4629-a7a3-eef288baad3b",
+        "chatSessionId": "sess_f9b8585e-7ccc-44f3-8ad3-b49d7532c64a",
+        "timestamp": 1790652871342
+      }
+    ],
+    "9.1 Configurar la inyección Hilt y wiring de componentes": [
+      {
+        "executionId": "b2187621-d0aa-4a65-858a-ae1e76e0cb3d",
+        "chatSessionId": "sess_9a5c8181-9753-424d-b2d0-547807ec7b2f",
+        "timestamp": 1790652911714
+      },
+      {
+        "executionId": "b2187621-d0aa-4a65-858a-ae1e76e0cb3d",
+        "chatSessionId": "sess_9a5c8181-9753-424d-b2d0-547807ec7b2f",
+        "timestamp": 1790653155428
+      }
+    ],
+    "9. Cableado final (DI e integración)": [
+      {
+        "executionId": "b2187621-d0aa-4a65-858a-ae1e76e0cb3d",
+        "chatSessionId": "sess_9a5c8181-9753-424d-b2d0-547807ec7b2f",
+        "timestamp": 1790653155740
+      }
+    ],
+    "10. Checkpoint final — asegurar que todas las pruebas pasan": [
+      {
+        "executionId": "4ee38470-dee2-435a-a29a-38154bff9c04",
+        "chatSessionId": "sess_beeb63c1-79e9-4e6e-a50f-c1eacdc750fb",
+        "timestamp": 1790653193292
+      }
+    ]
+  }
+}

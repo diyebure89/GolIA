@@ -60,6 +60,13 @@ public interface UserDao {
     UserEntity getById(String id);
 
     /**
+     * Get every registered user. Used to build the ranking from real accounts
+     * only (no seed/mock profiles).
+     */
+    @Query("SELECT * FROM users")
+    java.util.List<UserEntity> getAll();
+
+    /**
      * Update the editable personal data (username and email) for a user.
      */
     @Query("UPDATE users SET username = :username, email = :email WHERE id = :id")

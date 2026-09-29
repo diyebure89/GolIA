@@ -73,6 +73,12 @@ android {
     // por defecto en lugar de lanzar "Method ... not mocked".
     testOptions {
         unitTests.returnDefaultValues = true
+        // Run JVM unit tests on the JUnit Platform so jqwik (JUnit 5) property
+        // tests are discovered. junit-vintage-engine (added below) keeps any
+        // existing JUnit4 unit tests runnable on the same platform.
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
     
     lint {
@@ -163,6 +169,16 @@ dependencies {
 
     // Testing
     testImplementation libs.junit
+    // jqwik: property-based testing on the JUnit Platform (JUnit 5) for the pure
+    // domain calculator. Pinned via the version catalog.
+    testImplementation libs.jqwik
+    // Fluent assertions for both property and example tests.
+    testImplementation 'org.assertj:assertj-core:3.25.3'
+    // JUnit Platform launcher so the JUnit 5 engine (jqwik) is discovered by Gradle.
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+    // Vintage engine lets any JUnit4 unit tests run on the same JUnit Platform
+    // alongside jqwik's JUnit5 engine.
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.2'
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit
 

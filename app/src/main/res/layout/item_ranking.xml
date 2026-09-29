@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Fila de la lista de posiciones del Ranking (ranking-screen, tarea 8.2).
+
+  Muestra, de izquierda a derecha:
+  - Medalla / número de posición (text_position).
+  - Avatar del participante (image_avatar), degradado a placeholder si no hay.
+  - Nombre (text_name) y una línea de métricas "% acierto · Racha: N"
+    (text_metrics).
+  - Distintivo "en vivo" (text_live_badge), visible solo si el participante
+    aporta puntos en vivo.
+  - Puntos formateados con separador de miles regional "3,420 pts"
+    (text_points).
+
+  La fila del Current_User se resalta cambiando el fondo del contenedor raíz
+  (row_ranking_container) desde el adapter.
+
+  Paleta coherente con el resto del flujo (bg_match_card, text_white,
+  text_gray, gold, blue_end). Los IDs coinciden con los que enlaza
+  RankingAdapter.VH.
+  Requisitos: 5.1, 5.4, 6.5, 2.5
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_ranking_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/bg_match_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <!-- Medalla / número de posición -->
+    <TextView
+        android:id="@+id/text_position"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/gold"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="4" />
+
+    <!-- Avatar (placeholder por defecto; degradado si el avatarRef es nulo/ausente) -->
+    <ImageView
+        android:id="@+id/image_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/cd_ranking_avatar"
+        android:src="@drawable/ic_avatar_placeholder" />
+
+    <!-- Nombre + métricas (% acierto · Racha: N) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="CarlosGol" />
+
+            <!-- Distintivo "en vivo" (se oculta si el participante no aporta puntos en vivo) -->
+            <TextView
+                android:id="@+id/text_live_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_live_badge"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="@string/ranking_en_vivo"
+                android:textColor="@color/blue_dark"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_metrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            tools:text="78% acierto · Racha: 3" />
+
+    </LinearLayout>
+
+    <!-- Puntos con separador de miles regional -->
+    <TextView
+        android:id="@+id/text_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/gold"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="3,420 pts" />
+
+</LinearLayout>

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diyebure.golia.data.local.PreferencesManager;
+import com.diyebure.golia.domain.model.RankingSnapshot;
 import com.diyebure.golia.presentation.adapter.MatchesAdapter;
 import com.diyebure.golia.presentation.ui.common.BasePlaceholderFragment;
 import com.diyebure.golia.presentation.ui.inicio.InicioViewModel;
@@ -26,6 +27,7 @@ import com.diyebure.golia.util.DisplayName;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.File;
+import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -67,11 +69,8 @@ public class InicioFragment extends BasePlaceholderFragment {
         // onResume para reflejar cambios hechos en la Pantalla_Perfil).
         refreshWelcomeCard(v);
 
-        // 4 estadísticas independientes placeholder (R7.3)
-        ((TextView) v.findViewById(R.id.text_stat_pronosticos_value)).setText("48");
-        ((TextView) v.findViewById(R.id.text_stat_aciertos_value)).setText("67%");
-        ((TextView) v.findViewById(R.id.text_stat_puntos_value)).setText("1 250");
-        ((TextView) v.findViewById(R.id.text_stat_ranking_value)).setText("#142");
+        // Estado neutro inicial mientras se calcula el ranking real en segundo plano.
+        renderRanking(v, null);
 
         // Campana de notificaciones clickable sin acción (R7.1)
         v.findViewById(R.id.icon_notifications).setOnClickListener(view -> { /* sin acción */ });
@@ -87,10 +86,41 @@ public class InicioFragment extends BasePlaceholderFragment {
 
         InicioViewModel viewModel = new ViewModelProvider(this).get(InicioViewModel.class);
         viewModel.getUpcomingMatches().observe(getViewLifecycleOwner(), adapter::submitList);
+        // Estadísticas reales del ranking del usuario actual (R7.3, R11).
+        viewModel.getRanking().observe(getViewLifecycleOwner(),
+                snapshot -> renderRanking(requireView(), snapshot));
 
         // "Ver todos" navega a la pestaña Partidos.
         v.findViewById(R.id.text_see_all).setOnClickListener(view ->
                 ((MainActivity) requireActivity()).navigateToPartidos());
+    }
+
+    /**
+     * Pinta las cuatro estadísticas de la tarjeta de bienvenida con los datos
+     * reales del ranking del usuario actual. Cuando no hay snapshot (usuario sin
+     * posición en el ranking) muestra un estado neutro con guiones, nunca un
+     * error (R11.5).
+     */
+    private void renderRanking(@NonNull View v, @Nullable RankingSnapshot snapshot) {
+        TextView pronosticos = v.findViewById(R.id.text_stat_pronosticos_value);
+        TextView aciertos = v.findViewById(R.id.text_stat_aciertos_value);
+        TextView puntos = v.findViewById(R.id.text_stat_puntos_value);
+        TextView ranking = v.findViewById(R.id.text_stat_ranking_value);
+
+        if (snapshot == null) {
+            pronosticos.setText("-");
+            aciertos.setText("-");
+            puntos.setText("-");
+            ranking.setText("-");
+            return;
+        }
+
+        pronosticos.setText(String.valueOf(snapshot.getPredictionsMade()));
+        aciertos.setText(String.format(Locale.getDefault(), "%.0f%%",
+                snapshot.getAccuracyPercentage()));
+        puntos.setText(String.valueOf(snapshot.getTotalPoints()));
+        ranking.setText(String.format(Locale.getDefault(), "#%d",
+                snapshot.getRankingPosition()));
     }
 
     /**
