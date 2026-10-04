@@ -15,6 +15,10 @@ if (localPropertiesFile.exists()) {
 }
 def apiFootballKey = localProperties.getProperty("API_FOOTBALL_KEY", "")
 def newsDataKey = localProperties.getProperty("NEWSDATA_API_KEY", "")
+// URL base del backend GolIA (Spring Boot + MySQL). Configurable desde
+// local.properties (no versionado). Por defecto apunta al emulador de Android
+// (10.0.2.2 = localhost del PC anfitrion) en el puerto del backend.
+def goliaBaseUrl = localProperties.getProperty("GOLIA_BASE_URL", "http://10.0.2.2:8080/")
 
 android {
     namespace 'com.diyebure.golia'
@@ -34,6 +38,9 @@ android {
 
         // NewsData.io key exposed via BuildConfig, read from local.properties.
         buildConfigField "String", "NEWSDATA_API_KEY", "\"${newsDataKey}\""
+
+        // URL base del backend GolIA (auth/predicciones/ranking), read from local.properties.
+        buildConfigField "String", "GOLIA_BASE_URL", "\"${goliaBaseUrl}\""
 
         // Export Room schemas (JSON) so migration tests can validate the
         // migrated schema with MigrationTestHelper. Schemas are written to

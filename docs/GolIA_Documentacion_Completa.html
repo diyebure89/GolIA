@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GolIA — Documentación de Software</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+</script>
+<style>
+  :root { --azul:#1b4b91; --azul2:#3b6ef0; --gris:#555; --borde:#d7dced; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color:#1a1a1a; line-height:1.55;
+         max-width: 950px; margin: 0 auto; padding: 40px 48px; background:#fff; }
+  h1 { color: var(--azul); font-size: 26px; border-bottom: 3px solid var(--azul2); padding-bottom:8px; margin-top: 48px; }
+  h2 { color: var(--azul); font-size: 20px; margin-top: 32px; border-left: 5px solid var(--azul2); padding-left:10px; }
+  h3 { color: #22365c; font-size: 16px; margin-top: 22px; }
+  h4 { color: #33455f; font-size: 14px; margin-top: 16px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 13.5px; }
+  th, td { border: 1px solid var(--borde); padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: #eaf0fc; color:#1b2d4e; }
+  tr:nth-child(even) td { background: #f7f9fe; }
+  code { background:#eef1f8; padding:1px 5px; border-radius:4px; font-family: Consolas, monospace; font-size: 12.5px; }
+  pre { background:#0f1626; color:#e6ecff; padding:14px 16px; border-radius:8px; overflow-x:auto; font-size:12.5px; }
+  .portada { text-align:center; padding: 120px 0 80px; }
+  .portada .logo { font-size:70px; }
+  .portada h1 { border:none; font-size:40px; color:var(--azul); }
+  .portada .sub { font-size:20px; color:var(--gris); margin-top:4px; }
+  .portada .meta { margin-top:60px; font-size:15px; color:#333; }
+  .toc { background:#f3f6fd; border:1px solid var(--borde); border-radius:8px; padding:18px 26px; }
+  .toc a { color: var(--azul); text-decoration:none; }
+  .toc li { margin:5px 0; }
+  .mermaid { background:#fafbff; border:1px solid var(--borde); border-radius:8px; padding:14px; margin:16px 0; text-align:center; }
+  .nota { background:#fff8e6; border-left:4px solid #e0a800; padding:10px 14px; border-radius:4px; margin:14px 0; font-size:13.5px; }
+  .wire { width:100%; border:1px solid var(--borde); border-radius:8px; margin:16px 0; }
+  .pagebreak { page-break-before: always; }
+  @media print {
+    body { padding: 0; max-width:none; }
+    h1 { page-break-before: always; }
+    .portada h1, .toc + * h1 { page-break-before: avoid; }
+    .no-print { display:none; }
+    a { color:#1a1a1a; text-decoration:none; }
+  }
+  .badge { display:inline-block; background:var(--azul2); color:#fff; border-radius:12px; padding:2px 10px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<!-- ===================== PORTADA ===================== -->
+<div class="portada">
+  <div class="logo">⚽</div>
+  <h1>GolIA</h1>
+  <div class="sub">Aplicación Móvil de Pronósticos de Fútbol</div>
+  <div class="sub" style="font-size:16px; margin-top:28px;">Documentación de Ingeniería de Software</div>
+  <div class="meta">
+    <p><strong>Documentos:</strong> ERS (IEEE-830) · Metodología · Casos de Uso · Diseño UML + GUI</p>
+    <p><strong>Autor:</strong> [Tu Nombre] — Estudiante de Desarrollo de Software</p>
+    <p><strong>Plataforma:</strong> Android (Java) + Backend Spring Boot / MySQL</p>
+    <p><strong>Año:</strong> 2026 · <strong>Versión:</strong> 1.0</p>
+  </div>
+</div>
+
+<!-- ===================== ÍNDICE ===================== -->
+<div class="toc">
+  <h2 style="border:none; margin-top:0; padding-left:0;">Contenido</h2>
+  <ol>
+    <li><a href="#ers">Especificación de Requisitos de Software (IEEE-830)</a></li>
+    <li><a href="#metodo">Metodología de Desarrollo</a></li>
+    <li><a href="#casos">Documento de Casos de Uso</a></li>
+    <li><a href="#diseno">Diseño UML + GUI</a></li>
+  </ol>
+</div>
+
+<!-- ===================== 1. ERS ===================== -->
+<h1 id="ers">1. Especificación de Requisitos de Software (IEEE-830)</h1>
+
+<h2>1.1 Introducción</h2>
+<p><strong>Propósito.</strong> Especificar los requisitos funcionales y no funcionales de la aplicación móvil <strong>GolIA</strong>, una plataforma de pronósticos deportivos de fútbol.</p>
+<p><strong>Alcance.</strong> GolIA permite registrarse, consultar partidos, realizar pronósticos de marcador exacto, acumular puntos, competir en un ranking global compartido entre dispositivos y leer noticias. Se compone de una app Android (cliente), un backend REST (Spring Boot + MySQL) y las integraciones con API-Football y NewsData.io.</p>
+
+<h3>Definiciones y acrónimos</h3>
+<table>
+<tr><th>Término</th><th>Definición</th></tr>
+<tr><td>Pronóstico</td><td>Predicción del marcador exacto de un partido.</td></tr>
+<tr><td>Marcador exacto</td><td>Resultado de goles local–visitante (ej. 2-1).</td></tr>
+<tr><td>Ranking</td><td>Clasificación de usuarios por puntos acumulados.</td></tr>
+<tr><td>Período</td><td>Ventana del ranking: Semanal (7d), Mensual (30d) o Total.</td></tr>
+<tr><td>JWT</td><td>JSON Web Token (autenticación por token).</td></tr>
+<tr><td>RF / RNF</td><td>Requisito Funcional / Requisito No Funcional.</td></tr>
+</table>
+
+<h2>1.2 Descripción general</h2>
+<p><strong>Perspectiva del producto.</strong> Arquitectura cliente-servidor. El cliente Android consume una API REST propia (cuentas, pronósticos, ranking) y APIs de terceros (partidos y noticias). Los datos de cuenta y pronósticos residen en MySQL central, permitiendo acceso multi-dispositivo y un ranking consistente.</p>
+
+<h3>Características de los usuarios</h3>
+<table>
+<tr><th>Perfil</th><th>Descripción</th></tr>
+<tr><td>Usuario registrado</td><td>Aficionado que pronostica y compite. Conocimientos técnicos básicos.</td></tr>
+<tr><td>Usuario invitado</td><td>Ve contenido público (ranking) sin sesión; no pronostica.</td></tr>
+</table>
+
+<h3>Restricciones</h3>
+<ul>
+<li>Plataforma Android (minSdk 24, targetSdk 36).</li>
+<li>Dependencia de conectividad para auth, pronósticos, ranking y datos externos.</li>
+<li>Límite de peticiones de las APIs gratuitas de terceros.</li>
+<li>Contraseña de mínimo 8 caracteres.</li>
+</ul>
+
+<h2>1.3 Requisitos Funcionales (RF)</h2>
+
+<div class="nota"><strong>Requerimiento vs. Requisito.</strong> El <em>requerimiento</em> es la necesidad del cliente ("quiero competir con otros"); el <em>requisito</em> es la especificación técnica que el sistema debe cumplir ("mostrar un ranking ordenado por puntos descendente, por período").</div>
+
+<h4>Módulo: Autenticación</h4>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Descripción</th></tr>
+<tr><td>RF-01</td><td>Registro de usuario</td><td>Crear cuenta con usuario, correo, contraseña y país. Correo y usuario únicos.</td></tr>
+<tr><td>RF-02</td><td>Validación de registro</td><td>Validar formato de correo y contraseña (≥8 caracteres).</td></tr>
+<tr><td>RF-03</td><td>Inicio de sesión</td><td>Autenticarse con usuario/correo y contraseña; devuelve token JWT.</td></tr>
+<tr><td>RF-04</td><td>Cierre de sesión</td><td>Cerrar sesión y limpiar datos locales.</td></tr>
+<tr><td>RF-05</td><td>Persistencia de sesión</td><td>Mantener sesión entre aperturas mientras el token sea válido.</td></tr>
+<tr><td>RF-06</td><td>Mensajes de error</td><td>Informar credenciales inválidas, correo/usuario en uso y errores de red, sin revelar el campo fallido en login.</td></tr>
+</table>
+
+<h4>Módulo: Partidos</h4>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Descripción</th></tr>
+<tr><td>RF-07</td><td>Próximos partidos</td><td>Mostrar en Inicio los próximos partidos de las ligas objetivo.</td></tr>
+<tr><td>RF-08</td><td>Pantalla de partidos</td><td>Lista completa con pull-to-refresh.</td></tr>
+<tr><td>RF-09</td><td>Detalle de partido</td><td>Equipos, fecha, estado y marcador si aplica.</td></tr>
+<tr><td>RF-10</td><td>Datos en vivo</td><td>Reflejar estado (programado, en vivo con minuto, finalizado).</td></tr>
+</table>
+
+<h4>Módulo: Pronósticos</h4>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Descripción</th></tr>
+<tr><td>RF-11</td><td>Crear pronóstico</td><td>Ingresar marcador exacto (goles local y visitante).</td></tr>
+<tr><td>RF-12</td><td>Bloqueo por tiempo</td><td>Impedir pronosticar a menos de 10 min del inicio o si no está programado.</td></tr>
+<tr><td>RF-13</td><td>Pronóstico único</td><td>Un solo pronóstico por usuario y partido; reenvío = actualización (upsert).</td></tr>
+<tr><td>RF-14</td><td>Confirmación</td><td>Pantalla de confirmación con marcador y puntos posibles.</td></tr>
+<tr><td>RF-15</td><td>Historial</td><td>Historial con estado (pendiente/acertado/fallido) y puntos.</td></tr>
+</table>
+
+<h4>Módulo: Puntuación y Ranking</h4>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Descripción</th></tr>
+<tr><td>RF-16</td><td>Cálculo de puntos</td><td>+5 resultado 1X2, +2 goles local exactos, +2 goles visitante exactos, +1 diferencia, +9 marcador exacto (máx. 19).</td></tr>
+<tr><td>RF-17</td><td>Resolución automática</td><td>Resolver pronósticos pendientes de partidos finalizados y actualizar puntos.</td></tr>
+<tr><td>RF-18</td><td>Ranking global</td><td>Ranking ordenado por puntos descendente.</td></tr>
+<tr><td>RF-19</td><td>Períodos</td><td>Filtrar por Semanal, Mensual y Total.</td></tr>
+<tr><td>RF-20</td><td>Podio</td><td>Destacar los 3 primeros lugares.</td></tr>
+<tr><td>RF-21</td><td>Datos compartidos</td><td>Reflejar usuarios reales del servidor, compartidos entre dispositivos.</td></tr>
+</table>
+
+<h4>Módulo: Noticias y Perfil</h4>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Descripción</th></tr>
+<tr><td>RF-22</td><td>Listado de noticias</td><td>Mostrar noticias deportivas de fútbol.</td></tr>
+<tr><td>RF-23</td><td>Abrir noticia</td><td>Abrir la noticia en su fuente original.</td></tr>
+<tr><td>RF-24</td><td>Ver estadísticas</td><td>Pronósticos, % aciertos, puntos y posición en ranking.</td></tr>
+<tr><td>RF-25</td><td>Editar datos</td><td>Editar usuario y correo.</td></tr>
+<tr><td>RF-26</td><td>Cambiar contraseña</td><td>Validar actual + confirmación de la nueva.</td></tr>
+<tr><td>RF-27</td><td>Foto de perfil</td><td>Establecer foto desde galería o cámara.</td></tr>
+<tr><td>RF-28</td><td>Bienvenida</td><td>Saludo con nombre y avatar en Inicio.</td></tr>
+</table>
+
+<h2>1.4 Requisitos No Funcionales (RNF)</h2>
+<table>
+<tr><th>ID</th><th>Categoría</th><th>Requisito</th></tr>
+<tr><td>RNF-01</td><td>Usabilidad</td><td>Material Design con navegación por barra inferior (5 secciones).</td></tr>
+<tr><td>RNF-02</td><td>Usabilidad</td><td>Estados de carga, vacío y error claros, sin textos técnicos.</td></tr>
+<tr><td>RNF-03</td><td>Rendimiento</td><td>Operaciones de red fuera del hilo principal, con timeout acotado.</td></tr>
+<tr><td>RNF-04</td><td>Seguridad</td><td>Contraseñas con hash BCrypt en servidor; nunca en texto plano.</td></tr>
+<tr><td>RNF-05</td><td>Seguridad</td><td>Autenticación por JWT; endpoints protegidos requieren token.</td></tr>
+<tr><td>RNF-06</td><td>Seguridad</td><td>Token de sesión cifrado en el dispositivo (Android Keystore).</td></tr>
+<tr><td>RNF-07</td><td>Compatibilidad</td><td>Funciona desde Android 7.0 (API 24).</td></tr>
+<tr><td>RNF-08</td><td>Mantenibilidad</td><td>Arquitectura por capas (presentación/dominio/datos) con Hilt.</td></tr>
+<tr><td>RNF-09</td><td>Confiabilidad</td><td>Resolución de puntos idempotente (no duplica).</td></tr>
+<tr><td>RNF-10</td><td>Offline</td><td>Caché local de partidos y noticias para experiencia degradada.</td></tr>
+<tr><td>RNF-11</td><td>Escalabilidad</td><td>Múltiples usuarios comparten el ranking desde distintos dispositivos.</td></tr>
+<tr><td>RNF-12</td><td>Portabilidad</td><td>Credenciales y URLs configurables por entorno (no hardcodeadas).</td></tr>
+</table>
+
+<h2>1.5 Priorización</h2>
+<p>Ordenamiento de funcionalidades de <strong>mayor a menor valor estratégico</strong> con escala MoSCoW + nivel Alta/Media/Baja.</p>
+<table>
+<tr><th>Prioridad</th><th>MoSCoW</th><th>Requisitos</th><th>Justificación</th></tr>
+<tr><td>1 — Alta</td><td>Must</td><td>RF-01, RF-02, RF-03, RF-05, RF-06</td><td>Base del sistema: sin auth no hay identidad.</td></tr>
+<tr><td>2 — Alta</td><td>Must</td><td>RF-11, RF-12, RF-13, RF-14</td><td>El pronóstico es la funcionalidad central.</td></tr>
+<tr><td>3 — Alta</td><td>Must</td><td>RF-16, RF-17, RF-18, RF-21</td><td>Puntuación y ranking dan el valor competitivo.</td></tr>
+<tr><td>4 — Media</td><td>Should</td><td>RF-07, RF-08, RF-09, RF-10</td><td>Partidos alimentan el flujo; dependen de API externa.</td></tr>
+<tr><td>5 — Media</td><td>Should</td><td>RF-15, RF-19, RF-20, RF-24</td><td>Mejoran seguimiento y experiencia competitiva.</td></tr>
+<tr><td>6 — Media</td><td>Should</td><td>RF-04, RF-25, RF-26, RF-28</td><td>Gestión de cuenta y personalización.</td></tr>
+<tr><td>7 — Baja</td><td>Could</td><td>RF-27</td><td>Foto de perfil: mejora cosmética.</td></tr>
+<tr><td>8 — Baja</td><td>Could</td><td>RF-22, RF-23</td><td>Noticias: contenido complementario.</td></tr>
+</table>
+
+<h3>Requerimiento vs. requisito (ejemplos)</h3>
+<table>
+<tr><th>Requerimiento (necesidad)</th><th>Requisito (especificación)</th></tr>
+<tr><td>"Quiero competir con otros aficionados."</td><td>RF-18, RF-19: ranking por puntos filtrable por período.</td></tr>
+<tr><td>"Quiero ganar puntos al acertar."</td><td>RF-16, RF-17: regla de puntuación y resolución automática.</td></tr>
+<tr><td>"Quiero predecir el marcador."</td><td>RF-11, RF-12, RF-13: marcador exacto, único y con bloqueo.</td></tr>
+<tr><td>"No quiero que roben mi cuenta."</td><td>RNF-04, RNF-05, RNF-06: BCrypt, JWT y token cifrado.</td></tr>
+<tr><td>"Quiero usar mi cuenta en cualquier teléfono."</td><td>RNF-11, RF-21: datos centralizados en MySQL.</td></tr>
+</table>
+
+<!-- ===================== 2. METODOLOGÍA ===================== -->
+<h1 id="metodo">2. Metodología de Desarrollo</h1>
+
+<h2>2.1 Metodología: Desarrollo por Prototipos (evolutivo)</h2>
+<p>Se seleccionó la <strong>metodología por prototipos de tipo evolutivo</strong>, dentro de un marco iterativo e incremental.</p>
+<h3>Justificación</h3>
+<ul>
+<li><strong>Requisitos que se refinan con el uso:</strong> las reglas de negocio (puntuación, períodos, bloqueo) se afinaron al observar el comportamiento real.</li>
+<li><strong>Validación temprana de la interfaz:</strong> construir pantallas funcionales permitió validar la experiencia antes de la lógica completa.</li>
+<li><strong>Integraciones inciertas:</strong> las APIs externas y el backend propio se integraron de forma incremental.</li>
+<li><strong>Evolución del prototipo:</strong> cada prototipo se refinó hasta ser el producto final (no desechable).</li>
+</ul>
+<p><strong>Carácter evolutivo:</strong> sobre una arquitectura por capas estable, la capa de datos evolucionó de almacenamiento local (Room/SQLite) a un backend remoto (Spring Boot + MySQL) cambiando solo las implementaciones de repositorio, sin tocar la interfaz ni el dominio.</p>
+
+<h2>2.2 Ciclo de vida aplicado</h2>
+<pre>1. Recolección y refinamiento de requisitos
+          ↓
+2. Diseño rápido (pantallas + modelo de datos)
+          ↓
+3. Construcción del prototipo (iteración N)
+          ↓
+4. Evaluación (pruebas + feedback)
+          ↓
+5. Refinamiento  ──► (vuelve al paso 1 si hay cambios)
+          ↓
+6. Producto final (prototipo consolidado)</pre>
+
+<h2>2.3 Iteraciones realizadas</h2>
+<table>
+<tr><th>Iteración</th><th>Objetivo</th><th>Resultado</th></tr>
+<tr><td>1</td><td>Auth local y navegación</td><td>Registro/login con Room, barra inferior.</td></tr>
+<tr><td>2</td><td>Partidos y detalle</td><td>API-Football, listado/detalle, caché.</td></tr>
+<tr><td>3</td><td>Pronósticos</td><td>Marcador exacto, bloqueo, confirmación, historial.</td></tr>
+<tr><td>4</td><td>Puntuación y ranking</td><td>Regla de puntos, ranking por períodos, podio.</td></tr>
+<tr><td>5</td><td>Perfil y noticias</td><td>Edición, foto, estadísticas, feed.</td></tr>
+<tr><td>6</td><td>Backend compartido</td><td>Migración a Spring Boot + MySQL (multi-dispositivo).</td></tr>
+<tr><td>7</td><td>Resolución en servidor</td><td>Endpoint idempotente que actualiza puntos globales.</td></tr>
+</table>
+
+<h2>2.4 Tecnologías</h2>
+<table>
+<tr><th>Capa</th><th>Tecnologías</th></tr>
+<tr><td>Cliente Android</td><td>Java 17, Material Design, MVVM por capas, Hilt, Retrofit/OkHttp/Gson, Room, Glide.</td></tr>
+<tr><td>Backend</td><td>Spring Boot 3.4, Spring Data JPA + Hibernate, MySQL/MariaDB, Spring Security + JWT, BCrypt, Maven.</td></tr>
+<tr><td>Servicios externos</td><td>API-Football (partidos), NewsData.io (noticias).</td></tr>
+<tr><td>Herramientas</td><td>Git, XAMPP (MySQL local).</td></tr>
+</table>
+
+<!-- ===================== 3. CASOS DE USO ===================== -->
+<h1 id="casos">3. Documento de Casos de Uso</h1>
+
+<h2>3.1 Actores</h2>
+<table>
+<tr><th>Actor</th><th>Descripción</th></tr>
+<tr><td>Usuario registrado</td><td>Pronostica, consulta ranking/historial/noticias y gestiona su perfil.</td></tr>
+<tr><td>Usuario invitado</td><td>Ve contenido público (ranking).</td></tr>
+<tr><td>API-Football</td><td>Provee partidos y resultados (externo).</td></tr>
+<tr><td>NewsData.io</td><td>Provee noticias (externo).</td></tr>
+<tr><td>Backend GolIA</td><td>Gestiona cuentas, pronósticos, puntos y ranking en MySQL.</td></tr>
+</table>
+
+<h2>3.2 Diagrama de casos de uso</h2>
+<div class="mermaid">
+flowchart LR
+    UR([Usuario registrado])
+    UI([Usuario invitado])
+    subgraph S[Sistema GolIA]
+      CU1[CU-01 Registrarse]
+      CU2[CU-02 Iniciar sesión]
+      CU3[CU-03 Cerrar sesión]
+      CU4[CU-04 Ver partidos]
+      CU5[CU-05 Detalle partido]
+      CU6[CU-06 Realizar pronóstico]
+      CU7[CU-07 Historial]
+      CU8[CU-08 Consultar ranking]
+      CU9[CU-09 Ver noticias]
+      CU10[CU-10 Gestionar perfil]
+      CU11[CU-11 Cambiar foto]
+    end
+    UR --> CU1 & CU2 & CU3 & CU4 & CU5 & CU6 & CU7 & CU8 & CU9 & CU10 & CU11
+    UI --> CU8
+    CU6 -. include .-> CU5
+</div>
+
+<h2>3.3 Especificación de casos de uso (resumen)</h2>
+<table>
+<tr><th>CU</th><th>Nombre</th><th>Flujo principal (resumen)</th><th>Requisitos</th></tr>
+<tr><td>CU-01</td><td>Registrarse</td><td>Ingresar datos → validar → backend crea cuenta → ir a login.</td><td>RF-01,02,06</td></tr>
+<tr><td>CU-02</td><td>Iniciar sesión</td><td>Credenciales → backend valida → token JWT → Inicio.</td><td>RF-03,05,06</td></tr>
+<tr><td>CU-03</td><td>Cerrar sesión</td><td>Pulsar logout → limpiar sesión → login.</td><td>RF-04</td></tr>
+<tr><td>CU-04</td><td>Ver partidos</td><td>Abrir Inicio/Partidos → caché + refresco API → lista.</td><td>RF-07,08,10</td></tr>
+<tr><td>CU-05</td><td>Detalle partido</td><td>Pulsar partido → mostrar info → opción pronosticar.</td><td>RF-09,10</td></tr>
+<tr><td>CU-06</td><td>Realizar pronóstico</td><td>Ingresar marcador → validar bloqueo → upsert backend → confirmación.</td><td>RF-11,12,13,14</td></tr>
+<tr><td>CU-07</td><td>Historial</td><td>Abrir historial → lista con estado y puntos.</td><td>RF-15</td></tr>
+<tr><td>CU-08</td><td>Consultar ranking</td><td>Abrir Ranking → backend → podio + lista + filtro período.</td><td>RF-18,19,20,21</td></tr>
+<tr><td>CU-09</td><td>Ver noticias</td><td>Abrir Noticias → caché + NewsData → abrir fuente.</td><td>RF-22,23</td></tr>
+<tr><td>CU-10</td><td>Gestionar perfil</td><td>Ver stats → editar datos / cambiar contraseña.</td><td>RF-24,25,26,28</td></tr>
+<tr><td>CU-11</td><td>Cambiar foto</td><td>Elegir galería/cámara → guardar → actualizar avatar.</td><td>RF-27</td></tr>
+</table>
+
+<h3>Ejemplo detallado — CU-06 Realizar pronóstico</h3>
+<table>
+<tr><th>Campo</th><th>Detalle</th></tr>
+<tr><td>Actor</td><td>Usuario registrado</td></tr>
+<tr><td>Precondición</td><td>Sesión activa; partido programado a más de 10 min del inicio.</td></tr>
+<tr><td>Flujo principal</td><td>1. Pulsar "Pronosticar". 2. Ingresar goles local/visitante. 3. Validar bloqueo. 4. Enviar al backend (crea/actualiza). 5. Mostrar confirmación con puntos posibles.</td></tr>
+<tr><td>Flujo alternativo</td><td>3a. Partido cerrado → "pronóstico cerrado". 4a. Sin conexión → error. 2a. Valores inválidos → error.</td></tr>
+<tr><td>Postcondición</td><td>Pronóstico almacenado (único por usuario y partido).</td></tr>
+</table>
+
+<!-- ===================== 4. DISEÑO UML + GUI ===================== -->
+<h1 id="diseno">4. Diseño UML + GUI</h1>
+
+<h2>4.1 Arquitectura general (componentes)</h2>
+<div class="mermaid">
+flowchart LR
+    subgraph Cliente[App Android GolIA]
+        UIp[Presentación<br/>Activities/Fragments/ViewModels]
+        DOM[Dominio<br/>Casos de uso/modelos/reglas]
+        DAT[Datos<br/>Repositorios/Retrofit/Room]
+        UIp --> DOM --> DAT
+    end
+    subgraph Backend[Backend Spring Boot]
+        APIc[Controladores REST]
+        SRV[Servicios]
+        REPO[Repositorios JPA]
+        APIc --> SRV --> REPO
+    end
+    DB[(MySQL)]
+    FOOT[API-Football]
+    NEWS[NewsData.io]
+    DAT -->|HTTPS/JSON| APIc
+    REPO --> DB
+    DAT --> FOOT
+    DAT --> NEWS
+</div>
+
+<h2>4.2 Diagrama de clases (dominio)</h2>
+<div class="mermaid">
+classDiagram
+    class User { +String id +String username +String email +int totalPoints +int predictionsMade +int predictionsCorrect }
+    class Match { +String id +String homeTeamName +String awayTeamName +long scheduledDateTime +MatchStatus status +Integer homeScore +Integer awayScore }
+    class Prediction { +String id +String userId +String matchId +Integer predictedHomeScore +Integer predictedAwayScore +int pointsEarned +Boolean isCorrect }
+    class RankingEntry { +int position +String username +int totalPoints +int winPercentage }
+    class PredictionScorer { +score() int +isCorrect() boolean }
+    User "1" --> "0..*" Prediction : realiza
+    Match "1" --> "0..*" Prediction : recibe
+    PredictionScorer ..> Prediction : evalúa
+    User ..> RankingEntry : se clasifica
+</div>
+
+<h2>4.3 Secuencia — Realizar pronóstico</h2>
+<div class="mermaid">
+sequenceDiagram
+    actor U as Usuario
+    participant V as PronosticoActivity
+    participant VM as ViewModel
+    participant UC as SavePredictionUseCase
+    participant API as Backend /predictions
+    participant DB as MySQL
+    U->>V: Ingresa 2-1 y confirma
+    V->>VM: guardarPronostico
+    VM->>UC: execute(userId, matchId, 2, 1)
+    UC->>UC: valida bloqueo (>10 min)
+    UC->>API: POST /predictions
+    API->>DB: upsert (user_id, match_id)
+    DB-->>API: OK
+    API-->>UC: 200 PredictionDto
+    UC-->>VM: Success
+    VM-->>V: navegar a Confirmación
+</div>
+
+<h2>4.4 Secuencia — Resolución de puntos</h2>
+<div class="mermaid">
+sequenceDiagram
+    participant APP as App (refresco)
+    participant API as Backend /matches/{id}/resolve
+    participant RS as ResolutionService
+    participant SC as PredictionScorer
+    participant DB as MySQL
+    APP->>API: POST resolve {home:3, away:1}
+    API->>RS: resolve(matchId, 3, 1)
+    RS->>DB: cargar pronósticos
+    loop cada pendiente
+      RS->>SC: score(pred, real)
+      SC-->>RS: puntos (0..19)
+      RS->>DB: actualizar prediction
+    end
+    RS->>DB: actualizar users (total_points)
+    DB-->>API: OK
+</div>
+
+<h2>4.5 Navegación entre pantallas</h2>
+<div class="mermaid">
+flowchart TD
+    Splash --> Login
+    Splash --> Main
+    Login --> Registro --> Login
+    Login --> Main
+    Main --> Inicio
+    Main --> Partidos
+    Main --> Ranking
+    Main --> Noticias
+    Main --> Perfil
+    Inicio --> Detalle
+    Partidos --> Detalle
+    Detalle --> Pronostico --> Confirmacion --> Historial
+    Ranking --> Historial
+    Perfil --> Login
+</div>
+
+<h2>4.6 Modelo Entidad-Relación (MySQL)</h2>
+<div class="mermaid">
+erDiagram
+    USERS ||--o{ PREDICTIONS : realiza
+    USERS { varchar id PK varchar username UK varchar email UK varchar password_hash int total_points int predictions_made int predictions_correct }
+    PREDICTIONS { varchar id PK varchar user_id FK varchar match_id int predicted_home_score int predicted_away_score int points_earned boolean is_correct }
+</div>
+<p class="nota">Restricción: índice único <code>(user_id, match_id)</code> → un pronóstico por usuario y partido.</p>
+
+<h2>4.7 Diseño de la Interfaz Gráfica (GUI)</h2>
+<p>Pantallas principales (wireframes):</p>
+<svg class="wire" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 760" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1180" height="760" fill="#0f1626"/>
+  <text x="590" y="34" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">GolIA — Wireframes de GUI (pantallas principales)</text>
+  <g transform="translate(30,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">LOGIN</text>
+    <circle cx="100" cy="78" r="26" fill="#2b3a5c"/>
+    <text x="100" y="83" fill="#8fb4ff" font-size="18" text-anchor="middle">⚽</text>
+    <rect x="26" y="130" width="148" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="34" y="150" fill="#7f8db0" font-size="11">Usuario o correo</text>
+    <rect x="26" y="172" width="148" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="34" y="192" fill="#7f8db0" font-size="11">Contraseña</text>
+    <rect x="26" y="222" width="148" height="34" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="244" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Iniciar sesión</text>
+    <text x="100" y="286" fill="#8fb4ff" font-size="11" text-anchor="middle">¿No tienes cuenta? Regístrate</text>
+  </g>
+  <g transform="translate(255,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">INICIO</text>
+    <rect x="16" y="48" width="168" height="54" rx="10" fill="#0f1626" stroke="#2b3a5c"/>
+    <circle cx="40" cy="75" r="16" fill="#2b3a5c"/>
+    <text x="66" y="70" fill="#fff" font-size="10">BIENVENIDO</text>
+    <text x="66" y="86" fill="#8fb4ff" font-size="11" font-weight="bold">Diyebure</text>
+    <g fill="#0f1626" stroke="#2b3a5c">
+      <rect x="16" y="112" width="80" height="40" rx="8"/><rect x="104" y="112" width="80" height="40" rx="8"/>
+      <rect x="16" y="158" width="80" height="40" rx="8"/><rect x="104" y="158" width="80" height="40" rx="8"/>
+    </g>
+    <text x="56" y="130" fill="#7f8db0" font-size="9" text-anchor="middle">Pronósticos</text>
+    <text x="56" y="146" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">48</text>
+    <text x="144" y="130" fill="#7f8db0" font-size="9" text-anchor="middle">Aciertos</text>
+    <text x="144" y="146" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">67%</text>
+    <text x="56" y="176" fill="#7f8db0" font-size="9" text-anchor="middle">Puntos</text>
+    <text x="56" y="192" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">1250</text>
+    <text x="144" y="176" fill="#7f8db0" font-size="9" text-anchor="middle">Ranking</text>
+    <text x="144" y="192" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">#14</text>
+    <text x="16" y="222" fill="#8fb4ff" font-size="11" font-weight="bold">Próximos partidos</text>
+    <rect x="16" y="230" width="168" height="34" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="251" fill="#cfd8ee" font-size="10">Real vs Barça   20:00</text>
+    <rect x="16" y="270" width="168" height="34" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="291" fill="#cfd8ee" font-size="10">City vs Liverpool 22:00</text>
+    <rect x="0" y="344" width="200" height="36" fill="#0b111f"/>
+    <text x="100" y="366" fill="#8fb4ff" font-size="9" text-anchor="middle">Inicio · Partidos · Ranking · News · Perfil</text>
+  </g>
+  <g transform="translate(480,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">PRONÓSTICO</text>
+    <text x="100" y="70" fill="#fff" font-size="12" text-anchor="middle">Real Madrid vs Barcelona</text>
+    <text x="100" y="90" fill="#7f8db0" font-size="10" text-anchor="middle">Hoy · 20:00</text>
+    <rect x="40" y="120" width="48" height="60" rx="10" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="64" y="158" fill="#fff" font-size="26" text-anchor="middle" font-weight="bold">2</text>
+    <text x="100" y="156" fill="#fff" font-size="20" text-anchor="middle">-</text>
+    <rect x="112" y="120" width="48" height="60" rx="10" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="136" y="158" fill="#fff" font-size="26" text-anchor="middle" font-weight="bold">1</text>
+    <text x="64" y="198" fill="#7f8db0" font-size="9" text-anchor="middle">Local</text>
+    <text x="136" y="198" fill="#7f8db0" font-size="9" text-anchor="middle">Visitante</text>
+    <rect x="26" y="250" width="148" height="36" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="273" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Confirmar pronóstico</text>
+    <text x="100" y="310" fill="#7f8db0" font-size="9" text-anchor="middle">Cierra 10 min antes del inicio</text>
+  </g>
+  <g transform="translate(705,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">RANKING</text>
+    <text x="18" y="54" fill="#ffd166" font-size="12" font-weight="bold">🏆 Ranking Global</text>
+    <rect x="16" y="64" width="52" height="60" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="42" y="80" fill="#c0c6d6" font-size="10" text-anchor="middle">2º</text>
+    <text x="42" y="110" fill="#fff" font-size="9" text-anchor="middle">Ana</text>
+    <rect x="74" y="54" width="52" height="70" rx="8" fill="#0f1626" stroke="#ffd166"/>
+    <text x="100" y="72" fill="#ffd166" font-size="11" text-anchor="middle">1º</text>
+    <text x="100" y="110" fill="#fff" font-size="9" text-anchor="middle">Carlos</text>
+    <rect x="132" y="70" width="52" height="54" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="158" y="86" fill="#cd7f32" font-size="10" text-anchor="middle">3º</text>
+    <text x="158" y="112" fill="#fff" font-size="9" text-anchor="middle">Luis</text>
+    <rect x="16" y="134" width="52" height="22" rx="11" fill="#3b6ef0"/>
+    <text x="42" y="149" fill="#fff" font-size="9" text-anchor="middle">Semanal</text>
+    <rect x="74" y="134" width="52" height="22" rx="11" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="100" y="149" fill="#cfd8ee" font-size="9" text-anchor="middle">Mensual</text>
+    <rect x="132" y="134" width="52" height="22" rx="11" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="158" y="149" fill="#cfd8ee" font-size="9" text-anchor="middle">Total</text>
+    <rect x="16" y="166" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="183" fill="#cfd8ee" font-size="10">4. Pedro            980 pts</text>
+    <rect x="16" y="196" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="213" fill="#cfd8ee" font-size="10">5. María            910 pts</text>
+    <rect x="16" y="226" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="243" fill="#cfd8ee" font-size="10">6. Diyebure         870 pts</text>
+    <rect x="16" y="300" width="168" height="30" rx="8" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="100" y="320" fill="#8fb4ff" font-size="11" text-anchor="middle">Ver historial</text>
+  </g>
+  <g transform="translate(930,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">PERFIL</text>
+    <circle cx="100" cy="78" r="28" fill="#2b3a5c"/>
+    <text x="100" y="84" fill="#8fb4ff" font-size="18" text-anchor="middle">👤</text>
+    <text x="100" y="122" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Diyebure</text>
+    <rect x="16" y="138" width="168" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="158" fill="#7f8db0" font-size="10">Correo: diye@correo.com</text>
+    <rect x="16" y="176" width="168" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="196" fill="#7f8db0" font-size="10">Usuario: diyebure</text>
+    <rect x="16" y="216" width="168" height="32" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="237" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Guardar cambios</text>
+    <rect x="16" y="256" width="168" height="32" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="100" y="277" fill="#cfd8ee" font-size="11" text-anchor="middle">Cambiar contraseña</text>
+    <rect x="16" y="300" width="168" height="32" rx="8" fill="#3a1f1f" stroke="#a33"/>
+    <text x="100" y="321" fill="#ff8a8a" font-size="11" text-anchor="middle">Cerrar sesión</text>
+  </g>
+  <text x="590" y="470" fill="#7f8db0" font-size="12" text-anchor="middle">Paleta oscura azul · Material Design · Navegación por barra inferior de 5 secciones</text>
+</svg>
+
+<h3>Mapa de pantallas</h3>
+<table>
+<tr><th>Pantalla</th><th>Layout</th><th>Función</th></tr>
+<tr><td>Splash</td><td>activity_splash</td><td>Carga inicial y decisión de sesión.</td></tr>
+<tr><td>Login / Registro</td><td>activity_login / activity_registro</td><td>Autenticación y alta de cuenta.</td></tr>
+<tr><td>Inicio</td><td>fragment_inicio</td><td>Bienvenida, estadísticas y próximos partidos.</td></tr>
+<tr><td>Partidos</td><td>fragment_partidos</td><td>Lista de partidos.</td></tr>
+<tr><td>Ranking</td><td>fragment_ranking</td><td>Podio, lista, filtro por período + historial.</td></tr>
+<tr><td>Noticias</td><td>fragment_noticias</td><td>Feed de noticias.</td></tr>
+<tr><td>Perfil</td><td>fragment_perfil</td><td>Estadísticas, edición, foto y logout.</td></tr>
+<tr><td>Detalle / Pronóstico / Confirmación / Historial</td><td>activity_*</td><td>Flujo de pronóstico.</td></tr>
+</table>
+
+<p style="margin-top:50px; text-align:center; color:#888; font-size:12px;">— Fin del documento · GolIA 2026 —</p>
+
+</body>
+</html>

@@ -1,22 +1,28 @@
 package com.diyebure.golia.data.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.diyebure.golia.domain.common.Result;
 import com.diyebure.golia.data.local.PreferencesManager;
 import com.diyebure.golia.data.mapper.UserMapper;
 import com.diyebure.golia.data.remote.api.AuthApiService;
+import com.diyebure.golia.data.remote.dto.AuthDto.AuthErrorResponse;
 import com.diyebure.golia.data.remote.dto.AuthDto.AuthResponse;
 import com.diyebure.golia.data.remote.dto.AuthDto.LoginRequest;
 import com.diyebure.golia.data.remote.dto.AuthDto.RegisterRequest;
 import com.diyebure.golia.data.remote.dto.AuthDto.TokenRefreshRequest;
 import com.diyebure.golia.data.remote.dto.AuthDto.UserDto;
+import com.diyebure.golia.domain.error.AuthError;
+import com.diyebure.golia.domain.error.AuthException;
 import com.diyebure.golia.domain.model.User;
 import com.diyebure.golia.domain.repository.AuthRepository;
+import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -65,16 +71,16 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
 
-            // Handle error response
-            String errorMessage = parseErrorResponse(response);
-            return new Result.Error(new Exception(errorMessage));
+            // Error del backend: se mapea a un AuthError tipado para la UI.
+            Log.e("GolIAAuth", "login: respuesta no exitosa, code=" + response.code());
+            return new Result.Error(mapLoginError(response));
 
-        } catch (SocketTimeoutException e) {
-            return new Result.Error(new IOException("Connection timed out. Please try again.", e));
-        } catch (UnknownHostException e) {
-            return new Result.Error(new IOException("Network error. Please check your connection.", e));
+        } catch (SocketTimeoutException | UnknownHostException e) {
+            Log.e("GolIAAuth", "login: error de red hacia el backend", e);
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("An unexpected error occurred.", e));
+            Log.e("GolIAAuth", "login: excepcion inesperada", e);
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         }
     }
 
@@ -102,16 +108,16 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
 
-            // Handle error response
-            String errorMessage = parseErrorResponse(response);
-            return new Result.Error(new Exception(errorMessage));
+            // Error del backend: se mapea a un AuthError tipado (email/username tomado, etc.).
+            Log.e("GolIAAuth", "register: respuesta no exitosa, code=" + response.code());
+            return new Result.Error(mapRegisterError(response));
 
-        } catch (SocketTimeoutException e) {
-            return new Result.Error(new IOException("Connection timed out. Please try again.", e));
-        } catch (UnknownHostException e) {
-            return new Result.Error(new IOException("Network error. Please check your connection.", e));
+        } catch (SocketTimeoutException | UnknownHostException e) {
+            Log.e("GolIAAuth", "register: error de red hacia el backend", e);
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("An unexpected error occurred.", e));
+            Log.e("GolIAAuth", "register: excepcion inesperada", e);
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         }
     }
 
@@ -140,7 +146,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         try {
             String refreshToken = preferencesManager.getRefreshToken();
             if (refreshToken == null || refreshToken.isEmpty()) {
-                return new Result.Error(new Exception("No refresh token available"));
+                return new Result.Error(new AuthException(AuthError.SESSION_UNAVAILABLE));
             }
 
             TokenRefreshRequest request = new TokenRefreshRequest(refreshToken);
@@ -161,21 +167,18 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
 
-            // If refresh fails, user needs to log in again
+            // Si el refresco falla, hay que volver a iniciar sesion.
             if (response.code() == 401 || response.code() == 403) {
                 clearSession();
-                return new Result.Error(new Exception("Session expired. Please log in again."));
+                return new Result.Error(new AuthException(AuthError.SESSION_UNAVAILABLE));
             }
 
-            String errorMessage = parseErrorResponse(response);
-            return new Result.Error(new Exception(errorMessage));
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR));
 
-        } catch (SocketTimeoutException e) {
-            return new Result.Error(new IOException("Connection timed out. Please try again.", e));
-        } catch (UnknownHostException e) {
-            return new Result.Error(new IOException("Network error. Please check your connection.", e));
+        } catch (SocketTimeoutException | UnknownHostException e) {
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("An unexpected error occurred.", e));
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         }
     }
 
@@ -189,7 +192,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         try {
             String authHeader = preferencesManager.getAuthorizationHeader();
             if (authHeader == null) {
-                return new Result.Error(new Exception("Not authenticated"));
+                return new Result.Error(new AuthException(AuthError.SESSION_UNAVAILABLE));
             }
 
             Call<UserDto> call = authApiService.getCurrentUser(authHeader);
@@ -203,7 +206,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
 
-            // If token is invalid, try refreshing
+            // Si el token es invalido, intenta refrescarlo.
             if (response.code() == 401 || response.code() == 403) {
                 Result<User> refreshResult = refreshToken();
                 if (refreshResult instanceof Result.Success) {
@@ -211,15 +214,12 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
 
-            String errorMessage = parseErrorResponse(response);
-            return new Result.Error(new Exception(errorMessage));
+            return new Result.Error(new AuthException(AuthError.SESSION_UNAVAILABLE));
 
-        } catch (SocketTimeoutException e) {
-            return new Result.Error(new IOException("Connection timed out. Please try again.", e));
-        } catch (UnknownHostException e) {
-            return new Result.Error(new IOException("Network error. Please check your connection.", e));
+        } catch (SocketTimeoutException | UnknownHostException e) {
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("An unexpected error occurred.", e));
+            return new Result.Error(new AuthException(AuthError.PERSISTENCE_ERROR, e));
         }
     }
 
@@ -237,54 +237,56 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     /**
-     * Parse error response from API.
+     * Traduce un error de login del backend a un {@link AuthException} tipado.
+     * Un 401 significa credenciales invalidas; cualquier otro fallo se trata
+     * como error de persistencia/servidor.
      */
-    private String parseErrorResponse(Response<?> response) {
-        if (response.errorBody() != null) {
-            try {
-                String errorBody = response.errorBody().string();
-                // Try to extract error message from response body
-                // This is a simple implementation - could be enhanced with Gson parsing
-                if (errorBody.contains("\"message\"")) {
-                    int start = errorBody.indexOf("\"message\":\"") + 11;
-                    int end = errorBody.indexOf("\"", start);
-                    if (start > 10 && end > start) {
-                        return errorBody.substring(start, end);
-                    }
-                }
-                if (errorBody.contains("\"error\"")) {
-                    int start = errorBody.indexOf("\"error\":\"") + 9;
-                    int end = errorBody.indexOf("\"", start);
-                    if (start > 8 && end > start) {
-                        return errorBody.substring(start, end);
-                    }
-                }
-                return errorBody;
-            } catch (Exception e) {
-                // Ignore parsing errors
-            }
+    private AuthException mapLoginError(Response<?> response) {
+        if (response.code() == 401) {
+            return new AuthException(AuthError.INVALID_CREDENTIALS);
         }
+        if (response.code() == 422) {
+            return new AuthException(AuthError.VALIDATION_ERROR);
+        }
+        return new AuthException(AuthError.PERSISTENCE_ERROR);
+    }
 
-        // Return appropriate message based on HTTP status code
-        switch (response.code()) {
-            case 400:
-                return "Invalid request. Please check your input.";
-            case 401:
-                return "Authentication failed. Please check your credentials.";
-            case 403:
-                return "Access denied. You don't have permission to access this resource.";
-            case 404:
-                return "Resource not found.";
-            case 409:
-                return "An account with this email already exists.";
-            case 422:
-                return "Validation error. Please check your input.";
-            case 429:
-                return "Too many requests. Please try again later.";
-            case 500:
-                return "Server error. Please try again later.";
-            default:
-                return "An error occurred. Please try again.";
+    /**
+     * Traduce un error de registro del backend a un {@link AuthException} tipado.
+     * Un 409 (conflicto) se desambigua a EMAIL_TAKEN o USERNAME_TAKEN leyendo el
+     * mensaje del cuerpo; un 422 es error de validacion; el resto, persistencia.
+     */
+    private AuthException mapRegisterError(Response<?> response) {
+        if (response.code() == 409) {
+            String message = readErrorMessage(response);
+            String lower = message == null ? "" : message.toLowerCase(Locale.ROOT);
+            // El backend usa "usuario" para el username y "correo" para el email.
+            if (lower.contains("usuario") || lower.contains("username")) {
+                return new AuthException(AuthError.USERNAME_TAKEN);
+            }
+            // Por defecto, un conflicto en registro es el email ya usado.
+            return new AuthException(AuthError.EMAIL_TAKEN);
+        }
+        if (response.code() == 422) {
+            return new AuthException(AuthError.VALIDATION_ERROR);
+        }
+        return new AuthException(AuthError.PERSISTENCE_ERROR);
+    }
+
+    /**
+     * Lee el campo {@code message} del cuerpo de error {@code {error, message,
+     * status_code}} que devuelve el backend, o {@code null} si no se puede parsear.
+     */
+    private String readErrorMessage(Response<?> response) {
+        if (response.errorBody() == null) {
+            return null;
+        }
+        try {
+            String body = response.errorBody().string();
+            AuthErrorResponse parsed = new Gson().fromJson(body, AuthErrorResponse.class);
+            return parsed != null ? parsed.getMessage() : null;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

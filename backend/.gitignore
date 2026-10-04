@@ -1,0 +1,31 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Configuracion local con credenciales (NUNCA versionar)
+src/main/resources/application-local.properties
+.env
+
+# Logs
+*.log
+
+# Maven portatil descargado localmente y artefactos temporales de build
+tools/
+maven.zip
+step.txt
+compile_out.txt
+env_check.txt
+dl_log.txt
+setup_log.txt
+diag.txt
+run_out.txt
+server.txt
+srv.txt
+srv3.txt
+srv_create.txt
+srv_run.txt

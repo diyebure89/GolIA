@@ -1,103 +1,88 @@
 package com.diyebure.golia.data.repository;
 
-import com.diyebure.golia.domain.model.RankingResult;
+import com.diyebure.golia.data.local.PreferencesManager;
+import com.diyebure.golia.data.remote.api.RankingApiService;
+import com.diyebure.golia.data.remote.dto.RankingEntryDto;
 import com.diyebure.golia.domain.model.RankingSnapshot;
-import com.diyebure.golia.domain.model.Ranking_Calculator;
-import com.diyebure.golia.domain.model.Ranking_Entry;
-import com.diyebure.golia.domain.model.Ranking_Participant;
-import com.diyebure.golia.domain.model.Ranking_Period;
-import com.diyebure.golia.domain.model.ScoredPrediction;
 import com.diyebure.golia.domain.repository.RankingDataSource;
-import com.diyebure.golia.domain.usecase.Ranking_Participant_Provider;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit2.Response;
+
 /**
- * Real {@link RankingDataSource} that derives the current user's ranking metrics
- * from the same data that feeds the ranking screen: the real registered users
- * read from Room and their scored predictions.
+ * {@link RankingDataSource} real que obtiene las metricas del usuario actual
+ * desde el backend GolIA (MySQL), donde viven los datos compartidos entre
+ * dispositivos.
  *
- * <p>It reuses {@link Ranking_Participant_Provider} (real users + real
- * predictions) and the pure {@link Ranking_Calculator} to compute the global
- * ({@link Ranking_Period#TOTAL}) ranking, then extracts the current user's row
- * to build the {@link RankingSnapshot} shown in the Inicio welcome card and the
- * Perfil "Historial" section (R11).</p>
- *
- * <p>Returns {@code null} when there is no active session, the user is not found,
- * or the user is not present in the ranking, so both screens fall back to their
- * neutral placeholder state without showing an error.</p>
+ * <p>Llama a {@code GET /ranking}, localiza la fila del usuario actual por su
+ * {@code userId} y construye el {@link RankingSnapshot} (posicion, puntos,
+ * aciertos %, pronosticos). Si el backend no responde (sin red, servidor caido)
+ * devuelve {@code null} para que las pantallas (Inicio, Perfil) muestren el
+ * estado neutro sin error (R11.5).</p>
  */
 public class RealRankingDataSource implements RankingDataSource {
 
-    private final Ranking_Participant_Provider participantProvider;
-    private final Ranking_Calculator calculator;
+    private final RankingApiService rankingApiService;
+    private final PreferencesManager preferencesManager;
 
     @Inject
-    public RealRankingDataSource(Ranking_Participant_Provider participantProvider,
-                                 Ranking_Calculator calculator) {
-        this.participantProvider = participantProvider;
-        this.calculator = calculator;
+    public RealRankingDataSource(RankingApiService rankingApiService,
+                                 PreferencesManager preferencesManager) {
+        this.rankingApiService = rankingApiService;
+        this.preferencesManager = preferencesManager;
     }
 
     @Override
     public RankingSnapshot getRankingForCurrentUser() {
         try {
-            long now = System.currentTimeMillis();
-
-            Ranking_Participant currentUser = participantProvider.getCurrentUserParticipant();
-            if (currentUser == null) {
+            String currentUserId = preferencesManager.getUserId();
+            if (currentUserId == null || currentUserId.isEmpty()) {
                 return null;
             }
 
-            List<Ranking_Participant> participants = participantProvider.getParticipants(now);
-            RankingResult result = calculator.rank(participants, Ranking_Period.TOTAL, now);
-
-            int position = result.getCurrentUserPosition();
-            if (position < 1) {
-                // The user is not part of the ranking -> neutral state.
+            Response<List<RankingEntryDto>> response =
+                    rankingApiService.getGlobalRanking().execute();
+            if (!response.isSuccessful() || response.body() == null) {
                 return null;
             }
 
-            Ranking_Entry currentEntry = findCurrentUserEntry(result);
-            int points = currentEntry != null ? currentEntry.getPoints() : 0;
-            int accuracy = currentEntry != null ? clampPercentage(currentEntry.getWinPercentage()) : 0;
-            int predictionsMade = countPredictions(currentUser);
-
-            return new RankingSnapshot(predictionsMade, accuracy, points, position);
+            List<RankingEntryDto> entries = response.body();
+            for (RankingEntryDto entry : entries) {
+                if (currentUserId.equals(entry.getUserId())) {
+                    int position = entry.getPosition();
+                    if (position < 1) {
+                        return null;
+                    }
+                    int predictionsMade = entry.getPredictionsMade();
+                    int accuracy = winPercentage(
+                            entry.getPredictionsCorrect(), entry.getPredictionsMade());
+                    int points = entry.getTotalPoints();
+                    return new RankingSnapshot(
+                            predictionsMade,
+                            clamp(accuracy),
+                            points,
+                            position);
+                }
+            }
+            // El usuario aun no tiene posicion en el ranking (sin pronosticos).
+            return null;
         } catch (Exception e) {
-            // Never surface an error to the UI (R11.5): degrade to neutral state.
+            // Sin red o error: estado neutro, sin mensaje de error (R11.5).
             return null;
         }
     }
 
-    /** Locate the ranking row flagged as the current user, or {@code null}. */
-    private Ranking_Entry findCurrentUserEntry(RankingResult result) {
-        for (Ranking_Entry entry : result.getEntries()) {
-            if (entry != null && entry.isCurrentUser()) {
-                return entry;
-            }
-        }
-        return null;
-    }
-
-    /** Number of predictions the current user has made (all resolved statuses). */
-    private int countPredictions(Ranking_Participant participant) {
-        int count = 0;
-        for (ScoredPrediction prediction : participant.getPredictions()) {
-            if (prediction != null) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /** Keep the percentage inside the {@link RankingSnapshot} invariant [0,100]. */
-    private int clampPercentage(int value) {
-        if (value < 0) {
+    private static int winPercentage(int correct, int made) {
+        if (made == 0) {
             return 0;
         }
-        return Math.min(value, 100);
+        return (int) Math.round((double) correct / made * 100.0);
+    }
+
+    private static int clamp(int value) {
+        return Math.max(0, Math.min(100, value));
     }
 }

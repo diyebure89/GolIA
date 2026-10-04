@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="760" viewBox="0 0 1180 760" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1180" height="760" fill="#0f1626"/>
+  <text x="590" y="34" fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">GolIA — Wireframes de GUI (pantallas principales)</text>
+
+  <!-- ===== LOGIN ===== -->
+  <g transform="translate(30,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">LOGIN</text>
+    <circle cx="100" cy="78" r="26" fill="#2b3a5c"/>
+    <text x="100" y="83" fill="#8fb4ff" font-size="18" text-anchor="middle">⚽</text>
+    <rect x="26" y="130" width="148" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="34" y="150" fill="#7f8db0" font-size="11">Usuario o correo</text>
+    <rect x="26" y="172" width="148" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="34" y="192" fill="#7f8db0" font-size="11">Contraseña</text>
+    <rect x="26" y="222" width="148" height="34" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="244" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Iniciar sesión</text>
+    <text x="100" y="286" fill="#8fb4ff" font-size="11" text-anchor="middle">¿No tienes cuenta? Regístrate</text>
+  </g>
+
+  <!-- ===== INICIO ===== -->
+  <g transform="translate(255,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">INICIO</text>
+    <rect x="16" y="48" width="168" height="54" rx="10" fill="#0f1626" stroke="#2b3a5c"/>
+    <circle cx="40" cy="75" r="16" fill="#2b3a5c"/>
+    <text x="66" y="70" fill="#fff" font-size="10">BIENVENIDO</text>
+    <text x="66" y="86" fill="#8fb4ff" font-size="11" font-weight="bold">Diyebure</text>
+    <!-- stats -->
+    <g fill="#0f1626" stroke="#2b3a5c">
+      <rect x="16" y="112" width="80" height="40" rx="8"/>
+      <rect x="104" y="112" width="80" height="40" rx="8"/>
+      <rect x="16" y="158" width="80" height="40" rx="8"/>
+      <rect x="104" y="158" width="80" height="40" rx="8"/>
+    </g>
+    <text x="56" y="130" fill="#7f8db0" font-size="9" text-anchor="middle">Pronósticos</text>
+    <text x="56" y="146" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">48</text>
+    <text x="144" y="130" fill="#7f8db0" font-size="9" text-anchor="middle">Aciertos</text>
+    <text x="144" y="146" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">67%</text>
+    <text x="56" y="176" fill="#7f8db0" font-size="9" text-anchor="middle">Puntos</text>
+    <text x="56" y="192" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">1250</text>
+    <text x="144" y="176" fill="#7f8db0" font-size="9" text-anchor="middle">Ranking</text>
+    <text x="144" y="192" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">#14</text>
+    <text x="16" y="222" fill="#8fb4ff" font-size="11" font-weight="bold">Próximos partidos</text>
+    <rect x="16" y="230" width="168" height="34" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="251" fill="#cfd8ee" font-size="10">Real vs Barça   20:00</text>
+    <rect x="16" y="270" width="168" height="34" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="291" fill="#cfd8ee" font-size="10">City vs Liverpool 22:00</text>
+    <!-- bottom nav -->
+    <rect x="0" y="344" width="200" height="36" rx="0" fill="#0b111f"/>
+    <text x="100" y="366" fill="#8fb4ff" font-size="9" text-anchor="middle">Inicio · Partidos · Ranking · News · Perfil</text>
+  </g>
+
+  <!-- ===== PRONÓSTICO ===== -->
+  <g transform="translate(480,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">PRONÓSTICO</text>
+    <text x="100" y="70" fill="#fff" font-size="12" text-anchor="middle">Real Madrid vs Barcelona</text>
+    <text x="100" y="90" fill="#7f8db0" font-size="10" text-anchor="middle">Hoy · 20:00</text>
+    <rect x="40" y="120" width="48" height="60" rx="10" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="64" y="158" fill="#fff" font-size="26" text-anchor="middle" font-weight="bold">2</text>
+    <text x="100" y="156" fill="#fff" font-size="20" text-anchor="middle">-</text>
+    <rect x="112" y="120" width="48" height="60" rx="10" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="136" y="158" fill="#fff" font-size="26" text-anchor="middle" font-weight="bold">1</text>
+    <text x="64" y="198" fill="#7f8db0" font-size="9" text-anchor="middle">Local</text>
+    <text x="136" y="198" fill="#7f8db0" font-size="9" text-anchor="middle">Visitante</text>
+    <rect x="26" y="250" width="148" height="36" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="273" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Confirmar pronóstico</text>
+    <text x="100" y="310" fill="#7f8db0" font-size="9" text-anchor="middle">Cierra 10 min antes del inicio</text>
+  </g>
+
+  <!-- ===== RANKING ===== -->
+  <g transform="translate(705,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">RANKING</text>
+    <text x="18" y="54" fill="#ffd166" font-size="12" font-weight="bold">🏆 Ranking Global</text>
+    <!-- podio -->
+    <rect x="16" y="64" width="52" height="60" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="42" y="80" fill="#c0c6d6" font-size="10" text-anchor="middle">2º</text>
+    <text x="42" y="110" fill="#fff" font-size="9" text-anchor="middle">Ana</text>
+    <rect x="74" y="54" width="52" height="70" rx="8" fill="#0f1626" stroke="#ffd166"/>
+    <text x="100" y="72" fill="#ffd166" font-size="11" text-anchor="middle">1º</text>
+    <text x="100" y="110" fill="#fff" font-size="9" text-anchor="middle">Carlos</text>
+    <rect x="132" y="70" width="52" height="54" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="158" y="86" fill="#cd7f32" font-size="10" text-anchor="middle">3º</text>
+    <text x="158" y="112" fill="#fff" font-size="9" text-anchor="middle">Luis</text>
+    <!-- chips período -->
+    <rect x="16" y="134" width="52" height="22" rx="11" fill="#3b6ef0"/>
+    <text x="42" y="149" fill="#fff" font-size="9" text-anchor="middle">Semanal</text>
+    <rect x="74" y="134" width="52" height="22" rx="11" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="100" y="149" fill="#cfd8ee" font-size="9" text-anchor="middle">Mensual</text>
+    <rect x="132" y="134" width="52" height="22" rx="11" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="158" y="149" fill="#cfd8ee" font-size="9" text-anchor="middle">Total</text>
+    <!-- lista -->
+    <g>
+      <rect x="16" y="166" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+      <text x="24" y="183" fill="#cfd8ee" font-size="10">4. Pedro            980 pts</text>
+      <rect x="16" y="196" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+      <text x="24" y="213" fill="#cfd8ee" font-size="10">5. María            910 pts</text>
+      <rect x="16" y="226" width="168" height="26" rx="6" fill="#0f1626" stroke="#2b3a5c"/>
+      <text x="24" y="243" fill="#cfd8ee" font-size="10">6. Diyebure         870 pts</text>
+    </g>
+    <rect x="16" y="300" width="168" height="30" rx="8" fill="#0f1626" stroke="#3b6ef0"/>
+    <text x="100" y="320" fill="#8fb4ff" font-size="11" text-anchor="middle">Ver historial</text>
+  </g>
+
+  <!-- ===== PERFIL ===== -->
+  <g transform="translate(930,60)">
+    <rect width="200" height="380" rx="18" fill="#17203a" stroke="#2b3a5c"/>
+    <text x="100" y="34" fill="#8fb4ff" font-size="13" text-anchor="middle" font-weight="bold">PERFIL</text>
+    <circle cx="100" cy="78" r="28" fill="#2b3a5c"/>
+    <text x="100" y="84" fill="#8fb4ff" font-size="18" text-anchor="middle">👤</text>
+    <text x="100" y="122" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Diyebure</text>
+    <rect x="16" y="138" width="168" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="158" fill="#7f8db0" font-size="10">Correo: diye@correo.com</text>
+    <rect x="16" y="176" width="168" height="30" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="24" y="196" fill="#7f8db0" font-size="10">Usuario: diyebure</text>
+    <rect x="16" y="216" width="168" height="32" rx="8" fill="#3b6ef0"/>
+    <text x="100" y="237" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Guardar cambios</text>
+    <rect x="16" y="256" width="168" height="32" rx="8" fill="#0f1626" stroke="#2b3a5c"/>
+    <text x="100" y="277" fill="#cfd8ee" font-size="11" text-anchor="middle">Cambiar contraseña</text>
+    <rect x="16" y="300" width="168" height="32" rx="8" fill="#3a1f1f" stroke="#a33"/>
+    <text x="100" y="321" fill="#ff8a8a" font-size="11" text-anchor="middle">Cerrar sesión</text>
+  </g>
+
+  <text x="590" y="470" fill="#5a6party" font-size="11" text-anchor="middle" fill-opacity="0.6"></text>
+  <text x="590" y="470" fill="#7f8db0" font-size="12" text-anchor="middle">Paleta oscura azul · Material Design · Navegación por barra inferior de 5 secciones</text>
+
+  <!-- leyenda flujo -->
+  <g transform="translate(30,500)">
+    <text x="0" y="0" fill="#8fb4ff" font-size="14" font-weight="bold">Flujo principal del usuario</text>
+    <g font-size="12" fill="#cfd8ee">
+      <rect x="0" y="20" width="150" height="40" rx="8" fill="#17203a" stroke="#2b3a5c"/>
+      <text x="75" y="45" text-anchor="middle">1. Login / Registro</text>
+      <text x="162" y="45" fill="#3b6ef0">→</text>
+      <rect x="180" y="20" width="150" height="40" rx="8" fill="#17203a" stroke="#2b3a5c"/>
+      <text x="255" y="45" text-anchor="middle">2. Ver partidos</text>
+      <text x="342" y="45" fill="#3b6ef0">→</text>
+      <rect x="360" y="20" width="150" height="40" rx="8" fill="#17203a" stroke="#2b3a5c"/>
+      <text x="435" y="45" text-anchor="middle">3. Pronosticar</text>
+      <text x="522" y="45" fill="#3b6ef0">→</text>
+      <rect x="540" y="20" width="150" height="40" rx="8" fill="#17203a" stroke="#2b3a5c"/>
+      <text x="615" y="45" text-anchor="middle">4. Confirmar</text>
+      <text x="702" y="45" fill="#3b6ef0">→</text>
+      <rect x="720" y="20" width="170" height="40" rx="8" fill="#17203a" stroke="#2b3a5c"/>
+      <text x="805" y="45" text-anchor="middle">5. Puntos y Ranking</text>
+    </g>
+  </g>
+
+  <g transform="translate(30,600)">
+    <text x="0" y="0" fill="#8fb4ff" font-size="14" font-weight="bold">Sistema de puntuación (máx. 19 pts)</text>
+    <g font-size="12" fill="#cfd8ee">
+      <text x="0" y="26">+5 resultado 1X2 correcto   ·   +2 goles local exactos   ·   +2 goles visitante exactos</text>
+      <text x="0" y="48">+1 diferencia de goles correcta   ·   +9 marcador exacto completo</text>
+      <text x="0" y="74" fill="#7f8db0">Acierto = puntaje ≥ 1. La resolución es idempotente y actualiza el ranking global en MySQL.</text>
+    </g>
+  </g>
+</svg>

@@ -5,7 +5,10 @@ import com.diyebure.golia.data.remote.ApiKeyInterceptor;
 import com.diyebure.golia.data.remote.NewsApiKeyInterceptor;
 import com.diyebure.golia.data.remote.api.AuthApiService;
 import com.diyebure.golia.data.remote.api.FootballApiService;
+import com.diyebure.golia.data.remote.api.MatchApiService;
 import com.diyebure.golia.data.remote.api.NewsDataApiService;
+import com.diyebure.golia.data.remote.api.PredictionApiService;
+import com.diyebure.golia.data.remote.api.RankingApiService;
 import com.diyebure.golia.data.remote.interceptor.AuthInterceptor;
 import com.diyebure.golia.data.remote.interceptor.LoggingInterceptor;
 
@@ -59,12 +62,18 @@ public class NetworkModule {
     /** Qualifier for the NewsData.io OkHttp/Retrofit stack. */
     private static final String NEWSDATA_BACKEND = "newsdata";
 
-    private static final String GOLIA_BASE_URL = "https://api.golia.app/v1/";
+    // URL del backend GolIA (Spring Boot + MySQL). Se lee de BuildConfig, que la
+    // toma de local.properties (GOLIA_BASE_URL). Ver app/build.gradle.
+    private static final String GOLIA_BASE_URL = com.diyebure.golia.BuildConfig.GOLIA_BASE_URL;
     private static final String FOOTBALL_BASE_URL = "https://v3.football.api-sports.io/";
     private static final String NEWSDATA_BASE_URL = "https://newsdata.io/api/1/";
+
+    // Timeout corto para el backend local: si no responde en 8s el error aparece
+    // rapido en vez de dejar la pantalla cargando 30s.
+    private static final long GOLIA_TIMEOUT_SECONDS   = 8;
     private static final long CONNECT_TIMEOUT_SECONDS = 30;
-    private static final long READ_TIMEOUT_SECONDS = 30;
-    private static final long WRITE_TIMEOUT_SECONDS = 30;
+    private static final long READ_TIMEOUT_SECONDS    = 30;
+    private static final long WRITE_TIMEOUT_SECONDS   = 30;
 
     @Provides
     @Singleton
@@ -97,9 +106,9 @@ public class NetworkModule {
             LoggingInterceptor loggingInterceptor) {
 
         return new OkHttpClient.Builder()
-                .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                .writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .connectTimeout(GOLIA_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(GOLIA_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(GOLIA_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
                 .addInterceptor(authInterceptor)
                 .addInterceptor(loggingInterceptor)
@@ -121,6 +130,28 @@ public class NetworkModule {
     @Singleton
     public AuthApiService provideAuthApiService(@Named(GOLIA_BACKEND) Retrofit retrofit) {
         return retrofit.create(AuthApiService.class);
+    }
+
+    // Pronosticos y ranking viven en el mismo backend GolIA, asi que usan el
+    // mismo stack Retrofit (con AuthInterceptor que agrega el Bearer token).
+
+    @Provides
+    @Singleton
+    public PredictionApiService providePredictionApiService(
+            @Named(GOLIA_BACKEND) Retrofit retrofit) {
+        return retrofit.create(PredictionApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public RankingApiService provideRankingApiService(@Named(GOLIA_BACKEND) Retrofit retrofit) {
+        return retrofit.create(RankingApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public MatchApiService provideMatchApiService(@Named(GOLIA_BACKEND) Retrofit retrofit) {
+        return retrofit.create(MatchApiService.class);
     }
 
     // --- API-Football (API-SPORTS) stack ---
