@@ -1,7 +1,7 @@
 # Documento de Casos de Uso
 ## Aplicación GolIA — Pronósticos de Fútbol
 
-**Autor:** [Tu Nombre] — Estudiante de Desarrollo de Software
+**Autor:** Diego Yeisd Builes Restrepo — Aprendiz, Técnico en programación de software (SENA)
 **Fecha:** 2026
 
 ---

@@ -30,3 +30,9 @@ build_done.txt
 # jqwik property-test local cache
 .jqwik-database
 app/.jqwik-database
+
+# Office temporary lock files
+~$*
+
+# Docs build helper scratch output
+docs/_mmd/_check.txt

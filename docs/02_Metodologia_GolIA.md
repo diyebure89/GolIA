@@ -2,7 +2,7 @@
 ## Aplicación GolIA — Pronósticos de Fútbol
 
 **Proyecto:** GolIA (Android + Backend REST/MySQL)
-**Autor:** [Tu Nombre] — Estudiante de Desarrollo de Software
+**Autor:** Diego Yeisd Builes Restrepo — Aprendiz, Técnico en programación de software (SENA)
 **Fecha:** 2026
 
 ---

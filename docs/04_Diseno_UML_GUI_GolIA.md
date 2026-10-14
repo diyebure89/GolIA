@@ -1,7 +1,7 @@
 # Documento de Diseño: UML + GUI
 ## Aplicación GolIA — Pronósticos de Fútbol
 
-**Autor:** [Tu Nombre] — Estudiante de Desarrollo de Software
+**Autor:** Diego Yeisd Builes Restrepo — Aprendiz, Técnico en programación de software (SENA)
 **Fecha:** 2026
 
 > Los diagramas usan sintaxis **Mermaid** y **PlantUML/ASCII**. Se renderizan en editores compatibles (VS Code con extensión Mermaid, GitHub, etc.).

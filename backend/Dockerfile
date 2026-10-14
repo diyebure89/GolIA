@@ -14,11 +14,8 @@
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copia primero el pom para cachear dependencias (capa reutilizable).
+# Copia el pom y el codigo fuente, luego empaqueta (sin tests).
 COPY pom.xml .
-RUN mvn -B dependency:go-offline
-
-# Copia el codigo fuente y empaqueta (sin tests para un build mas rapido).
 COPY src ./src
 RUN mvn -B -DskipTests clean package
 
@@ -26,8 +23,9 @@ RUN mvn -B -DskipTests clean package
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Copia el JAR generado desde la etapa de build.
-COPY --from=build /app/target/golia-backend-1.0.0.jar app.jar
+# Copia el JAR generado desde la etapa de build (comodin: evita depender
+# del nombre/version exactos del artefacto).
+COPY --from=build /app/target/*.jar app.jar
 
 # Arranca la aplicacion. Spring Boot leera PORT y las variables DB_* del entorno.
 ENTRYPOINT ["java", "-jar", "app.jar"]
