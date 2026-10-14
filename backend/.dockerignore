@@ -1,0 +1,10 @@
+# No copiar artefactos locales ni el Maven portatil al contexto de build.
+target/
+tools/
+.mvn/
+*.log
+*.txt
+run-local.ps1
+.git/
+.idea/
+*.iml

@@ -1,0 +1,33 @@
+# ======================================================================
+# Blueprint de Render para el backend GolIA.
+#
+# Despliega el servicio web construyendo la imagen con el Dockerfile.
+# Las variables marcadas con sync:false NO se versionan: se definen en el
+# panel de Render (son secretos: credenciales de Aiven y clave JWT).
+#
+# Para usar: en Render -> New -> Blueprint, apunta al repo que contenga
+# esta carpeta backend/. Render leera este archivo.
+# ======================================================================
+services:
+  - type: web
+    name: golia-backend
+    runtime: docker
+    plan: free
+    # Ruta del Dockerfile y contexto de build (relativos a la raiz del repo).
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    # Endpoint publico para que Render verifique que el servicio esta vivo.
+    healthCheckPath: /ranking
+    envVars:
+      # Puerto: Render inyecta PORT automaticamente; lo exponemos explicito.
+      - key: PORT
+        value: 8080
+      # --- Secretos: definelos en el panel de Render, NO aqui ---
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: GOLIA_JWT_SECRET
+        sync: false

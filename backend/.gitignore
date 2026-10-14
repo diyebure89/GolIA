@@ -10,6 +10,7 @@ target/
 # Configuracion local con credenciales (NUNCA versionar)
 src/main/resources/application-local.properties
 .env
+run-local.ps1
 
 # Logs
 *.log
